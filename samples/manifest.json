@@ -1,0 +1,73 @@
+[
+  {
+    "slug": "elmas-neden-kirilmaz",
+    "topic": "Elmas neden kolay kırılmaz?",
+    "title": "Elmas neden kolay kırılmaz?",
+    "cardId": "diamond-hardness",
+    "targetDurationSec": 60,
+    "durationSec": 62.334,
+    "frames": 1870,
+    "fps": 30,
+    "resolution": "1080x1920",
+    "videoCodec": "h264",
+    "audioCodec": "aac",
+    "audioSampleRate": 48000,
+    "videoPath": "samples/elmas-neden-kirilmaz/elmas-neden-kirilmaz-60s.mp4",
+    "subtitlePath": "samples/elmas-neden-kirilmaz/elmas-neden-kirilmaz.srt",
+    "posterPath": "samples/elmas-neden-kirilmaz/poster.png",
+    "verificationPath": "samples/elmas-neden-kirilmaz/verification.json",
+    "validationPath": "samples/elmas-neden-kirilmaz/visual-validation.json",
+    "sha256": "11d57c8caad451bc1308245f2e9f0eb598e583a36974567ecb04209d00bb2d8f",
+    "bytes": 5741167,
+    "verificationOk": true,
+    "failedChecks": [],
+    "scenes": [
+      {
+        "id": "diamond-hardness-s1",
+        "component": "crystal_lattice",
+        "mechanism": "crystal_lattice",
+        "status": "approved",
+        "score": 86
+      },
+      {
+        "id": "diamond-hardness-s2",
+        "component": "bond_network",
+        "mechanism": "bond_network",
+        "status": "approved",
+        "score": 100
+      },
+      {
+        "id": "diamond-hardness-s3",
+        "component": "hardness_measure",
+        "mechanism": "hardness_measure",
+        "status": "approved",
+        "score": 86
+      },
+      {
+        "id": "diamond-hardness-s4",
+        "component": "brittleness_compare",
+        "mechanism": "brittleness_compare",
+        "status": "approved",
+        "score": 100
+      },
+      {
+        "id": "diamond-hardness-s5",
+        "component": "cleavage_fracture",
+        "mechanism": "cleavage_fracture",
+        "status": "approved",
+        "score": 100
+      },
+      {
+        "id": "diamond-hardness-s6",
+        "component": "brittleness_compare",
+        "mechanism": "hardness_compare_summary",
+        "status": "approved",
+        "score": 86
+      }
+    ],
+    "narrationEngine": "espeak",
+    "narrationNote": "Bu örnekte eSpeak NG (çevrimdışı, robotik) kullanıldı; Chatterbox Multilingual adaptörü ürün içinde mevcut ancak bu derleme ortamında model ağırlıkları indirilemediği için doğrulanamadı.",
+    "renderSeconds": 415.2,
+    "generatedAt": "2026-11-14T21:40:56.682Z"
+  }
+]
