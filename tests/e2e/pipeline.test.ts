@@ -12,7 +12,7 @@ import { createProject, narrateProject, renderProject } from "../../packages/cor
  */
 test("kısa video gerçek ses ve görüntüyle üretilir", { timeout: 240_000 }, async () => {
   const dataDir = fs.mkdtempSync(path.join(os.tmpdir(), "nedenmis-e2e-"));
-  const { project } = createProject({ topic: "Gökyüzü neden mavi?", targetDurationSec: 15, quality: "draft" });
+  const { project } = createProject({ topic: "Gökyüzü neden mavi?", targetDurationSec: 30, quality: "draft" });
   assert.equal(project.validation?.status, "approved");
 
   const narrated = await narrateProject(project, dataDir, undefined);

@@ -169,13 +169,19 @@ export function selectSteps(card: KnowledgeCard, targetDurationSec: number, step
 
   if (!required.length) return { selected: optional.slice(0, 1), dropped: optional.slice(1) };
 
-  // Giriş ve kapanış her zaman korunur.
-  const anchors = required.length > 1 ? [required[0], required[required.length - 1]] : [required[0]];
-  const selected: MechanismStep[] = [...anchors];
-  let total = selected.reduce((a, s) => a + cost(s), 0);
-  const budget = targetDurationSec * 0.99;
-
-  for (const s of required.slice(anchors.length === 2 ? 1 : 1).slice(0, -1)) {
+  // Giriş korunur; kapanış ve ara adımlar bütçeye sığdıkça eklenir.
+  // Bütçe, ölçülen TTS süresinin tahminden uzun çıkabildiği gerçeğine göre dar tutulur.
+  const budget = targetDurationSec * 0.84;
+  const selected: MechanismStep[] = [required[0]];
+  let total = cost(required[0]);
+  if (required.length > 1) {
+    const last = required[required.length - 1];
+    if (total + cost(last) <= budget) {
+      selected.push(last);
+      total += cost(last);
+    }
+  }
+  for (const s of required.slice(1, required.length - 1)) {
     if (total + cost(s) <= budget) {
       selected.push(s);
       total += cost(s);

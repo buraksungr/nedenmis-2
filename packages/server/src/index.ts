@@ -154,7 +154,7 @@ export function createStudioServer(opts: StudioServerOptions) {
       const input = (body ?? {}) as CreateProjectInput;
       if (!input.topic) throw new HttpError(400, "Konu gerekli.");
       const duration = Number(input.targetDurationSec ?? 60);
-      if (!Number.isFinite(duration) || duration < 10 || duration > 300) throw new HttpError(400, "Süre 10–300 saniye arasında olmalı.");
+      if (!Number.isFinite(duration) || duration < 20 || duration > 300) throw new HttpError(400, "Süre 20–300 saniye arasında olmalı.");
       const { project } = createProject({ ...input, targetDurationSec: duration, narration: { ...defaultNarration, ...(input.narration ?? {}) } });
       const saved = store.upsert(project);
       store.log(saved.id, "info", `Plan oluşturuldu: ${saved.topic} (${saved.research?.cardId})`);

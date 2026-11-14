@@ -91,8 +91,16 @@ export async function renderVideo(opts: VideoRenderOptions): Promise<{ frames: n
       const png = svgToPng(svg, { width });
       if (!child.stdin!.write(png)) {
         await new Promise<void>((resolve, reject) => {
-          child.stdin!.once("drain", resolve);
-          child.stdin!.once("error", reject);
+          const onDrain = () => {
+            child.stdin!.off("error", onError);
+            resolve();
+          };
+          const onError = (e: Error) => {
+            child.stdin!.off("drain", onDrain);
+            reject(e);
+          };
+          child.stdin!.once("drain", onDrain);
+          child.stdin!.once("error", onError);
         });
       }
       if (opts.onProgress && (f - from) % 15 === 0) {

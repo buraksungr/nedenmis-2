@@ -34,8 +34,8 @@ export function Create() {
       setError({ message: "Konu çok kısa", hint: "En az birkaç kelimelik bir soru yazın. Örnek: “Elmas neden kolay kırılmaz?”" });
       return;
     }
-    if (!Number.isFinite(effectiveDuration) || effectiveDuration < 10 || effectiveDuration > 300) {
-      setError({ message: "Süre geçersiz", hint: "10–300 saniye arasında bir süre seçin." });
+    if (!Number.isFinite(effectiveDuration) || effectiveDuration < 20 || effectiveDuration > 300) {
+      setError({ message: "Süre geçersiz", hint: "20–300 saniye arasında bir süre seçin." });
       return;
     }
     setBusy(true);
