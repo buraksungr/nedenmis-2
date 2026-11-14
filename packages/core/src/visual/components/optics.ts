@@ -24,13 +24,13 @@ export const spectrumSplit: VisualComponent = {
   render: ({ t, params, pal }) => {
     const startLabel = str(params, "startLabel", "güneş ışığı");
     const spectrumLabel = str(params, "spectrumLabel", "görünür tayf");
-    const spread = easeInOut(seg(t, 0.6, 2.2));
+    const spread = easeInOut(seg(t, 0.35, 2.0));
     const beam = pulse(t, 1.4);
 
-    const prism = { x: 500, y: 760, size: 230 };
+    const prism = { x: 500, y: 790, size: 340 };
     let rays = "";
     RAY_ANGLES.forEach((a, i) => {
-      const len = (560 + i * 12) * spread;
+      const len = (380 + i * 11) * spread;
       const x2 = prism.x + Math.cos(a) * len;
       const y2 = prism.y + 40 + Math.sin(a) * len;
       rays += `<line x1="${n(prism.x + 40)}" y1="${n(prism.y + 20)}" x2="${n(x2)}" y2="${n(y2)}" stroke="${COLORS[i]}" stroke-width="10" opacity="${n(0.85 * spread)}" stroke-linecap="round" filter="url(#soft2)"/>`;
@@ -48,10 +48,10 @@ export const spectrumSplit: VisualComponent = {
       ${`<line x1="250" y1="712" x2="${prism.x - 20}" y2="${n(prism.y - 10)}" stroke="#ffffff" stroke-width="12" opacity="${n(0.18 + beam * 0.22)}" filter="url(#soft2)"/><line x1="250" y1="712" x2="${prism.x - 20}" y2="${n(prism.y - 10)}" stroke="#ffffff" stroke-width="5" opacity="0.9"/>`}
       <polygon points="${prism.x},${prism.y - prism.size * 0.5} ${prism.x - prism.size * 0.5},${prism.y + prism.size * 0.52} ${prism.x + prism.size * 0.5},${prism.y + prism.size * 0.52}" fill="rgba(180,225,255,0.10)" stroke="rgba(200,240,255,0.55)" stroke-width="3"/>
       ${rays}
-      ${spread > 0.35 ? panel(250, 1290, 580, 90, { fill: "rgba(8,14,24,0.6)", rx: 40 }) : ""}
-      ${spread > 0.35 ? label(CX, 1348, spectrumLabel, { size: 32, fill: pal.ink, opacity: spread }) : ""}
+      ${spread > 0.35 ? panel(CX - 190, 1150, 380, 86, { fill: "rgba(8,14,24,0.62)", rx: 40 }) : ""}
+      ${spread > 0.35 ? label(CX, 1204, spectrumLabel, { size: 30, fill: pal.ink, opacity: spread }) : ""}
       ${label(CX, 470, "BEYAZ IŞIK = TÜM RENKLER", { size: 28, fill: pal.muted, letterSpacing: 4 })}
-      ${label(CX, 1430, "Prizma renkleri ayırır; saçılma farklı bir olaydır", { size: 24, fill: pal.muted, opacity: 0.8 })}
+      ${label(CX, 1290, "Prizma renkleri ayırır; saçılma farklı bir olaydır", { size: 24, fill: pal.muted, opacity: 0.8 })}
     `;
   },
 };

@@ -1,0 +1,103 @@
+1
+00:00:00,280 --> 00:00:02,507
+Güneş ışığı beyaz görünür ama
+
+2
+00:00:02,507 --> 00:00:05,579
+aslında tüm renkleri içinde taşır.
+
+3
+00:00:05,579 --> 00:00:07,805
+Prizmadan geçirdiğinizde bunu
+
+4
+00:00:07,805 --> 00:00:09,418
+görebilirsiniz.
+
+5
+00:00:10,088 --> 00:00:12,302
+Atmosferdeki azot ve oksijen
+
+6
+00:00:12,302 --> 00:00:14,595
+molekülleri bu ışığı her yöne
+
+7
+00:00:14,595 --> 00:00:16,256
+saçmaya başlar.
+
+8
+00:00:16,256 --> 00:00:17,996
+Bu olayın adı Rayleigh
+
+9
+00:00:17,996 --> 00:00:19,498
+saçılmasıdır.
+
+10
+00:00:20,168 --> 00:00:22,464
+Saçılma şiddeti dalga boyunun
+
+11
+00:00:22,464 --> 00:00:24,364
+dördüncü kuvvetiyle ters
+
+12
+00:00:24,364 --> 00:00:25,790
+orantılıdır.
+
+13
+00:00:25,790 --> 00:00:28,640
+Bu yüzden kısa dalgalı mavi ışık,
+
+14
+00:00:28,640 --> 00:00:31,728
+kırmızıdan kat kat fazla saçılır.
+
+15
+00:00:32,398 --> 00:00:35,069
+Gökyüzüne baktığınız her yönde,
+
+16
+00:00:35,069 --> 00:00:37,583
+o saçılan mavi fotonlar gözünüze
+
+17
+00:00:37,583 --> 00:00:38,605
+ulaşır.
+
+18
+00:00:38,605 --> 00:00:41,119
+Bu yüzden gökyüzü mavidir.
+
+19
+00:00:41,789 --> 00:00:44,060
+Güneş ufka yaklaştığında ışık
+
+20
+00:00:44,060 --> 00:00:47,193
+atmosferde çok daha uzun yol alır.
+
+21
+00:00:47,193 --> 00:00:49,308
+Mavi ışık yolda dağılır,
+
+22
+00:00:49,308 --> 00:00:52,284
+geriye kırmızı ve turuncu kalır.
+
+23
+00:00:52,954 --> 00:00:55,166
+Kısaca: mavi ışık daha çok
+
+24
+00:00:55,166 --> 00:00:57,803
+saçıldığı için gökyüzü mavi,
+
+25
+00:00:57,803 --> 00:01:00,355
+yolu uzadığında ise gün batımı
+
+26
+00:01:00,355 --> 00:01:01,631
+kızıldır.

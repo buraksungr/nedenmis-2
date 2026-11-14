@@ -1,0 +1,83 @@
+1
+00:00:00,280 --> 00:00:03,537
+Denizlerdeki tuzun kaynağı deniz
+
+2
+00:00:03,537 --> 00:00:05,674
+değil, karadır.
+
+3
+00:00:05,674 --> 00:00:09,033
+Yağmur, atmosferden karbondioksit
+
+4
+00:00:09,033 --> 00:00:12,799
+alarak hafif asitli hâle gelir.
+
+5
+00:00:13,469 --> 00:00:16,413
+Bu su, kayalardaki mineralleri
+
+6
+00:00:16,413 --> 00:00:19,357
+çözerek iyonlara ayırır.
+
+7
+00:00:19,357 --> 00:00:22,693
+Akarsular iyonları milyonlarca yıl
+
+8
+00:00:22,693 --> 00:00:25,833
+boyunca okyanuslara taşır.
+
+9
+00:00:26,503 --> 00:00:29,714
+Deniz suyunda bu iyonlar serbest
+
+10
+00:00:29,714 --> 00:00:31,119
+dolaşır.
+
+11
+00:00:31,119 --> 00:00:34,129
+Su molekülleri onları sarar ve
+
+12
+00:00:34,129 --> 00:00:37,441
+çözeltide tutar; buna hidratasyon
+
+13
+00:00:37,441 --> 00:00:38,645
+denir.
+
+14
+00:00:39,315 --> 00:00:43,088
+Güneş deniz suyunu buharlaştırır.
+
+15
+00:00:43,088 --> 00:00:46,280
+Su gökyüzüne çıkar ama tuz geride
+
+16
+00:00:46,280 --> 00:00:47,441
+kalır.
+
+17
+00:00:47,441 --> 00:00:50,053
+Böylece tuz milyonlarca yıl
+
+18
+00:00:50,053 --> 00:00:51,407
+birikir.
+
+19
+00:00:52,077 --> 00:00:55,216
+Bugün deniz suyunun yaklaşık yüzde
+
+20
+00:00:55,216 --> 00:00:58,171
+üç buçuğu çözünmüş tuzdur.
+
+21
+00:00:58,171 --> 00:01:01,864
+Bu denge milyonlarca yılda oluştu.

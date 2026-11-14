@@ -1,0 +1,14 @@
+Gökyüzü neden mavi?
+Gökyüzü neden mavi?
+
+1. [undefined sn] Güneş ışığı beyaz görünür ama aslında tüm renkleri içinde taşır. Prizmadan geçirdiğinizde bunu görebilirsiniz.
+
+2. [undefined sn] Atmosferdeki azot ve oksijen molekülleri bu ışığı her yöne saçmaya başlar. Bu olayın adı Rayleigh saçılmasıdır.
+
+3. [undefined sn] Saçılma şiddeti dalga boyunun dördüncü kuvvetiyle ters orantılıdır. Bu yüzden kısa dalgalı mavi ışık, kırmızıdan kat kat fazla saçılır.
+
+4. [undefined sn] Gökyüzüne baktığınız her yönde, o saçılan mavi fotonlar gözünüze ulaşır. Bu yüzden gökyüzü mavidir.
+
+5. [undefined sn] Güneş ufka yaklaştığında ışık atmosferde çok daha uzun yol alır. Mavi ışık yolda dağılır, geriye kırmızı ve turuncu kalır.
+
+6. [undefined sn] Kısaca: mavi ışık daha çok saçıldığı için gökyüzü mavi, yolu uzadığında ise gün batımı kızıldır.

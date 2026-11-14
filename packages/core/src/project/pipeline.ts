@@ -270,16 +270,38 @@ export async function narrateProject(project: Project, dataDir: string, onProgre
     }
   }
 
-  const timeline = buildTimeline(project.scenes, {
-    targetDurationSec: project.targetDurationSec,
-    fps: project.fps,
-    speechDurations: pass.measured,
-    audioPaths: pass.audioFiles,
-    maxHoldPerScene: 1.6,
-  });
+  // Süre taşması: ölçüm tahminden uzun çıktıysa sonuç korunur, ara sahnelerden biri çıkarılır
+  // (anlatım asla sessizce kırpılmaz; hangi sahnenin çıktığı uyarı olarak kaydedilir).
+  let scenesForTimeline = project.scenes;
+  const timelineWarnings: string[] = [...pass.warnings];
+  let timeline;
+  try {
+    timeline = buildTimeline(scenesForTimeline, {
+      targetDurationSec: project.targetDurationSec,
+      fps: project.fps,
+      speechDurations: pass.measured,
+      audioPaths: pass.audioFiles,
+      maxHoldPerScene: 1.6,
+    });
+  } catch (e) {
+    if (e instanceof DurationError && scenesForTimeline.length > 2) {
+      const drop = scenesForTimeline[scenesForTimeline.length - 2];
+      scenesForTimeline = scenesForTimeline.filter((s) => s.id !== drop.id);
+      timelineWarnings.push(`Ölçülen anlatım hedefi aştığı için "${drop.overlay}" sahnesi çıkarıldı (${drop.id}).`);
+      timeline = buildTimeline(scenesForTimeline, {
+        targetDurationSec: project.targetDurationSec,
+        fps: project.fps,
+        speechDurations: pass.measured,
+        audioPaths: pass.audioFiles,
+        maxHoldPerScene: 1.6,
+      });
+    } else {
+      throw e;
+    }
+  }
 
   const timedScenes: Scene[] = timeline.scenes.map((ts) => ({
-    ...project.scenes.find((x) => x.id === ts.id)!,
+    ...scenesForTimeline.find((x) => x.id === ts.id)!,
     startSec: Math.round(ts.startSec * 1000) / 1000,
     durationSec: Math.round(ts.durationSec * 1000) / 1000,
     speechDurationSec: Math.round(ts.speechDurationSec * 1000) / 1000,
@@ -307,7 +329,7 @@ export async function narrateProject(project: Project, dataDir: string, onProgre
       subtitleTiming: timeline.subtitleTiming,
       warnings: timeline.warnings,
     },
-    warnings: [...new Set([...project.warnings, ...timeline.warnings])],
+    warnings: [...new Set([...project.warnings, ...timeline.warnings, ...timelineWarnings])],
     updatedAt: new Date().toISOString(),
   };
 }
@@ -397,7 +419,10 @@ export async function renderProject(project: Project, dataDir: string, opts: Pip
   // Poster (ilk sahnenin ilk saniyesi).
   const posterPath = path.join(reportDir, "poster.png");
   try {
-    const svg = renderFrameSvg(timeline, Math.min(1, timeline.durationSec / 2), { showSubtitles: false });
+    // Poster: ilk sahnenin temsilî bir karesi (animasyonun oturduğu an).
+    const first = timeline.scenes[0];
+    const posterAt = first ? Math.min(timeline.durationSec - 0.1, first.startSec + first.durationSec * 0.7) : Math.min(1, timeline.durationSec / 2);
+    const svg = renderFrameSvg(timeline, posterAt, { showSubtitles: false });
     fs.writeFileSync(posterPath, svgToPng(svg, { width: 540 }));
   } catch {
     /* poster kritik değil */

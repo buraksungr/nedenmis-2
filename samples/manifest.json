@@ -27,59 +27,182 @@
         "component": "crystal_lattice",
         "mechanism": "crystal_lattice",
         "status": "approved",
-        "score": 86,
-        "durationSec": 8.58,
-        "speechDurationSec": 7.91
+        "score": 86
       },
       {
         "id": "diamond-hardness-s2",
         "component": "bond_network",
         "mechanism": "bond_network",
         "status": "approved",
-        "score": 100,
-        "durationSec": 10.96,
-        "speechDurationSec": 10.29
+        "score": 100
       },
       {
         "id": "diamond-hardness-s3",
         "component": "hardness_measure",
         "mechanism": "hardness_measure",
         "status": "approved",
-        "score": 86,
-        "durationSec": 10.76,
-        "speechDurationSec": 10.09
+        "score": 86
       },
       {
         "id": "diamond-hardness-s4",
         "component": "brittleness_compare",
         "mechanism": "brittleness_compare",
         "status": "approved",
-        "score": 100,
-        "durationSec": 10.47,
-        "speechDurationSec": 9.8
+        "score": 100
       },
       {
         "id": "diamond-hardness-s5",
         "component": "cleavage_fracture",
         "mechanism": "cleavage_fracture",
         "status": "approved",
-        "score": 100,
-        "durationSec": 11.19,
-        "speechDurationSec": 10.52
+        "score": 100
       },
       {
         "id": "diamond-hardness-s6",
         "component": "brittleness_compare",
         "mechanism": "hardness_compare_summary",
         "status": "approved",
-        "score": 86,
-        "durationSec": 10.36,
-        "speechDurationSec": 9.69
+        "score": 86
       }
     ],
     "narrationEngine": "espeak",
     "narrationNote": "Bu örnekte eSpeak NG (çevrimdışı, robotik) kullanıldı; Chatterbox Multilingual adaptörü ürün içinde mevcut ancak bu derleme ortamında model ağırlıkları indirilemediği için doğrulanamadı.",
     "renderSeconds": 415.2,
     "generatedAt": "2026-11-14T21:40:56.682Z"
+  },
+  {
+    "slug": "gokyuzu-neden-mavi",
+    "topic": "Gökyüzü neden mavi?",
+    "title": "Gökyüzü neden mavi?",
+    "cardId": "sky-blue",
+    "targetDurationSec": 60,
+    "durationSec": 62.034,
+    "frames": 1861,
+    "fps": 30,
+    "resolution": "1080x1920",
+    "videoCodec": "h264",
+    "audioCodec": "aac",
+    "audioSampleRate": 48000,
+    "videoPath": "samples/gokyuzu-neden-mavi/gokyuzu-neden-mavi-60s.mp4",
+    "subtitlePath": "samples/gokyuzu-neden-mavi/gokyuzu-neden-mavi.srt",
+    "posterPath": "samples/gokyuzu-neden-mavi/poster.png",
+    "verificationPath": "samples/gokyuzu-neden-mavi/verification.json",
+    "validationPath": "samples/gokyuzu-neden-mavi/visual-validation.json",
+    "sha256": "aa2f7e89fa59224f6c416fd1822f4b65a802cf92f97f00ba78df0ac9b6748693",
+    "bytes": 4559571,
+    "verificationOk": true,
+    "failedChecks": [],
+    "scenes": [
+      {
+        "id": "sky-blue-s1",
+        "component": "spectrum_split",
+        "mechanism": "spectrum_split",
+        "status": "approved",
+        "score": 86
+      },
+      {
+        "id": "sky-blue-s2",
+        "component": "rayleigh_scattering",
+        "mechanism": "rayleigh_scattering",
+        "status": "approved",
+        "score": 86
+      },
+      {
+        "id": "sky-blue-s3",
+        "component": "wavelength_scale",
+        "mechanism": "wavelength_scale",
+        "status": "approved",
+        "score": 86
+      },
+      {
+        "id": "sky-blue-s4",
+        "component": "rayleigh_scattering",
+        "mechanism": "sky_dome_view",
+        "status": "approved",
+        "score": 86
+      },
+      {
+        "id": "sky-blue-s5",
+        "component": "atmosphere_path",
+        "mechanism": "atmosphere_path",
+        "status": "approved",
+        "score": 86
+      },
+      {
+        "id": "sky-blue-s6",
+        "component": "atmosphere_path",
+        "mechanism": "atmosphere_path",
+        "status": "approved",
+        "score": 86
+      }
+    ],
+    "narrationEngine": "espeak",
+    "narrationNote": "Bu örnekte eSpeak NG (çevrimdışı, robotik) kullanıldı; Chatterbox Multilingual adaptörü ürün içinde mevcut ancak bu derleme ortamında model ağırlıkları indirilemediği için doğrulanamadı.",
+    "renderSeconds": 520,
+    "generatedAt": "2026-11-14T23:43:42.715Z"
+  },
+  {
+    "slug": "denizler-neden-tuzlu",
+    "topic": "Denizler neden tuzlu?",
+    "title": "Denizler neden tuzlu?",
+    "cardId": "ocean-salty",
+    "targetDurationSec": 60,
+    "durationSec": 62.267,
+    "frames": 1868,
+    "fps": 30,
+    "resolution": "1080x1920",
+    "videoCodec": "h264",
+    "audioCodec": "aac",
+    "audioSampleRate": 48000,
+    "videoPath": "samples/denizler-neden-tuzlu/denizler-neden-tuzlu-60s.mp4",
+    "subtitlePath": "samples/denizler-neden-tuzlu/denizler-neden-tuzlu.srt",
+    "posterPath": "samples/denizler-neden-tuzlu/poster.png",
+    "verificationPath": "samples/denizler-neden-tuzlu/verification.json",
+    "validationPath": "samples/denizler-neden-tuzlu/visual-validation.json",
+    "sha256": "91cfeb016756750d26b5adde9bd3d1b29f8de815620e74614ae5f505213e1bc1",
+    "bytes": 4852747,
+    "verificationOk": true,
+    "failedChecks": [],
+    "scenes": [
+      {
+        "id": "ocean-salty-s1",
+        "component": "rock_weathering",
+        "mechanism": "rock_weathering",
+        "status": "approved",
+        "score": 86
+      },
+      {
+        "id": "ocean-salty-s2",
+        "component": "river_to_sea",
+        "mechanism": "river_to_sea",
+        "status": "approved",
+        "score": 86
+      },
+      {
+        "id": "ocean-salty-s3",
+        "component": "ion_solution",
+        "mechanism": "ion_solution",
+        "status": "approved",
+        "score": 86
+      },
+      {
+        "id": "ocean-salty-s4",
+        "component": "evaporation_cycle",
+        "mechanism": "evaporation_cycle",
+        "status": "approved",
+        "score": 86
+      },
+      {
+        "id": "ocean-salty-s5",
+        "component": "river_to_sea",
+        "mechanism": "river_to_sea",
+        "status": "approved",
+        "score": 100
+      }
+    ],
+    "narrationEngine": "espeak",
+    "narrationNote": "Bu örnekte eSpeak NG (çevrimdışı, robotik) kullanıldı; Chatterbox Multilingual adaptörü ürün içinde mevcut ancak bu derleme ortamında model ağırlıkları indirilemediği için doğrulanamadı.",
+    "renderSeconds": 322.6,
+    "generatedAt": "2026-11-14T23:49:05.315Z"
   }
 ]
