@@ -27,42 +27,54 @@
         "component": "crystal_lattice",
         "mechanism": "crystal_lattice",
         "status": "approved",
-        "score": 86
+        "score": 86,
+        "durationSec": 8.58,
+        "speechDurationSec": 7.91
       },
       {
         "id": "diamond-hardness-s2",
         "component": "bond_network",
         "mechanism": "bond_network",
         "status": "approved",
-        "score": 100
+        "score": 100,
+        "durationSec": 10.96,
+        "speechDurationSec": 10.29
       },
       {
         "id": "diamond-hardness-s3",
         "component": "hardness_measure",
         "mechanism": "hardness_measure",
         "status": "approved",
-        "score": 86
+        "score": 86,
+        "durationSec": 10.76,
+        "speechDurationSec": 10.09
       },
       {
         "id": "diamond-hardness-s4",
         "component": "brittleness_compare",
         "mechanism": "brittleness_compare",
         "status": "approved",
-        "score": 100
+        "score": 100,
+        "durationSec": 10.47,
+        "speechDurationSec": 9.8
       },
       {
         "id": "diamond-hardness-s5",
         "component": "cleavage_fracture",
         "mechanism": "cleavage_fracture",
         "status": "approved",
-        "score": 100
+        "score": 100,
+        "durationSec": 11.19,
+        "speechDurationSec": 10.52
       },
       {
         "id": "diamond-hardness-s6",
         "component": "brittleness_compare",
         "mechanism": "hardness_compare_summary",
         "status": "approved",
-        "score": 86
+        "score": 86,
+        "durationSec": 10.36,
+        "speechDurationSec": 9.69
       }
     ],
     "narrationEngine": "espeak",

@@ -48,7 +48,7 @@ type ManifestEntry = {
   bytes: number;
   verificationOk: boolean;
   failedChecks: string[];
-  scenes: { id: string; component: string; mechanism: string; status: string; score: number }[];
+  scenes: { id: string; component: string; mechanism: string; status: string; score: number; durationSec: number; speechDurationSec: number }[];
   narrationEngine: string;
   narrationNote: string;
   renderSeconds: number;
@@ -87,9 +87,18 @@ async function main() {
     if (p.outputs.posterPath) fs.copyFileSync(p.outputs.posterPath, path.join(dir, "poster.png"));
     if (p.outputs.verificationPath) fs.copyFileSync(p.outputs.verificationPath, path.join(dir, "verification.json"));
     if (p.outputs.validationPath) fs.copyFileSync(p.outputs.validationPath, path.join(dir, "visual-validation.json"));
+    const timed = new Map(result.timeline.scenes.map((t) => [t.id, t]));
     fs.writeFileSync(
       path.join(dir, "script.txt"),
-      `${p.title}\n${p.topic}\n\n` + p.scenes.map((s, i) => `${i + 1}. [${s.durationSec?.toFixed(2)} sn] ${s.narration}`).join("\n\n") + "\n",
+      `${p.title}\n${p.topic}\n\n` +
+        p.scenes
+          .map((s, i) => {
+            const t = timed.get(s.id);
+            const timing = t ? `[${t.startSec.toFixed(2)}–${(t.startSec + t.durationSec).toFixed(2)} sn | konuşma ${t.speechDurationSec.toFixed(2)} sn]` : "";
+            return `${i + 1}. ${timing} ${s.narration}`;
+          })
+          .join("\n\n") +
+        "\n",
       "utf8",
     );
 
@@ -116,7 +125,15 @@ async function main() {
       bytes: buf.length,
       verificationOk: result.verification.ok,
       failedChecks: result.verification.checks.filter((c) => !c.ok).map((c) => c.id),
-      scenes: p.scenes.map((s) => ({ id: s.id, component: s.spec.componentId, mechanism: s.spec.mechanism, status: s.validation.status, score: Math.round(s.validation.score * 100) / 100 })),
+      scenes: p.scenes.map((s) => ({
+        id: s.id,
+        component: s.spec.componentId,
+        mechanism: s.spec.mechanism,
+        status: s.validation.status,
+        score: Math.round(s.validation.score * 100) / 100,
+        durationSec: Math.round((timed.get(s.id)?.durationSec ?? 0) * 100) / 100,
+        speechDurationSec: Math.round((timed.get(s.id)?.speechDurationSec ?? 0) * 100) / 100,
+      })),
       narrationEngine: p.narration.engineUsed ?? p.narration.engine,
       narrationNote:
         p.narration.engineUsed === "espeak"

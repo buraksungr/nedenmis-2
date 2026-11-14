@@ -10,9 +10,6 @@ asar: false
 
 files:
   - dist-app/**
-  - node_modules/@resvg/**
-  - node_modules/@ffmpeg-installer/**
-  - node_modules/@ffprobe-installer/**
   - package.json
 
 extraResources:

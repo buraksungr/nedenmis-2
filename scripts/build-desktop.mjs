@@ -78,6 +78,18 @@ fs.writeFileSync(
   "utf8",
 );
 
+// 2b) Sunucunun çalışma zamanı bağımlılıklarını dist-app/node_modules içine kopyala.
+say("çalışma zamanı modülleri kopyalanıyor…");
+const runtimeModules = ["@resvg", "@ffmpeg-installer", "@ffprobe-installer"];
+for (const name of runtimeModules) {
+  const from = path.join(root, "node_modules", name);
+  if (!fs.existsSync(from)) {
+    console.warn(`[desktop] UYARI: ${name} bulunamadı (npm ci sonrası tekrar deneyin).`);
+    continue;
+  }
+  copyDir(from, path.join(appDir, "node_modules", name));
+}
+
 // 3) FFmpeg/FFprobe ikilileri.
 say("FFmpeg ve FFprobe kopyalanıyor…");
 fs.mkdirSync(path.join(vendorDir, "bin"), { recursive: true });

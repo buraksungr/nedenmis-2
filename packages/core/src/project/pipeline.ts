@@ -278,8 +278,16 @@ export async function narrateProject(project: Project, dataDir: string, onProgre
     maxHoldPerScene: 1.6,
   });
 
+  const timedScenes: Scene[] = timeline.scenes.map((ts) => ({
+    ...project.scenes.find((x) => x.id === ts.id)!,
+    startSec: Math.round(ts.startSec * 1000) / 1000,
+    durationSec: Math.round(ts.durationSec * 1000) / 1000,
+    speechDurationSec: Math.round(ts.speechDurationSec * 1000) / 1000,
+  }));
+
   return {
     ...project,
+    scenes: timedScenes,
     status: "narrated",
     stage: "narrated",
     progress: 0.72,
@@ -402,6 +410,12 @@ export async function renderProject(project: Project, dataDir: string, opts: Pip
 
   const updated: Project = {
     ...project,
+    scenes: timeline.scenes.map((ts) => ({
+      ...project.scenes.find((x) => x.id === ts.id)!,
+      startSec: Math.round(ts.startSec * 1000) / 1000,
+      durationSec: Math.round(ts.durationSec * 1000) / 1000,
+      speechDurationSec: Math.round(ts.speechDurationSec * 1000) / 1000,
+    })),
     status: "ready",
     stage: "ready",
     progress: 1,
