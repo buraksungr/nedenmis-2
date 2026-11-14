@@ -25,17 +25,20 @@
     "checksums": "node scripts/checksums.mjs",
     "test:unit": "node tests/run.mjs",
     "make-icon": "node --import tsx scripts/make-icon.ts",
-    "smoke": "node --import tsx scripts/smoke-windows.ts"
+    "smoke": "node --import tsx scripts/smoke-windows.ts",
+    "test:ui": "node scripts/ui-smoke.mjs",
+    "report": "node --import tsx scripts/gen-validation-report.ts"
   },
   "devDependencies": {
     "@types/node": "^22.10.2",
     "@types/react": "^19.0.2",
     "@types/react-dom": "^19.0.2",
-    "tsx": "^4.19.2",
-    "typescript": "^5.7.2",
     "electron": "^33.2.0",
     "electron-builder": "^25.1.8",
-    "esbuild": "^0.24.0"
+    "esbuild": "^0.24.0",
+    "jsdom": "^31.0.1",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
   },
   "engines": {
     "node": ">=22.5"
