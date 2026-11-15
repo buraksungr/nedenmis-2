@@ -90,7 +90,112 @@ jobs:
 
       - name: Masaüstü paketini hazırla ve kurulum dosyasını üret
         shell: pwsh
-        run: pwsh scripts/ci-run.ps1 -Label "NSIS kurulum dosyası" npm run build:desktop
+        run: |
+          New-Item -ItemType Directory -Force -Path reports | Out-Null
+          pwsh scripts/ci-run.ps1 -Label "NSIS kurulum dosyası" npm run build:desktop 2>&1 | Tee-Object -FilePath reports/build-desktop.log
+          if ($LASTEXITCODE -ne 0) {
+            Write-Output "::error title=NSIS kurulum dosyası::Ayrıntı için build-desktop.log artefaktına bakın"
+            exit $LASTEXITCODE
+          }
+          Get-ChildItem release | Select-Object Name, Length
+
+      - name: Kurulum dosyasını gerçekten kur (sessiz NSIS kurulumu)
+        shell: pwsh
+        run: |
+          $setup = Resolve-Path "release\NedenmisStudio-Setup.exe" -ErrorAction SilentlyContinue
+          if (-not $setup) { Write-Output "::error title=Kurulum::Setup.exe üretilmedi"; exit 1 }
+          $dir = "C:\nedenmis-test"
+          if (Test-Path $dir) { Remove-Item $dir -Recurse -Force }
+          Write-Output "Kurulum: $setup → $dir"
+          $p = Start-Process -FilePath $setup.Path -ArgumentList "/S", "/D=$dir" -PassThru -Wait
+          Write-Output "NSIS çıkış kodu: $($p.ExitCode)"
+          if ($p.ExitCode -ne 0) { Write-Output "::error title=Kurulum::NSIS kurulumu başarısız (kod $($p.ExitCode))"; exit 1 }
+          $exe = Get-ChildItem $dir -Filter *.exe -Recurse -ErrorAction SilentlyContinue | Where-Object { $_.Name -notmatch "(?i)uninstall" } | Select-Object -First 1
+          if (-not $exe) {
+            Write-Output "::error title=Kurulum::Kurulan uygulama bulunamadı ($dir)"
+            Get-ChildItem $dir -Recurse -ErrorAction SilentlyContinue | Select-Object FullName
+            exit 1
+          }
+          Write-Output "Kurulan uygulama: $($exe.FullName)"
+          "NEDENMIS_INSTALLED_EXE=$($exe.FullName)" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+          Write-Output "resources içeriği:"; Get-ChildItem (Join-Path $dir "resources") | Select-Object Name
+          Write-Output "resources\node_modules:"; Get-ChildItem (Join-Path $dir "resources\node_modules\@resvg") -ErrorAction SilentlyContinue | Select-Object Name
+
+      - name: Kurulu uygulama testi (resvg + FFmpeg + Python + gerçek MP4 + FFprobe)
+        shell: pwsh
+        env:
+          NODE_PATH: ""
+        run: |
+          # Kasıtlı olarak repo node_modules YOK: her şey kurulum klasöründen çözümlenmeli.
+          $exe = $env:NEDENMIS_INSTALLED_EXE
+          if (-not $exe) { Write-Output "::error title=Kurulu uygulama testi::Kurulu exe yolu yok"; exit 1 }
+          New-Item -ItemType Directory -Force -Path reports | Out-Null
+          $report = Join-Path $env:RUNNER_TEMP "windows-install-test.json"
+          $stdout = Join-Path $env:RUNNER_TEMP "install-test-stdout.log"
+          $stderr = Join-Path $env:RUNNER_TEMP "install-test-stderr.log"
+          $env:ELECTRON_ENABLE_LOGGING = "1"
+          Write-Output "Çalıştırılıyor: $exe --self-test"
+          $p = Start-Process -FilePath $exe -ArgumentList "--self-test", "--report", $report -PassThru -Wait -NoNewWindow -RedirectStandardOutput $stdout -RedirectStandardError $stderr
+          Write-Output "Çıkış kodu: $($p.ExitCode)"
+          Get-Content $stdout -ErrorAction SilentlyContinue | Write-Output
+          Get-Content $stderr -ErrorAction SilentlyContinue | Write-Output
+          Copy-Item $stdout reports\install-test-stdout.log -Force -ErrorAction SilentlyContinue
+          Copy-Item $stderr reports\install-test-stderr.log -Force -ErrorAction SilentlyContinue
+          $appLog = Join-Path $env:APPDATA "nedenmis-studio\logs\studio.log"
+          if (Test-Path $appLog) { Copy-Item $appLog reports\install-test-studio.log -Force }
+          if (-not (Test-Path $report)) {
+            Write-Output "::error title=Kurulu uygulama testi::Rapor üretilmedi (çıkış kodu $($p.ExitCode))"
+            exit 1
+          }
+          Copy-Item $report reports\windows-install-test.json -Force
+          $r = Get-Content $report -Raw | ConvertFrom-Json
+          Write-Output "sürüm: $($r.version) | resvg: $($r.runtime.resvg.resolved)"
+          Write-Output "ffmpeg: $($r.tools.ffmpeg.version) | python: $($r.tools.python.version)"
+          Write-Output "video: $($r.render.videoPath)"
+          Write-Output "ffprobe: $($r.render.ffprobe.codec)/$($r.render.ffprobe.audioCodec) | $($r.render.ffprobe.width)x$($r.render.ffprobe.height) | $($r.render.ffprobe.framesRead) kare | $($r.render.ffprobe.durationSec) sn"
+          if (-not $r.ok -or $p.ExitCode -ne 0) {
+            Write-Output "::error title=Kurulu uygulama testi::$(($r.failures -join ' | '))"
+            exit 1
+          }
+          Write-Output "Kurulu uygulama testi BAŞARILI."
+
+      - name: Kurulum testi raporu (markdown)
+        if: always()
+        shell: pwsh
+        run: |
+          if (-not (Test-Path reports\windows-install-test.json)) {
+            "# Windows kurulum testi`n`nRapor üretilmedi (test çalışmadı veya başarısız oldu)." | Out-File reports\installation-test.md -Encoding utf8
+            exit 0
+          }
+          $r = Get-Content reports\windows-install-test.json -Raw | ConvertFrom-Json
+          $lines = @(
+            "# Windows kurulum ve çalıştırma testi",
+            "",
+            "Bu rapor, **kurulmuş** uygulama üzerinde (repodaki kaynaklardan değil) çalıştırılan ``--self-test`` çıktısından üretilmiştir.",
+            "",
+            "| Alan | Değer |",
+            "|---|---|",
+            "| Uygulama sürümü | $($r.version) |",
+            "| Electron / Node | $($r.electron) / $($r.node) |",
+            "| Kurulum kökü | ``$($r.resourcesPath)`` |",
+            "| @resvg/resvg-js | ``$($r.runtime.resvg.resolved)`` |",
+            "| Native eklenti | $($r.runtime.resvg.nativePackage.name) |",
+            "| resvg PNG çıktısı | $($r.runtime.resvg.renderBytes) bayt |",
+            "| FFmpeg | $($r.tools.ffmpeg.version) |",
+            "| FFprobe | $($r.tools.ffprobe.version) |",
+            "| Python | $($r.tools.python.version) |",
+            "| Fontlar | $($r.tools.fonts.ok) |",
+            "| Sunucu | $($r.server.url) — db: $($r.server.db) |",
+            "| Proje | $($r.project.title) ($($r.project.cardId), $($r.project.scenes) sahne) |",
+            "| Video | ``$($r.render.videoPath)`` |",
+            "| Kodek | $($r.render.ffprobe.codec) / $($r.render.ffprobe.audioCodec) @ $($r.render.ffprobe.audioSampleRate) Hz |",
+            "| Çözünürlük / kare | $($r.render.ffprobe.width)x$($r.render.ffprobe.height) / $($r.render.ffprobe.framesRead) |",
+            "| Süre | $($r.render.ffprobe.durationSec) sn |",
+            "| Doğrulama | ok=$($r.render.verificationOk); kabul edilen uyarılar: $($r.render.toleratedChecks -join ', ') |",
+            "| Sonuç | **$(if ($r.ok) { 'BAŞARILI' } else { 'BAŞARISIZ: ' + ($r.failures -join '; ') })** |"
+          )
+          $lines -join "`n" | Out-File reports\installation-test.md -Encoding utf8
+          Get-Content reports\installation-test.md | Write-Output
 
       - name: Taşınabilir zip
         shell: pwsh
@@ -119,6 +224,12 @@ jobs:
             release/NedenmisStudio-Source.zip
             release/SHA256SUMS.txt
             reports/smoke-windows.json
+            reports/windows-install-test.json
+            reports/installation-test.md
+            reports/build-desktop.log
+            reports/install-test-stdout.log
+            reports/install-test-stderr.log
+            reports/install-test-studio.log
           if-no-files-found: error
           retention-days: 30
 
@@ -151,7 +262,11 @@ jobs:
             "docs/scientific-validation.md",
             "docs/test-report.md",
             "samples/manifest.json",
-            "samples/verification-summary.json"
+            "samples/verification-summary.json",
+            "reports/windows-install-test.json",
+            "reports/installation-test.md",
+            "reports/build-desktop.log",
+            "reports/smoke-windows.json"
           )
           foreach ($f in $files) { if (-not (Test-Path $f)) { Write-Output "::error title=Yayın::Eksik dosya: $f"; exit 1 } }
           gh release view $tag *> $null

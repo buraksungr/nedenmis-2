@@ -63,6 +63,9 @@ Bir şey kırmızıysa uygulama sessizce devam etmez; seslendirme başlatıldı�
 | Ses robotik geliyor | Varsayılan motor eSpeak NG'dir (çevrimdışı, robotik). Ayarlar → Seslendirme motorları; **Windows SAPI** sistem sesini (Türkçe varsa) kullanır. Nöral ses için Chatterbox kurulumu gerekir. |
 | Kurulumda “Windows korumalı bilgisayarınızı korudu” | İmzasız dağıtım; *Ek bilgi → Yine de çalıştır*. |
 | Ekran boş açılıyor | Yerel servis başlamamış olabilir; `%APPDATA%\Nedenmiş Studio\logs\studio.log` dosyasına bakın, uygulamayı yeniden başlatın. |
+| Açılışta `Cannot find package '@resvg/resvg-js'` | **v1.0.0** kurulum dosyasındaki paketleme hatası. v1.0.1 veya üstünü kurun. |
+| “Gerekli bileşenler eksik” penceresi | Uygulama, kurulum klasöründeki `resources\node_modules`, `resources\bin`, `resources\python` dosyalarını doğrular. Kurulum bozulmuşsa kurulum dosyasını yeniden çalıştırın; pencerede eksik olan tam yol yazar. |
+| Kurulumu test etmek istiyorum | `"C:\...\Nedenmiş Studio.exe" --self-test --report %TEMP%\rapor.json` — kurulu uygulama resvg/FFmpeg/Python/fontları denetler, gerçek bir MP4 üretip FFprobe ile doğrular. |
 
 ## Geliştirici kurulumu
 

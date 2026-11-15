@@ -93,17 +93,42 @@ fs.writeFileSync(
   "utf8",
 );
 
-// 2b) Sunucunun çalışma zamanı bağımlılıklarını dist-app/node_modules içine kopyala.
-say("çalışma zamanı modülleri kopyalanıyor…");
-const runtimeModules = ["@resvg", "@ffmpeg-installer", "@ffprobe-installer"];
+// 2b) Çalışma zamanı bağımlılıkları → vendor/node_modules.
+//
+// ÖNEMLİ: electron-builder, uygulama klasöründe HER derinlikteki `node_modules`
+// dizinini koşulsuz dışlar (app-builder-lib/out/fileMatcher.js: "!**/node_modules").
+// Bu yüzden modülleri dist-app/node_modules içine koymak işe yaramaz: kurulan
+// uygulamada hiç bulunmazlar (v1.0.0'daki "@resvg/resvg-js bulunamadı" hatası).
+// extraResources ile resources/node_modules altına taşıyoruz; Node, uygulama
+// dosyalarından yukarı yürürken orayı bulur.
+say("çalışma zamanı modülleri (vendor/node_modules) hazırlanıyor…");
+const vendorModules = path.join(vendorDir, "node_modules");
+fs.rmSync(vendorModules, { recursive: true, force: true });
+const runtimeModules = ["@resvg"];
 for (const name of runtimeModules) {
   const from = path.join(root, "node_modules", name);
   if (!fs.existsSync(from)) {
-    console.warn(`[desktop] UYARI: ${name} bulunamadı (npm ci sonrası tekrar deneyin).`);
-    continue;
+    console.error(`[desktop] HATA: node_modules/${name} bulunamadı — "npm ci" çalıştırın.`);
+    process.exit(1);
   }
-  copyDir(from, path.join(appDir, "node_modules", name));
+  copyDir(from, path.join(vendorModules, name));
+  say(`  ${name} → vendor/node_modules/${name}`);
 }
+
+// Platforma özgü native eklenti gerçekten geldi mi? (ör. @resvg/resvg-js-win32-x64-msvc)
+const resvgScope = path.join(vendorModules, "@resvg");
+const nativeDirs = fs.existsSync(resvgScope)
+  ? fs.readdirSync(resvgScope).filter((d) => d !== "resvg-js" && fs.existsSync(path.join(resvgScope, d)))
+  : [];
+const nativeFiles = nativeDirs.flatMap((d) =>
+  fs.readdirSync(path.join(resvgScope, d)).filter((f) => f.endsWith(".node")),
+);
+if (!nativeFiles.length) {
+  console.error("[desktop] HATA: @resvg için platform native eklentisi (.node) bulunamadı.");
+  console.error(`[desktop] Aranan klasörler: ${nativeDirs.join(", ") || "(yok)"}`);
+  process.exit(1);
+}
+say(`  native eklenti: ${nativeFiles.join(", ")}`);
 
 // 3) FFmpeg/FFprobe ikilileri.
 say("FFmpeg ve FFprobe kopyalanıyor…");
@@ -198,9 +223,65 @@ child.on("error", (e) => {
   process.exit(1);
 });
 child.on("close", (code, signal) => {
-  if (code !== 0) console.error(`[desktop] electron-builder başarısız (kod ${code}, sinyal ${signal ?? "yok"})`);
-  process.exit(code ?? 1);
+  if (code !== 0) {
+    console.error(`[desktop] electron-builder başarısız (kod ${code}, sinyal ${signal ?? "yok"})`);
+    process.exit(code ?? 1);
+  }
+  process.exit(verifyPackaged());
 });
+
+/**
+ * Yapı kapısı: paketlenmiş ağaçta zorunlu çalışma zamanı dosyaları var mı?
+ * v1.0.0'da eksik olan @resvg burada yakalanır — kurulum dosyası hiç üretilmez.
+ */
+function verifyPackaged() {
+  const unpacked = path.join(root, "release", "win-unpacked");
+  if (!fs.existsSync(unpacked)) {
+    console.error(`[desktop] HATA: ${path.relative(root, unpacked)} yok — electron-builder çıktısı beklenen yerde değil.`);
+    return 1;
+  }
+  const res = path.join(unpacked, "resources");
+  const exe = process.platform === "win32" ? ".exe" : "";
+  const required = [
+    "app/dist-app/server.mjs",
+    "app/dist-app/main.cjs",
+    "app/dist-app/ui/index.html",
+    "node_modules/@resvg/resvg-js/package.json",
+    `bin/ffmpeg${exe}`,
+    `bin/ffprobe${exe}`,
+    `python/python${exe}`,
+    "fonts/DejaVuSans.ttf",
+    "scripts/espeak_bridge.py",
+    "LICENSES.txt",
+  ];
+
+  // @resvg native eklentisi (.node) — platforma göre adı değişir.
+  const resvgScope = path.join(res, "node_modules", "@resvg");
+  let nativeFound = null;
+  if (fs.existsSync(resvgScope)) {
+    for (const dir of fs.readdirSync(resvgScope)) {
+      const dirPath = path.join(resvgScope, dir);
+      if (!fs.statSync(dirPath).isDirectory()) continue;
+      for (const file of fs.readdirSync(dirPath)) {
+        if (file.endsWith(".node")) nativeFound = `node_modules/@resvg/${dir}/${file}`;
+      }
+    }
+  }
+
+  const missing = required.filter((rel) => !fs.existsSync(path.join(res, rel)));
+  if (!nativeFound) missing.push("node_modules/@resvg/*/*.node (native eklenti)");
+  if (fs.existsSync(path.join(res, "app", "dist-app", "node_modules"))) {
+    console.warn("[desktop] UYARI: app/dist-app/node_modules hâlâ var — bu dizin paketlenmez, kaldırılabilir.");
+  }
+
+  if (missing.length) {
+    console.error("[desktop] HATA: paketlenmiş uygulamada zorunlu dosyalar eksik:");
+    for (const m of missing) console.error(`  - ${m}`);
+    return 1;
+  }
+  say(`paket doğrulandı: ${required.length + 1} zorunlu dosya yerinde (resvg native: ${nativeFound})`);
+  return 0;
+}
 
 function dirSize(dir) {
   let total = 0;
