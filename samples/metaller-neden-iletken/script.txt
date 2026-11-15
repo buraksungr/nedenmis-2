@@ -1,0 +1,12 @@
+Metaller elektriği neden iletir?
+Metaller neden elektriği iletir?
+
+1. [0.00–13.88 sn | konuşma 12.96 sn] Metallerde atomlar sıkı bir örgü oluşturur. Dış elektronlar ise atomlara zayıf bağlıdır ve serbestçe dolaşır.
+
+2. [13.88–27.49 sn | konuşma 12.70 sn] Bir pile bağlandığında elektrik alanı oluşur. Serbest elektronlar bu alanın tersine doğru sürüklenmeye başlar.
+
+3. [27.49–40.10 sn | konuşma 11.68 sn] Elektronlar ilerlerken titreşen iyonlarla çarpışır. Bu çarpışmalar direnci oluşturur ve tel ısınır.
+
+4. [40.10–52.10 sn | konuşma 11.09 sn] Yalıtkanlarda elektronlar atomlara sıkı bağlıdır. Serbest taşıyıcı olmadığı için akım akmaz.
+
+5. [52.10–62.73 sn | konuşma 9.71 sn] Metalleri iyi iletken yapan şey, bu serbest elektronların bolluğu ve hareketliliğidir.

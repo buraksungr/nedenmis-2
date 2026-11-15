@@ -269,5 +269,79 @@
     "narrationNote": "Bu örnekte eSpeak NG (çevrimdışı, robotik) kullanıldı; Chatterbox Multilingual adaptörü ürün içinde mevcut ancak bu derleme ortamında model ağırlıkları indirilemediği için doğrulanamadı.",
     "renderSeconds": 683.1,
     "generatedAt": "2026-11-15T00:22:23.046Z"
+  },
+  {
+    "slug": "metaller-neden-iletken",
+    "topic": "Metaller neden elektriği iletir?",
+    "title": "Metaller elektriği neden iletir?",
+    "cardId": "metal-conduction",
+    "targetDurationSec": 60,
+    "durationSec": 62.734,
+    "frames": 1882,
+    "fps": 30,
+    "resolution": "1080x1920",
+    "videoCodec": "h264",
+    "audioCodec": "aac",
+    "audioSampleRate": 48000,
+    "videoPath": "samples/metaller-neden-iletken/metaller-neden-iletken-60s.mp4",
+    "subtitlePath": "samples/metaller-neden-iletken/metaller-neden-iletken.srt",
+    "posterPath": "samples/metaller-neden-iletken/poster.png",
+    "verificationPath": "samples/metaller-neden-iletken/verification.json",
+    "validationPath": "samples/metaller-neden-iletken/visual-validation.json",
+    "sha256": "75a83fbb725279ceda412128fdcbf1679de0dd32c35d332d14301a54b6df7187",
+    "bytes": 5325491,
+    "verificationOk": true,
+    "failedChecks": [],
+    "scenes": [
+      {
+        "id": "metal-conduction-s1",
+        "component": "electron_sea",
+        "mechanism": "electron_sea",
+        "status": "approved",
+        "score": 86,
+        "durationSec": 13.88,
+        "speechDurationSec": 12.96
+      },
+      {
+        "id": "metal-conduction-s2",
+        "component": "electron_drift",
+        "mechanism": "electron_drift",
+        "status": "approved",
+        "score": 86,
+        "durationSec": 13.62,
+        "speechDurationSec": 12.7
+      },
+      {
+        "id": "metal-conduction-s3",
+        "component": "resistance_heat",
+        "mechanism": "resistance_heat",
+        "status": "approved",
+        "score": 86,
+        "durationSec": 12.6,
+        "speechDurationSec": 11.68
+      },
+      {
+        "id": "metal-conduction-s4",
+        "component": "insulator_compare",
+        "mechanism": "insulator_compare",
+        "status": "approved",
+        "score": 86,
+        "durationSec": 12.01,
+        "speechDurationSec": 11.09
+      },
+      {
+        "id": "metal-conduction-s5",
+        "component": "electron_drift",
+        "mechanism": "electron_drift",
+        "status": "approved",
+        "score": 86,
+        "durationSec": 10.63,
+        "speechDurationSec": 9.71
+      }
+    ],
+    "narrationEngine": "espeak",
+    "narrationNote": "Bu örnekte eSpeak NG (çevrimdışı, robotik) kullanıldı; Chatterbox Multilingual adaptörü ürün içinde mevcut ancak bu derleme ortamında model ağırlıkları indirilemediği için doğrulanamadı.",
+    "renderSeconds": 496,
+    "generatedAt": "2026-11-15T00:30:39.091Z"
   }
 ]

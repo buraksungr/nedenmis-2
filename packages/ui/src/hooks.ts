@@ -18,9 +18,14 @@ export function useJob(jobId: string | null, onDone?: (job: Job) => void) {
     const handle = (j: Job) => {
       if (cancelled) return;
       setJob(j);
-      if ((j.status === "done" || j.status === "failed") && doneRef.current !== j.id) {
-        doneRef.current = j.id;
-        onDone?.(j);
+      if (j.status === "done" || j.status === "failed") {
+        // Akış bitti: EventSource'un sonsuz yeniden bağlanmasını engelle.
+        source?.close();
+        source = undefined;
+        if (doneRef.current !== j.id) {
+          doneRef.current = j.id;
+          onDone?.(j);
+        }
       }
     };
 
