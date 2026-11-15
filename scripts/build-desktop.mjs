@@ -251,7 +251,9 @@ function verifyPackaged() {
     `bin/ffprobe${exe}`,
     `python/python${exe}`,
     "fonts/DejaVuSans.ttf",
-    "scripts/espeak_bridge.py",
+    "scripts/espeak_tts.py",
+    "scripts/sapi_tts.ps1",
+    "scripts/chatterbox_server.py",
     "LICENSES.txt",
   ];
 

@@ -64,7 +64,9 @@ function runtimePaths() {
     ffprobe: path.join(res, "bin", exeName("ffprobe")),
     python: path.join(res, "python", exeName("python")),
     fonts: path.join(res, "fonts", "DejaVuSans.ttf"),
-    espeakBridge: path.join(res, "scripts", "espeak_bridge.py"),
+    espeakBridge: path.join(res, "scripts", "espeak_tts.py"),
+    sapiScript: path.join(res, "scripts", "sapi_tts.ps1"),
+    chatterboxServer: path.join(res, "scripts", "chatterbox_server.py"),
     licenses: path.join(res, "LICENSES.txt"),
   };
 }
@@ -147,7 +149,9 @@ function checkRuntime() {
     ["ffprobe", p.ffprobe],
     ["python", p.python],
     ["fonts", p.fonts],
-    ["espeak_bridge", p.espeakBridge],
+    ["espeak_tts", p.espeakBridge],
+    ["sapi_tts", p.sapiScript],
+    ["chatterbox_server", p.chatterboxServer],
   ]) {
     add(id, fs.existsSync(file), file);
   }
