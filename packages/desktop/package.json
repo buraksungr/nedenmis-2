@@ -1,0 +1,15 @@
+{
+  "name": "@nedenmis/desktop",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Nedenmiş Studio masaüstü kabuğu (Electron)",
+  "main": "dist-app/main.cjs",
+  "scripts": {
+    "start": "electron ../../dist-app/main.cjs",
+    "pack": "node ../../scripts/build-desktop.mjs"
+  },
+  "devDependencies": {
+    "electron": "^33.2.0",
+    "electron-builder": "^25.1.8"
+  }
+}

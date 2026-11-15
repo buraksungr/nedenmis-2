@@ -1,0 +1,425 @@
+{
+  "projectId": "5fa9a768-8347-4934-820f-4203b3119477",
+  "topic": "Gökyüzü neden mavi?",
+  "cardId": "sky-blue",
+  "status": "approved",
+  "summary": "6 sahnenin tamamı bilimsel görsel doğrulamadan geçti (6 uyarı).",
+  "errors": 0,
+  "warnings": 6,
+  "scenes": [
+    {
+      "id": "sky-blue-s1",
+      "component": "spectrum_split",
+      "mechanism": "spectrum_split",
+      "status": "approved",
+      "score": 86,
+      "checks": [
+        {
+          "code": "V_COMPONENT_EXISTS",
+          "ok": true,
+          "message": "Görsel bileşen bulundu: Beyaz ışığın tayfa ayrılması.",
+          "severity": "error"
+        },
+        {
+          "code": "V_DOMAIN_MATCH",
+          "ok": true,
+          "message": "Bileşen domaini (physics/earth) konu domainiyle (physics/earth/chemistry) uyumlu.",
+          "severity": "error"
+        },
+        {
+          "code": "V_MECHANISM_MATCH",
+          "ok": true,
+          "message": "Bileşen 'spectrum_split' mekanizmasını destekliyor.",
+          "severity": "error"
+        },
+        {
+          "code": "V_FORBIDDEN_CONCEPT",
+          "ok": true,
+          "message": "Yasaklı kavram içermiyor.",
+          "severity": "error"
+        },
+        {
+          "code": "V_COMPONENT_RELEVANT",
+          "ok": true,
+          "message": "Bileşen konu kavramlarıyla örtüşüyor: sunlight, spectrum, light, wavelength, photon.",
+          "severity": "error"
+        },
+        {
+          "code": "V_CONCEPT_SCOPE",
+          "ok": true,
+          "message": "Sahne kavramları bilgi kartında tanımlı.",
+          "severity": "error"
+        },
+        {
+          "code": "V_NARRATION_VISUAL_LINK",
+          "ok": true,
+          "message": "Anlatımdaki kavramlar görselde karşılık buluyor: sunlight, spectrum, light.",
+          "severity": "info"
+        },
+        {
+          "code": "V_MISCONCEPTION",
+          "ok": true,
+          "message": "Anlatımda bilinen yanlış iddia yok.",
+          "severity": "error"
+        },
+        {
+          "code": "V_LABEL_FOREIGN_DOMAIN",
+          "ok": true,
+          "message": "Görsel etiketler konuyla aynı bilim alanından.",
+          "severity": "error"
+        },
+        {
+          "code": "V_LABEL_GROUNDING",
+          "ok": false,
+          "message": "Kavram sözlüğünde karşılığı olmayan etiketler: beyaz.",
+          "severity": "warning"
+        }
+      ]
+    },
+    {
+      "id": "sky-blue-s2",
+      "component": "rayleigh_scattering",
+      "mechanism": "rayleigh_scattering",
+      "status": "approved",
+      "score": 86,
+      "checks": [
+        {
+          "code": "V_COMPONENT_EXISTS",
+          "ok": true,
+          "message": "Görsel bileşen bulundu: Rayleigh saçılması (moleküller).",
+          "severity": "error"
+        },
+        {
+          "code": "V_DOMAIN_MATCH",
+          "ok": true,
+          "message": "Bileşen domaini (physics/earth/chemistry) konu domainiyle (physics/earth/chemistry) uyumlu.",
+          "severity": "error"
+        },
+        {
+          "code": "V_MECHANISM_MATCH",
+          "ok": true,
+          "message": "Bileşen 'rayleigh_scattering' mekanizmasını destekliyor.",
+          "severity": "error"
+        },
+        {
+          "code": "V_FORBIDDEN_CONCEPT",
+          "ok": true,
+          "message": "Yasaklı kavram içermiyor.",
+          "severity": "error"
+        },
+        {
+          "code": "V_COMPONENT_RELEVANT",
+          "ok": true,
+          "message": "Bileşen konu kavramlarıyla örtüşüyor: atmosphere, gas_molecule, rayleigh_scattering, photon, wavelength.",
+          "severity": "error"
+        },
+        {
+          "code": "V_CONCEPT_SCOPE",
+          "ok": true,
+          "message": "Sahne kavramları bilgi kartında tanımlı.",
+          "severity": "error"
+        },
+        {
+          "code": "V_NARRATION_VISUAL_LINK",
+          "ok": true,
+          "message": "Anlatımdaki kavramlar görselde karşılık buluyor: atmosphere, gas_molecule, rayleigh_scattering.",
+          "severity": "info"
+        },
+        {
+          "code": "V_MISCONCEPTION",
+          "ok": true,
+          "message": "Anlatımda bilinen yanlış iddia yok.",
+          "severity": "error"
+        },
+        {
+          "code": "V_LABEL_FOREIGN_DOMAIN",
+          "ok": true,
+          "message": "Görsel etiketler konuyla aynı bilim alanından.",
+          "severity": "error"
+        },
+        {
+          "code": "V_LABEL_GROUNDING",
+          "ok": false,
+          "message": "Kavram sözlüğünde karşılığı olmayan etiketler: saçılan, moleküllerden.",
+          "severity": "warning"
+        }
+      ]
+    },
+    {
+      "id": "sky-blue-s3",
+      "component": "wavelength_scale",
+      "mechanism": "wavelength_scale",
+      "status": "approved",
+      "score": 86,
+      "checks": [
+        {
+          "code": "V_COMPONENT_EXISTS",
+          "ok": true,
+          "message": "Görsel bileşen bulundu: Dalga boyu ve saçılma şiddeti (1/λ⁴).",
+          "severity": "error"
+        },
+        {
+          "code": "V_DOMAIN_MATCH",
+          "ok": true,
+          "message": "Bileşen domaini (physics) konu domainiyle (physics/earth/chemistry) uyumlu.",
+          "severity": "error"
+        },
+        {
+          "code": "V_MECHANISM_MATCH",
+          "ok": true,
+          "message": "Bileşen 'wavelength_scale' mekanizmasını destekliyor.",
+          "severity": "error"
+        },
+        {
+          "code": "V_FORBIDDEN_CONCEPT",
+          "ok": true,
+          "message": "Yasaklı kavram içermiyor.",
+          "severity": "error"
+        },
+        {
+          "code": "V_COMPONENT_RELEVANT",
+          "ok": true,
+          "message": "Bileşen konu kavramlarıyla örtüşüyor: wavelength, rayleigh_scattering, spectrum, photon, sunlight.",
+          "severity": "error"
+        },
+        {
+          "code": "V_CONCEPT_SCOPE",
+          "ok": true,
+          "message": "Sahne kavramları bilgi kartında tanımlı.",
+          "severity": "error"
+        },
+        {
+          "code": "V_NARRATION_VISUAL_LINK",
+          "ok": true,
+          "message": "Anlatımdaki kavramlar görselde karşılık buluyor: wavelength, rayleigh_scattering, spectrum.",
+          "severity": "info"
+        },
+        {
+          "code": "V_MISCONCEPTION",
+          "ok": true,
+          "message": "Anlatımda bilinen yanlış iddia yok.",
+          "severity": "error"
+        },
+        {
+          "code": "V_LABEL_FOREIGN_DOMAIN",
+          "ok": true,
+          "message": "Görsel etiketler konuyla aynı bilim alanından.",
+          "severity": "error"
+        },
+        {
+          "code": "V_LABEL_GROUNDING",
+          "ok": false,
+          "message": "Kavram sözlüğünde karşılığı olmayan etiketler: etkisi.",
+          "severity": "warning"
+        }
+      ]
+    },
+    {
+      "id": "sky-blue-s4",
+      "component": "rayleigh_scattering",
+      "mechanism": "sky_dome_view",
+      "status": "approved",
+      "score": 86,
+      "checks": [
+        {
+          "code": "V_COMPONENT_EXISTS",
+          "ok": true,
+          "message": "Görsel bileşen bulundu: Rayleigh saçılması (moleküller).",
+          "severity": "error"
+        },
+        {
+          "code": "V_DOMAIN_MATCH",
+          "ok": true,
+          "message": "Bileşen domaini (physics/earth/chemistry) konu domainiyle (physics/earth/chemistry) uyumlu.",
+          "severity": "error"
+        },
+        {
+          "code": "V_MECHANISM_MATCH",
+          "ok": true,
+          "message": "Bileşen 'sky_dome_view' mekanizmasını destekliyor.",
+          "severity": "error"
+        },
+        {
+          "code": "V_FORBIDDEN_CONCEPT",
+          "ok": true,
+          "message": "Yasaklı kavram içermiyor.",
+          "severity": "error"
+        },
+        {
+          "code": "V_COMPONENT_RELEVANT",
+          "ok": true,
+          "message": "Bileşen konu kavramlarıyla örtüşüyor: atmosphere, gas_molecule, rayleigh_scattering, photon, wavelength.",
+          "severity": "error"
+        },
+        {
+          "code": "V_CONCEPT_SCOPE",
+          "ok": true,
+          "message": "Sahne kavramları bilgi kartında tanımlı.",
+          "severity": "error"
+        },
+        {
+          "code": "V_NARRATION_VISUAL_LINK",
+          "ok": true,
+          "message": "Anlatımdaki kavramlar görselde karşılık buluyor: observer, spectrum.",
+          "severity": "info"
+        },
+        {
+          "code": "V_MISCONCEPTION",
+          "ok": true,
+          "message": "Anlatımda bilinen yanlış iddia yok.",
+          "severity": "error"
+        },
+        {
+          "code": "V_LABEL_FOREIGN_DOMAIN",
+          "ok": true,
+          "message": "Görsel etiketler konuyla aynı bilim alanından.",
+          "severity": "error"
+        },
+        {
+          "code": "V_LABEL_GROUNDING",
+          "ok": false,
+          "message": "Kavram sözlüğünde karşılığı olmayan etiketler: yönden.",
+          "severity": "warning"
+        }
+      ]
+    },
+    {
+      "id": "sky-blue-s5",
+      "component": "atmosphere_path",
+      "mechanism": "atmosphere_path",
+      "status": "approved",
+      "score": 86,
+      "checks": [
+        {
+          "code": "V_COMPONENT_EXISTS",
+          "ok": true,
+          "message": "Görsel bileşen bulundu: Atmosferde uzun yol (gün batımı).",
+          "severity": "error"
+        },
+        {
+          "code": "V_DOMAIN_MATCH",
+          "ok": true,
+          "message": "Bileşen domaini (earth/physics) konu domainiyle (physics/earth/chemistry) uyumlu.",
+          "severity": "error"
+        },
+        {
+          "code": "V_MECHANISM_MATCH",
+          "ok": true,
+          "message": "Bileşen 'atmosphere_path' mekanizmasını destekliyor.",
+          "severity": "error"
+        },
+        {
+          "code": "V_FORBIDDEN_CONCEPT",
+          "ok": true,
+          "message": "Yasaklı kavram içermiyor.",
+          "severity": "error"
+        },
+        {
+          "code": "V_COMPONENT_RELEVANT",
+          "ok": true,
+          "message": "Bileşen konu kavramlarıyla örtüşüyor: horizon_path, wavelength, atmosphere, sunlight, rayleigh_scattering.",
+          "severity": "error"
+        },
+        {
+          "code": "V_CONCEPT_SCOPE",
+          "ok": true,
+          "message": "Sahne kavramları bilgi kartında tanımlı.",
+          "severity": "error"
+        },
+        {
+          "code": "V_NARRATION_VISUAL_LINK",
+          "ok": true,
+          "message": "Anlatımdaki kavramlar görselde karşılık buluyor: horizon_path, atmosphere, sunlight.",
+          "severity": "info"
+        },
+        {
+          "code": "V_MISCONCEPTION",
+          "ok": true,
+          "message": "Anlatımda bilinen yanlış iddia yok.",
+          "severity": "error"
+        },
+        {
+          "code": "V_LABEL_FOREIGN_DOMAIN",
+          "ok": true,
+          "message": "Görsel etiketler konuyla aynı bilim alanından.",
+          "severity": "error"
+        },
+        {
+          "code": "V_LABEL_GROUNDING",
+          "ok": false,
+          "message": "Kavram sözlüğünde karşılığı olmayan etiketler: ufuktaki.",
+          "severity": "warning"
+        }
+      ]
+    },
+    {
+      "id": "sky-blue-s6",
+      "component": "atmosphere_path",
+      "mechanism": "atmosphere_path",
+      "status": "approved",
+      "score": 86,
+      "checks": [
+        {
+          "code": "V_COMPONENT_EXISTS",
+          "ok": true,
+          "message": "Görsel bileşen bulundu: Atmosferde uzun yol (gün batımı).",
+          "severity": "error"
+        },
+        {
+          "code": "V_DOMAIN_MATCH",
+          "ok": true,
+          "message": "Bileşen domaini (earth/physics) konu domainiyle (physics/earth/chemistry) uyumlu.",
+          "severity": "error"
+        },
+        {
+          "code": "V_MECHANISM_MATCH",
+          "ok": true,
+          "message": "Bileşen 'atmosphere_path' mekanizmasını destekliyor.",
+          "severity": "error"
+        },
+        {
+          "code": "V_FORBIDDEN_CONCEPT",
+          "ok": true,
+          "message": "Yasaklı kavram içermiyor.",
+          "severity": "error"
+        },
+        {
+          "code": "V_COMPONENT_RELEVANT",
+          "ok": true,
+          "message": "Bileşen konu kavramlarıyla örtüşüyor: horizon_path, wavelength, atmosphere, sunlight, rayleigh_scattering.",
+          "severity": "error"
+        },
+        {
+          "code": "V_CONCEPT_SCOPE",
+          "ok": true,
+          "message": "Sahne kavramları bilgi kartında tanımlı.",
+          "severity": "error"
+        },
+        {
+          "code": "V_NARRATION_VISUAL_LINK",
+          "ok": true,
+          "message": "Anlatımdaki kavramlar görselde karşılık buluyor: horizon_path.",
+          "severity": "info"
+        },
+        {
+          "code": "V_MISCONCEPTION",
+          "ok": true,
+          "message": "Anlatımda bilinen yanlış iddia yok.",
+          "severity": "error"
+        },
+        {
+          "code": "V_LABEL_FOREIGN_DOMAIN",
+          "ok": true,
+          "message": "Görsel etiketler konuyla aynı bilim alanından.",
+          "severity": "error"
+        },
+        {
+          "code": "V_LABEL_GROUNDING",
+          "ok": false,
+          "message": "Kavram sözlüğünde karşılığı olmayan etiketler: özet.",
+          "severity": "warning"
+        }
+      ]
+    }
+  ]
+}

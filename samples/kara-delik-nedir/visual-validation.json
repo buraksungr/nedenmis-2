@@ -1,0 +1,287 @@
+{
+  "projectId": "37e8efcf-2ffa-40bc-965b-3243231b1da0",
+  "topic": "Kara delik nedir?",
+  "cardId": "black-hole",
+  "status": "approved",
+  "summary": "4 sahnenin tamamı bilimsel görsel doğrulamadan geçti (4 uyarı).",
+  "errors": 0,
+  "warnings": 4,
+  "scenes": [
+    {
+      "id": "black-hole-s1",
+      "component": "spacetime_grid",
+      "mechanism": "spacetime_grid",
+      "status": "approved",
+      "score": 86,
+      "checks": [
+        {
+          "code": "V_COMPONENT_EXISTS",
+          "ok": true,
+          "message": "Görsel bileşen bulundu: Uzay-zaman eğriliği.",
+          "severity": "error"
+        },
+        {
+          "code": "V_DOMAIN_MATCH",
+          "ok": true,
+          "message": "Bileşen domaini (astronomy/physics) konu domainiyle (astronomy/physics) uyumlu.",
+          "severity": "error"
+        },
+        {
+          "code": "V_MECHANISM_MATCH",
+          "ok": true,
+          "message": "Bileşen 'spacetime_grid' mekanizmasını destekliyor.",
+          "severity": "error"
+        },
+        {
+          "code": "V_FORBIDDEN_CONCEPT",
+          "ok": true,
+          "message": "Yasaklı kavram içermiyor.",
+          "severity": "error"
+        },
+        {
+          "code": "V_COMPONENT_RELEVANT",
+          "ok": true,
+          "message": "Bileşen konu kavramlarıyla örtüşüyor: spacetime_curvature, mass, gravitational_force, black_hole.",
+          "severity": "error"
+        },
+        {
+          "code": "V_CONCEPT_SCOPE",
+          "ok": true,
+          "message": "Sahne kavramları bilgi kartında tanımlı.",
+          "severity": "error"
+        },
+        {
+          "code": "V_NARRATION_VISUAL_LINK",
+          "ok": true,
+          "message": "Anlatımdaki kavramlar görselde karşılık buluyor: spacetime_curvature, mass.",
+          "severity": "info"
+        },
+        {
+          "code": "V_MISCONCEPTION",
+          "ok": true,
+          "message": "Anlatımda bilinen yanlış iddia yok.",
+          "severity": "error"
+        },
+        {
+          "code": "V_LABEL_FOREIGN_DOMAIN",
+          "ok": true,
+          "message": "Görsel etiketler konuyla aynı bilim alanından.",
+          "severity": "error"
+        },
+        {
+          "code": "V_LABEL_GROUNDING",
+          "ok": false,
+          "message": "Kavram sözlüğünde karşılığı olmayan etiketler: çukur.",
+          "severity": "warning"
+        }
+      ]
+    },
+    {
+      "id": "black-hole-s2",
+      "component": "event_horizon",
+      "mechanism": "event_horizon",
+      "status": "approved",
+      "score": 86,
+      "checks": [
+        {
+          "code": "V_COMPONENT_EXISTS",
+          "ok": true,
+          "message": "Görsel bileşen bulundu: Olay ufku ve kaçış yolları.",
+          "severity": "error"
+        },
+        {
+          "code": "V_DOMAIN_MATCH",
+          "ok": true,
+          "message": "Bileşen domaini (astronomy/physics) konu domainiyle (astronomy/physics) uyumlu.",
+          "severity": "error"
+        },
+        {
+          "code": "V_MECHANISM_MATCH",
+          "ok": true,
+          "message": "Bileşen 'event_horizon' mekanizmasını destekliyor.",
+          "severity": "error"
+        },
+        {
+          "code": "V_FORBIDDEN_CONCEPT",
+          "ok": true,
+          "message": "Yasaklı kavram içermiyor.",
+          "severity": "error"
+        },
+        {
+          "code": "V_COMPONENT_RELEVANT",
+          "ok": true,
+          "message": "Bileşen konu kavramlarıyla örtüşüyor: event_horizon, escape_velocity, black_hole, light, singularity.",
+          "severity": "error"
+        },
+        {
+          "code": "V_CONCEPT_SCOPE",
+          "ok": true,
+          "message": "Sahne kavramları bilgi kartında tanımlı.",
+          "severity": "error"
+        },
+        {
+          "code": "V_NARRATION_VISUAL_LINK",
+          "ok": true,
+          "message": "Anlatımdaki kavramlar görselde karşılık buluyor: event_horizon, escape_velocity.",
+          "severity": "info"
+        },
+        {
+          "code": "V_MISCONCEPTION",
+          "ok": true,
+          "message": "Anlatımda bilinen yanlış iddia yok.",
+          "severity": "error"
+        },
+        {
+          "code": "V_LABEL_FOREIGN_DOMAIN",
+          "ok": true,
+          "message": "Görsel etiketler konuyla aynı bilim alanından.",
+          "severity": "error"
+        },
+        {
+          "code": "V_LABEL_GROUNDING",
+          "ok": false,
+          "message": "Kavram sözlüğünde karşılığı olmayan etiketler: foton, kaçabilir, ufu.",
+          "severity": "warning"
+        }
+      ]
+    },
+    {
+      "id": "black-hole-s3",
+      "component": "accretion_disk",
+      "mechanism": "accretion_disk",
+      "status": "approved",
+      "score": 86,
+      "checks": [
+        {
+          "code": "V_COMPONENT_EXISTS",
+          "ok": true,
+          "message": "Görsel bileşen bulundu: Yığılma diski.",
+          "severity": "error"
+        },
+        {
+          "code": "V_DOMAIN_MATCH",
+          "ok": true,
+          "message": "Bileşen domaini (astronomy/physics) konu domainiyle (astronomy/physics) uyumlu.",
+          "severity": "error"
+        },
+        {
+          "code": "V_MECHANISM_MATCH",
+          "ok": true,
+          "message": "Bileşen 'accretion_disk' mekanizmasını destekliyor.",
+          "severity": "error"
+        },
+        {
+          "code": "V_FORBIDDEN_CONCEPT",
+          "ok": true,
+          "message": "Yasaklı kavram içermiyor.",
+          "severity": "error"
+        },
+        {
+          "code": "V_COMPONENT_RELEVANT",
+          "ok": true,
+          "message": "Bileşen konu kavramlarıyla örtüşüyor: accretion_disk, black_hole, mass, event_horizon.",
+          "severity": "error"
+        },
+        {
+          "code": "V_CONCEPT_SCOPE",
+          "ok": true,
+          "message": "Sahne kavramları bilgi kartında tanımlı.",
+          "severity": "error"
+        },
+        {
+          "code": "V_NARRATION_VISUAL_LINK",
+          "ok": true,
+          "message": "Anlatımdaki kavramlar görselde karşılık buluyor: accretion_disk, black_hole.",
+          "severity": "info"
+        },
+        {
+          "code": "V_MISCONCEPTION",
+          "ok": true,
+          "message": "Anlatımda bilinen yanlış iddia yok.",
+          "severity": "error"
+        },
+        {
+          "code": "V_LABEL_FOREIGN_DOMAIN",
+          "ok": true,
+          "message": "Görsel etiketler konuyla aynı bilim alanından.",
+          "severity": "error"
+        },
+        {
+          "code": "V_LABEL_GROUNDING",
+          "ok": false,
+          "message": "Kavram sözlüğünde karşılığı olmayan etiketler: sıcak, madde.",
+          "severity": "warning"
+        }
+      ]
+    },
+    {
+      "id": "black-hole-s5",
+      "component": "event_horizon",
+      "mechanism": "event_horizon",
+      "status": "approved",
+      "score": 86,
+      "checks": [
+        {
+          "code": "V_COMPONENT_EXISTS",
+          "ok": true,
+          "message": "Görsel bileşen bulundu: Olay ufku ve kaçış yolları.",
+          "severity": "error"
+        },
+        {
+          "code": "V_DOMAIN_MATCH",
+          "ok": true,
+          "message": "Bileşen domaini (astronomy/physics) konu domainiyle (astronomy/physics) uyumlu.",
+          "severity": "error"
+        },
+        {
+          "code": "V_MECHANISM_MATCH",
+          "ok": true,
+          "message": "Bileşen 'event_horizon' mekanizmasını destekliyor.",
+          "severity": "error"
+        },
+        {
+          "code": "V_FORBIDDEN_CONCEPT",
+          "ok": true,
+          "message": "Yasaklı kavram içermiyor.",
+          "severity": "error"
+        },
+        {
+          "code": "V_COMPONENT_RELEVANT",
+          "ok": true,
+          "message": "Bileşen konu kavramlarıyla örtüşüyor: event_horizon, escape_velocity, black_hole, light, singularity.",
+          "severity": "error"
+        },
+        {
+          "code": "V_CONCEPT_SCOPE",
+          "ok": true,
+          "message": "Sahne kavramları bilgi kartında tanımlı.",
+          "severity": "error"
+        },
+        {
+          "code": "V_NARRATION_VISUAL_LINK",
+          "ok": true,
+          "message": "Anlatımdaki kavramlar görselde karşılık buluyor: event_horizon, black_hole.",
+          "severity": "info"
+        },
+        {
+          "code": "V_MISCONCEPTION",
+          "ok": true,
+          "message": "Anlatımda bilinen yanlış iddia yok.",
+          "severity": "error"
+        },
+        {
+          "code": "V_LABEL_FOREIGN_DOMAIN",
+          "ok": true,
+          "message": "Görsel etiketler konuyla aynı bilim alanından.",
+          "severity": "error"
+        },
+        {
+          "code": "V_LABEL_GROUNDING",
+          "ok": false,
+          "message": "Kavram sözlüğünde karşılığı olmayan etiketler: dışarı, bilinmiyor, ufkun, ötesi.",
+          "severity": "warning"
+        }
+      ]
+    }
+  ]
+}

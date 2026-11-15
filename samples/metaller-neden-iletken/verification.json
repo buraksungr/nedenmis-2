@@ -1,0 +1,174 @@
+{
+  "ok": true,
+  "file": "/home/user/nedenmis-2/data/samples-work/projects/eac95835-3576-461c-a2be-9394706b00b8/out/eac95835-metal-conduction-60s.mp4",
+  "fileBytes": 5325491,
+  "durationSec": 62.734,
+  "container": "mov,mp4,m4a,3gp,3g2,mj2",
+  "video": {
+    "codec": "h264",
+    "width": 1080,
+    "height": 1920,
+    "fps": 30,
+    "framesRead": 1882,
+    "framesExpected": 1882
+  },
+  "audio": {
+    "codec": "aac",
+    "sampleRate": 48000,
+    "channels": 2,
+    "durationSec": 62.677
+  },
+  "checks": [
+    {
+      "id": "file_exists",
+      "ok": true,
+      "detail": "Dosya var: /home/user/nedenmis-2/data/samples-work/projects/eac95835-3576-461c-a2be-9394706b00b8/out/eac95835-metal-conduction-60s.mp4",
+      "severity": "error"
+    },
+    {
+      "id": "file_size",
+      "ok": true,
+      "detail": "5.08 MB",
+      "severity": "error"
+    },
+    {
+      "id": "container_mp4",
+      "ok": true,
+      "detail": "mov,mp4,m4a,3gp,3g2,mj2",
+      "severity": "error"
+    },
+    {
+      "id": "video_stream",
+      "ok": true,
+      "detail": "h264 1080x1920",
+      "severity": "error"
+    },
+    {
+      "id": "video_codec_h264",
+      "ok": true,
+      "detail": "h264",
+      "severity": "error"
+    },
+    {
+      "id": "resolution_1080x1920",
+      "ok": true,
+      "detail": "1080x1920",
+      "severity": "warning"
+    },
+    {
+      "id": "fps_30",
+      "ok": true,
+      "detail": "30",
+      "severity": "error"
+    },
+    {
+      "id": "frame_count_exact",
+      "ok": true,
+      "detail": "çözülen 1882 / beklenen 1882",
+      "severity": "error"
+    },
+    {
+      "id": "duration_matches_target",
+      "ok": true,
+      "detail": "62.73 sn (hedef 60 ±%5)",
+      "severity": "error"
+    },
+    {
+      "id": "audio_stream",
+      "ok": true,
+      "detail": "aac 48000 Hz 2 kanal",
+      "severity": "error"
+    },
+    {
+      "id": "audio_codec_aac",
+      "ok": true,
+      "detail": "aac",
+      "severity": "error"
+    },
+    {
+      "id": "audio_sample_rate_48k",
+      "ok": true,
+      "detail": "48000",
+      "severity": "error"
+    },
+    {
+      "id": "av_sync",
+      "ok": true,
+      "detail": "ses 62.677 sn, video 62.734 sn, fark 57 ms",
+      "severity": "error"
+    },
+    {
+      "id": "frame_visible_metal-conduction-s1",
+      "ok": true,
+      "detail": "t=6.50 sn, ortalama parlaklık 33.05, dağılım 24.67",
+      "severity": "error"
+    },
+    {
+      "id": "frame_visible_metal-conduction-s2",
+      "ok": true,
+      "detail": "t=20.38 sn, ortalama parlaklık 31.3, dağılım 22.76",
+      "severity": "error"
+    },
+    {
+      "id": "frame_visible_metal-conduction-s3",
+      "ok": true,
+      "detail": "t=33.99 sn, ortalama parlaklık 40.69, dağılım 33.42",
+      "severity": "error"
+    },
+    {
+      "id": "frame_visible_metal-conduction-s4",
+      "ok": true,
+      "detail": "t=46.60 sn, ortalama parlaklık 29.91, dağılım 21.83",
+      "severity": "error"
+    },
+    {
+      "id": "frame_visible_metal-conduction-s5",
+      "ok": true,
+      "detail": "t=57.95 sn, ortalama parlaklık 31.55, dağılım 24.07",
+      "severity": "error"
+    }
+  ],
+  "frameSamples": [
+    {
+      "sceneId": "metal-conduction-s1",
+      "timeSec": 6.5,
+      "meanLuma": 33.05,
+      "stdDev": 24.67,
+      "ok": true,
+      "imagePath": "/home/user/nedenmis-2/data/samples-work/projects/eac95835-3576-461c-a2be-9394706b00b8/reports/frames/metal-conduction-s1.jpg"
+    },
+    {
+      "sceneId": "metal-conduction-s2",
+      "timeSec": 20.38,
+      "meanLuma": 31.3,
+      "stdDev": 22.76,
+      "ok": true,
+      "imagePath": "/home/user/nedenmis-2/data/samples-work/projects/eac95835-3576-461c-a2be-9394706b00b8/reports/frames/metal-conduction-s2.jpg"
+    },
+    {
+      "sceneId": "metal-conduction-s3",
+      "timeSec": 33.99,
+      "meanLuma": 40.69,
+      "stdDev": 33.42,
+      "ok": true,
+      "imagePath": "/home/user/nedenmis-2/data/samples-work/projects/eac95835-3576-461c-a2be-9394706b00b8/reports/frames/metal-conduction-s3.jpg"
+    },
+    {
+      "sceneId": "metal-conduction-s4",
+      "timeSec": 46.6,
+      "meanLuma": 29.91,
+      "stdDev": 21.83,
+      "ok": true,
+      "imagePath": "/home/user/nedenmis-2/data/samples-work/projects/eac95835-3576-461c-a2be-9394706b00b8/reports/frames/metal-conduction-s4.jpg"
+    },
+    {
+      "sceneId": "metal-conduction-s5",
+      "timeSec": 57.95,
+      "meanLuma": 31.55,
+      "stdDev": 24.07,
+      "ok": true,
+      "imagePath": "/home/user/nedenmis-2/data/samples-work/projects/eac95835-3576-461c-a2be-9394706b00b8/reports/frames/metal-conduction-s5.jpg"
+    }
+  ],
+  "avSync": 0.05700000000000216
+}

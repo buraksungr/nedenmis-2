@@ -1,0 +1,68 @@
+/**
+ * Uygulama simgesi: build/icon.svg → build/icon-1024.png → build/icon.ico
+ *   node --import tsx scripts/make-icon.ts
+ */
+import fs from "node:fs";
+import path from "node:path";
+import { Resvg } from "@resvg/resvg-js";
+import { findFfmpeg, ensureDir } from "../packages/core/src/render/tools.ts";
+
+const build = ensureDir(path.join(process.cwd(), "build"));
+
+const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0b1b2c"/>
+      <stop offset="0.55" stop-color="#071019"/>
+      <stop offset="1" stop-color="#04080e"/>
+    </linearGradient>
+    <linearGradient id="beam" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#9df0ff"/>
+      <stop offset="0.5" stop-color="#56d6ff"/>
+      <stop offset="1" stop-color="#2bb3d8"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#56d6ff" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#56d6ff" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="facet" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0.03"/>
+    </linearGradient>
+  </defs>
+  <rect width="1024" height="1024" rx="224" fill="url(#bg)"/>
+  <circle cx="512" cy="470" r="330" fill="url(#glow)"/>
+  <g opacity="0.35" stroke="#7fe3ff" stroke-width="3">
+    <path d="M150 300 H874" opacity="0.12"/>
+    <path d="M150 512 H874" opacity="0.1"/>
+    <path d="M150 724 H874" opacity="0.12"/>
+  </g>
+  <g>
+    <path d="M318 726 V330 L706 690 V330" fill="none" stroke="url(#beam)" stroke-width="86" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M318 726 V330 L706 690 V330" fill="none" stroke="#ffffff" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/>
+  </g>
+  <g transform="translate(760 250)">
+    <path d="M0 -96 L86 -40 L86 46 L0 102 L-86 46 L-86 -40 Z" fill="url(#facet)" stroke="#9df0ff" stroke-width="6" stroke-opacity="0.75"/>
+    <path d="M0 -96 L0 102 M-86 -40 L86 46 M86 -40 L-86 46" stroke="#9df0ff" stroke-width="4" stroke-opacity="0.35"/>
+  </g>
+  <g transform="translate(236 806)">
+    <circle r="26" fill="#7ef0c8" opacity="0.9"/>
+    <circle r="58" fill="none" stroke="#7ef0c8" stroke-width="4" opacity="0.35"/>
+  </g>
+</svg>`;
+
+fs.writeFileSync(path.join(build, "icon.svg"), svg, "utf8");
+const png = new Resvg(svg, { fitTo: { mode: "width", value: 1024 } }).render().asPng();
+const pngPath = path.join(build, "icon-1024.png");
+fs.writeFileSync(pngPath, png);
+
+// Windows .ico (256×256) — FFmpeg'in yerleşik ico kodlayıcısıyla.
+const ff = findFfmpeg();
+const { spawnSync } = await import("node:child_process");
+const icoPath = path.join(build, "icon.ico");
+const r = spawnSync(ff, ["-y", "-hide_banner", "-loglevel", "error", "-i", pngPath, "-vf", "scale=256:256", "-c:v", "bmp", icoPath]);
+if (r.status !== 0 || !fs.existsSync(icoPath)) {
+  console.error("ICO üretilemedi:", r.stderr?.toString());
+} else {
+  console.log("Simge:", icoPath, fs.statSync(icoPath).size, "bayt");
+}

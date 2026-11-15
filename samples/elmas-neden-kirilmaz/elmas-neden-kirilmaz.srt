@@ -1,0 +1,107 @@
+1
+00:00:00,280 --> 00:00:02,518
+Elmas dünyanın en sert doğal
+
+2
+00:00:02,518 --> 00:00:03,637
+maddesi.
+
+3
+00:00:03,637 --> 00:00:06,354
+Peki neden sert olduğu kadar kolay
+
+4
+00:00:06,354 --> 00:00:08,192
+da kırılabiliyor?
+
+5
+00:00:08,862 --> 00:00:11,393
+Her karbon atomu dört komşusuna
+
+6
+00:00:11,393 --> 00:00:13,843
+kovalent bağla bağlanır.
+
+7
+00:00:13,843 --> 00:00:16,374
+Bu bağlar elektron paylaşımıyla
+
+8
+00:00:16,374 --> 00:00:19,150
+kurulan çok güçlü bağlardır.
+
+9
+00:00:19,820 --> 00:00:22,162
+Bu sıkı ağ, yüzeyin çizilmeye
+
+10
+00:00:22,162 --> 00:00:24,504
+karşı direncini yani sertliği
+
+11
+00:00:24,504 --> 00:00:26,522
+olağanüstü artırır.
+
+12
+00:00:26,522 --> 00:00:28,380
+Elmas Mohs ölçeğinde on
+
+13
+00:00:28,380 --> 00:00:29,914
+değerindedir.
+
+14
+00:00:30,584 --> 00:00:32,411
+Ama sertlik, kırılmaya
+
+15
+00:00:32,411 --> 00:00:35,235
+dayanıklılık demek değildir.
+
+16
+00:00:35,235 --> 00:00:37,893
+Elmas gevrektir; yani kırılmadan
+
+17
+00:00:37,893 --> 00:00:40,385
+önce çok az esneyebilir.
+
+18
+00:00:41,055 --> 00:00:43,726
+Kristal, belirli düzlemlerde daha
+
+19
+00:00:43,726 --> 00:00:44,940
+zayıftır.
+
+20
+00:00:44,940 --> 00:00:47,449
+Bir darbe çatlak başlatırsa,
+
+21
+00:00:47,449 --> 00:00:49,958
+çatlak bu düzlemi izleyerek çok
+
+22
+00:00:49,958 --> 00:00:51,577
+hızlı ilerler.
+
+23
+00:00:52,247 --> 00:00:54,911
+Yani elması sert yapan şey elması
+
+24
+00:00:54,911 --> 00:00:56,687
+kırılmaz yapmaz.
+
+25
+00:00:56,687 --> 00:00:58,624
+Sertlik ve gevreklik,
+
+26
+00:00:58,624 --> 00:01:00,481
+aynı kristalin iki ayrı
+
+27
+00:01:00,481 --> 00:01:01,934
+özelliğidir.

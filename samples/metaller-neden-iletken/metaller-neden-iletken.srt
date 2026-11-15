@@ -1,0 +1,75 @@
+1
+00:00:00,280 --> 00:00:03,793
+Metallerde atomlar sıkı bir örgü
+
+2
+00:00:03,793 --> 00:00:05,550
+oluşturur.
+
+3
+00:00:05,550 --> 00:00:09,283
+Dış elektronlar ise atomlara zayıf
+
+4
+00:00:09,283 --> 00:00:13,235
+bağlıdır ve serbestçe dolaşır.
+
+5
+00:00:14,155 --> 00:00:17,463
+Bir pile bağlandığında elektrik
+
+6
+00:00:17,463 --> 00:00:19,491
+alanı oluşur.
+
+7
+00:00:19,491 --> 00:00:22,585
+Serbest elektronlar bu alanın
+
+8
+00:00:22,585 --> 00:00:26,854
+tersine doğru sürüklenmeye başlar.
+
+9
+00:00:27,774 --> 00:00:31,127
+Elektronlar ilerlerken titreşen
+
+10
+00:00:31,127 --> 00:00:33,831
+iyonlarla çarpışır.
+
+11
+00:00:33,831 --> 00:00:37,293
+Bu çarpışmalar direnci oluşturur
+
+12
+00:00:37,293 --> 00:00:39,456
+ve tel ısınır.
+
+13
+00:00:40,376 --> 00:00:44,108
+Yalıtkanlarda elektronlar atomlara
+
+14
+00:00:44,108 --> 00:00:46,304
+sıkı bağlıdır.
+
+15
+00:00:46,304 --> 00:00:49,597
+Serbest taşıyıcı olmadığı için
+
+16
+00:00:49,597 --> 00:00:51,463
+akım akmaz.
+
+17
+00:00:52,383 --> 00:00:56,038
+Metalleri iyi iletken yapan şey,
+
+18
+00:00:56,038 --> 00:00:59,379
+bu serbest elektronların bolluğu
+
+19
+00:00:59,379 --> 00:01:02,094
+ve hareketliliğidir.

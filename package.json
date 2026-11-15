@@ -1,0 +1,56 @@
+{
+  "name": "nedenmis-studio",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Nedenmiş Studio — bilimsel doğruluk odaklı Türkçe kısa bilim videosu üretim stüdyosu",
+  "license": "MIT",
+  "type": "module",
+  "workspaces": [
+    "packages/core",
+    "packages/server",
+    "packages/ui"
+  ],
+  "scripts": {
+    "build": "npm run build -w @nedenmis/core && npm run build -w @nedenmis/server && npm run build -w @nedenmis/ui",
+    "typecheck": "npm run typecheck -w @nedenmis/core && npm run typecheck -w @nedenmis/server && npm run typecheck -w @nedenmis/ui",
+    "dev:server": "npm run dev -w @nedenmis/server",
+    "dev:ui": "npm run dev -w @nedenmis/ui",
+    "studio": "node scripts/studio-dev.mjs",
+    "test": "node tests/run.mjs",
+    "test:e2e": "node tests/run.mjs --e2e",
+    "render:samples": "node --import tsx scripts/render-samples.ts",
+    "verify:samples": "node --import tsx scripts/verify-samples.ts",
+    "build:desktop": "node scripts/build-desktop.mjs",
+    "build:source-zip": "node scripts/source-zip.mjs",
+    "checksums": "node scripts/checksums.mjs",
+    "test:unit": "node tests/run.mjs",
+    "make-icon": "node --import tsx scripts/make-icon.ts",
+    "smoke": "node --import tsx scripts/smoke-windows.ts",
+    "test:ui": "node scripts/ui-smoke.mjs",
+    "report": "node --import tsx scripts/gen-validation-report.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "@types/react": "^19.0.2",
+    "@types/react-dom": "^19.0.2",
+    "electron": "^33.2.0",
+    "electron-builder": "^25.1.8",
+    "esbuild": "^0.24.0",
+    "jsdom": "^31.0.1",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  },
+  "engines": {
+    "node": ">=22.5"
+  },
+  "main": "dist-app/main.cjs",
+  "author": {
+    "name": "Nedenmiş Studio",
+    "email": "buraksungr@users.noreply.github.com"
+  },
+  "homepage": "https://github.com/buraksungr/nedenmis-2",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/buraksungr/nedenmis-2.git"
+  }
+}

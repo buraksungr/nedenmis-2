@@ -1,0 +1,188 @@
+{
+  "ok": true,
+  "file": "/home/user/nedenmis-2/data/samples-work/projects/d54fc431-8842-4579-baa7-51f13b43af06/out/d54fc431-diamond-hardness-60s.mp4",
+  "fileBytes": 5741167,
+  "durationSec": 62.334,
+  "container": "mov,mp4,m4a,3gp,3g2,mj2",
+  "video": {
+    "codec": "h264",
+    "width": 1080,
+    "height": 1920,
+    "fps": 30,
+    "framesRead": 1870,
+    "framesExpected": 1870
+  },
+  "audio": {
+    "codec": "aac",
+    "sampleRate": 48000,
+    "channels": 2,
+    "durationSec": 62.272
+  },
+  "checks": [
+    {
+      "id": "file_exists",
+      "ok": true,
+      "detail": "Dosya var: /home/user/nedenmis-2/data/samples-work/projects/d54fc431-8842-4579-baa7-51f13b43af06/out/d54fc431-diamond-hardness-60s.mp4",
+      "severity": "error"
+    },
+    {
+      "id": "file_size",
+      "ok": true,
+      "detail": "5.48 MB",
+      "severity": "error"
+    },
+    {
+      "id": "container_mp4",
+      "ok": true,
+      "detail": "mov,mp4,m4a,3gp,3g2,mj2",
+      "severity": "error"
+    },
+    {
+      "id": "video_stream",
+      "ok": true,
+      "detail": "h264 1080x1920",
+      "severity": "error"
+    },
+    {
+      "id": "video_codec_h264",
+      "ok": true,
+      "detail": "h264",
+      "severity": "error"
+    },
+    {
+      "id": "resolution_1080x1920",
+      "ok": true,
+      "detail": "1080x1920",
+      "severity": "warning"
+    },
+    {
+      "id": "fps_30",
+      "ok": true,
+      "detail": "30",
+      "severity": "error"
+    },
+    {
+      "id": "frame_count_exact",
+      "ok": true,
+      "detail": "çözülen 1870 / beklenen 1870",
+      "severity": "error"
+    },
+    {
+      "id": "duration_matches_target",
+      "ok": true,
+      "detail": "62.33 sn (hedef 60 ±%5)",
+      "severity": "error"
+    },
+    {
+      "id": "audio_stream",
+      "ok": true,
+      "detail": "aac 48000 Hz 2 kanal",
+      "severity": "error"
+    },
+    {
+      "id": "audio_codec_aac",
+      "ok": true,
+      "detail": "aac",
+      "severity": "error"
+    },
+    {
+      "id": "audio_sample_rate_48k",
+      "ok": true,
+      "detail": "48000",
+      "severity": "error"
+    },
+    {
+      "id": "av_sync",
+      "ok": true,
+      "detail": "ses 62.272 sn, video 62.334 sn, fark 62 ms",
+      "severity": "error"
+    },
+    {
+      "id": "frame_visible_diamond-hardness-s1",
+      "ok": true,
+      "detail": "t=4.72 sn, ortalama parlaklık 38.84, dağılım 30.89",
+      "severity": "error"
+    },
+    {
+      "id": "frame_visible_diamond-hardness-s2",
+      "ok": true,
+      "detail": "t=14.61 sn, ortalama parlaklık 37.99, dağılım 28.81",
+      "severity": "error"
+    },
+    {
+      "id": "frame_visible_diamond-hardness-s3",
+      "ok": true,
+      "detail": "t=25.46 sn, ortalama parlaklık 33.12, dağılım 26.1",
+      "severity": "error"
+    },
+    {
+      "id": "frame_visible_diamond-hardness-s4",
+      "ok": true,
+      "detail": "t=36.06 sn, ortalama parlaklık 36.41, dağılım 32.81",
+      "severity": "error"
+    },
+    {
+      "id": "frame_visible_diamond-hardness-s5",
+      "ok": true,
+      "detail": "t=46.93 sn, ortalama parlaklık 37.48, dağılım 26.77",
+      "severity": "error"
+    },
+    {
+      "id": "frame_visible_diamond-hardness-s6",
+      "ok": true,
+      "detail": "t=57.66 sn, ortalama parlaklık 35.84, dağılım 30.51",
+      "severity": "error"
+    }
+  ],
+  "frameSamples": [
+    {
+      "sceneId": "diamond-hardness-s1",
+      "timeSec": 4.72,
+      "meanLuma": 38.84,
+      "stdDev": 30.89,
+      "ok": true,
+      "imagePath": "/home/user/nedenmis-2/data/samples-work/projects/d54fc431-8842-4579-baa7-51f13b43af06/reports/frames/diamond-hardness-s1.jpg"
+    },
+    {
+      "sceneId": "diamond-hardness-s2",
+      "timeSec": 14.61,
+      "meanLuma": 37.99,
+      "stdDev": 28.81,
+      "ok": true,
+      "imagePath": "/home/user/nedenmis-2/data/samples-work/projects/d54fc431-8842-4579-baa7-51f13b43af06/reports/frames/diamond-hardness-s2.jpg"
+    },
+    {
+      "sceneId": "diamond-hardness-s3",
+      "timeSec": 25.46,
+      "meanLuma": 33.12,
+      "stdDev": 26.1,
+      "ok": true,
+      "imagePath": "/home/user/nedenmis-2/data/samples-work/projects/d54fc431-8842-4579-baa7-51f13b43af06/reports/frames/diamond-hardness-s3.jpg"
+    },
+    {
+      "sceneId": "diamond-hardness-s4",
+      "timeSec": 36.06,
+      "meanLuma": 36.41,
+      "stdDev": 32.81,
+      "ok": true,
+      "imagePath": "/home/user/nedenmis-2/data/samples-work/projects/d54fc431-8842-4579-baa7-51f13b43af06/reports/frames/diamond-hardness-s4.jpg"
+    },
+    {
+      "sceneId": "diamond-hardness-s5",
+      "timeSec": 46.93,
+      "meanLuma": 37.48,
+      "stdDev": 26.77,
+      "ok": true,
+      "imagePath": "/home/user/nedenmis-2/data/samples-work/projects/d54fc431-8842-4579-baa7-51f13b43af06/reports/frames/diamond-hardness-s5.jpg"
+    },
+    {
+      "sceneId": "diamond-hardness-s6",
+      "timeSec": 57.66,
+      "meanLuma": 35.84,
+      "stdDev": 30.51,
+      "ok": true,
+      "imagePath": "/home/user/nedenmis-2/data/samples-work/projects/d54fc431-8842-4579-baa7-51f13b43af06/reports/frames/diamond-hardness-s6.jpg"
+    }
+  ],
+  "avSync": 0.06200000000000472
+}

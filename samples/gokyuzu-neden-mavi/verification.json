@@ -1,0 +1,188 @@
+{
+  "ok": true,
+  "file": "/home/user/nedenmis-2/data/samples-work/projects/5fa9a768-8347-4934-820f-4203b3119477/out/5fa9a768-sky-blue-60s.mp4",
+  "fileBytes": 4559571,
+  "durationSec": 62.034,
+  "container": "mov,mp4,m4a,3gp,3g2,mj2",
+  "video": {
+    "codec": "h264",
+    "width": 1080,
+    "height": 1920,
+    "fps": 30,
+    "framesRead": 1861,
+    "framesExpected": 1861
+  },
+  "audio": {
+    "codec": "aac",
+    "sampleRate": 48000,
+    "channels": 2,
+    "durationSec": 61.973
+  },
+  "checks": [
+    {
+      "id": "file_exists",
+      "ok": true,
+      "detail": "Dosya var: /home/user/nedenmis-2/data/samples-work/projects/5fa9a768-8347-4934-820f-4203b3119477/out/5fa9a768-sky-blue-60s.mp4",
+      "severity": "error"
+    },
+    {
+      "id": "file_size",
+      "ok": true,
+      "detail": "4.35 MB",
+      "severity": "error"
+    },
+    {
+      "id": "container_mp4",
+      "ok": true,
+      "detail": "mov,mp4,m4a,3gp,3g2,mj2",
+      "severity": "error"
+    },
+    {
+      "id": "video_stream",
+      "ok": true,
+      "detail": "h264 1080x1920",
+      "severity": "error"
+    },
+    {
+      "id": "video_codec_h264",
+      "ok": true,
+      "detail": "h264",
+      "severity": "error"
+    },
+    {
+      "id": "resolution_1080x1920",
+      "ok": true,
+      "detail": "1080x1920",
+      "severity": "warning"
+    },
+    {
+      "id": "fps_30",
+      "ok": true,
+      "detail": "30",
+      "severity": "error"
+    },
+    {
+      "id": "frame_count_exact",
+      "ok": true,
+      "detail": "çözülen 1861 / beklenen 1861",
+      "severity": "error"
+    },
+    {
+      "id": "duration_matches_target",
+      "ok": true,
+      "detail": "62.03 sn (hedef 60 ±%5)",
+      "severity": "error"
+    },
+    {
+      "id": "audio_stream",
+      "ok": true,
+      "detail": "aac 48000 Hz 2 kanal",
+      "severity": "error"
+    },
+    {
+      "id": "audio_codec_aac",
+      "ok": true,
+      "detail": "aac",
+      "severity": "error"
+    },
+    {
+      "id": "audio_sample_rate_48k",
+      "ok": true,
+      "detail": "48000",
+      "severity": "error"
+    },
+    {
+      "id": "av_sync",
+      "ok": true,
+      "detail": "ses 61.973 sn, video 62.034 sn, fark 61 ms",
+      "severity": "error"
+    },
+    {
+      "id": "frame_visible_sky-blue-s1",
+      "ok": true,
+      "detail": "t=5.39 sn, ortalama parlaklık 37.47, dağılım 31.96",
+      "severity": "error"
+    },
+    {
+      "id": "frame_visible_sky-blue-s2",
+      "ok": true,
+      "detail": "t=15.35 sn, ortalama parlaklık 34, dağılım 25.77",
+      "severity": "error"
+    },
+    {
+      "id": "frame_visible_sky-blue-s3",
+      "ok": true,
+      "detail": "t=26.39 sn, ortalama parlaklık 32.45, dağılım 30.85",
+      "severity": "error"
+    },
+    {
+      "id": "frame_visible_sky-blue-s4",
+      "ok": true,
+      "detail": "t=37.28 sn, ortalama parlaklık 34.69, dağılım 28.41",
+      "severity": "error"
+    },
+    {
+      "id": "frame_visible_sky-blue-s5",
+      "ok": true,
+      "detail": "t=47.65 sn, ortalama parlaklık 34.12, dağılım 28.78",
+      "severity": "error"
+    },
+    {
+      "id": "frame_visible_sky-blue-s6",
+      "ok": true,
+      "detail": "t=57.81 sn, ortalama parlaklık 34.6, dağılım 29.97",
+      "severity": "error"
+    }
+  ],
+  "frameSamples": [
+    {
+      "sceneId": "sky-blue-s1",
+      "timeSec": 5.39,
+      "meanLuma": 37.47,
+      "stdDev": 31.96,
+      "ok": true,
+      "imagePath": "/home/user/nedenmis-2/data/samples-work/projects/5fa9a768-8347-4934-820f-4203b3119477/reports/frames/sky-blue-s1.jpg"
+    },
+    {
+      "sceneId": "sky-blue-s2",
+      "timeSec": 15.35,
+      "meanLuma": 34,
+      "stdDev": 25.77,
+      "ok": true,
+      "imagePath": "/home/user/nedenmis-2/data/samples-work/projects/5fa9a768-8347-4934-820f-4203b3119477/reports/frames/sky-blue-s2.jpg"
+    },
+    {
+      "sceneId": "sky-blue-s3",
+      "timeSec": 26.39,
+      "meanLuma": 32.45,
+      "stdDev": 30.85,
+      "ok": true,
+      "imagePath": "/home/user/nedenmis-2/data/samples-work/projects/5fa9a768-8347-4934-820f-4203b3119477/reports/frames/sky-blue-s3.jpg"
+    },
+    {
+      "sceneId": "sky-blue-s4",
+      "timeSec": 37.28,
+      "meanLuma": 34.69,
+      "stdDev": 28.41,
+      "ok": true,
+      "imagePath": "/home/user/nedenmis-2/data/samples-work/projects/5fa9a768-8347-4934-820f-4203b3119477/reports/frames/sky-blue-s4.jpg"
+    },
+    {
+      "sceneId": "sky-blue-s5",
+      "timeSec": 47.65,
+      "meanLuma": 34.12,
+      "stdDev": 28.78,
+      "ok": true,
+      "imagePath": "/home/user/nedenmis-2/data/samples-work/projects/5fa9a768-8347-4934-820f-4203b3119477/reports/frames/sky-blue-s5.jpg"
+    },
+    {
+      "sceneId": "sky-blue-s6",
+      "timeSec": 57.81,
+      "meanLuma": 34.6,
+      "stdDev": 29.97,
+      "ok": true,
+      "imagePath": "/home/user/nedenmis-2/data/samples-work/projects/5fa9a768-8347-4934-820f-4203b3119477/reports/frames/sky-blue-s6.jpg"
+    }
+  ],
+  "avSync": 0.06099999999999994
+}

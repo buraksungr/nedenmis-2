@@ -1,0 +1,356 @@
+{
+  "projectId": "b12dc57c-1bb4-4df6-a466-41d19aa198af",
+  "topic": "Denizler neden tuzlu?",
+  "cardId": "ocean-salty",
+  "status": "approved",
+  "summary": "5 sahnenin tamamı bilimsel görsel doğrulamadan geçti (4 uyarı).",
+  "errors": 0,
+  "warnings": 4,
+  "scenes": [
+    {
+      "id": "ocean-salty-s1",
+      "component": "rock_weathering",
+      "mechanism": "rock_weathering",
+      "status": "approved",
+      "score": 86,
+      "checks": [
+        {
+          "code": "V_COMPONENT_EXISTS",
+          "ok": true,
+          "message": "Görsel bileşen bulundu: Kayaç ayrışması ve iyon salınımı.",
+          "severity": "error"
+        },
+        {
+          "code": "V_DOMAIN_MATCH",
+          "ok": true,
+          "message": "Bileşen domaini (geology/earth/chemistry) konu domainiyle (earth/chemistry/geology/environment) uyumlu.",
+          "severity": "error"
+        },
+        {
+          "code": "V_MECHANISM_MATCH",
+          "ok": true,
+          "message": "Bileşen 'rock_weathering' mekanizmasını destekliyor.",
+          "severity": "error"
+        },
+        {
+          "code": "V_FORBIDDEN_CONCEPT",
+          "ok": true,
+          "message": "Yasaklı kavram içermiyor.",
+          "severity": "error"
+        },
+        {
+          "code": "V_COMPONENT_RELEVANT",
+          "ok": true,
+          "message": "Bileşen konu kavramlarıyla örtüşüyor: rock_weathering, water_cycle, water, sodium_ion, chloride_ion.",
+          "severity": "error"
+        },
+        {
+          "code": "V_CONCEPT_SCOPE",
+          "ok": true,
+          "message": "Sahne kavramları bilgi kartında tanımlı.",
+          "severity": "error"
+        },
+        {
+          "code": "V_NARRATION_VISUAL_LINK",
+          "ok": true,
+          "message": "Anlatımdaki kavramlar görselde karşılık buluyor: water_cycle.",
+          "severity": "info"
+        },
+        {
+          "code": "V_MISCONCEPTION",
+          "ok": true,
+          "message": "Anlatımda bilinen yanlış iddia yok.",
+          "severity": "error"
+        },
+        {
+          "code": "V_LABEL_FOREIGN_DOMAIN",
+          "ok": true,
+          "message": "Görsel etiketler konuyla aynı bilim alanından.",
+          "severity": "error"
+        },
+        {
+          "code": "V_LABEL_GROUNDING",
+          "ok": false,
+          "message": "Kavram sözlüğünde karşılığı olmayan etiketler: asitli, çözünen, iyonlar, tuzun, kaynağı.",
+          "severity": "warning"
+        }
+      ]
+    },
+    {
+      "id": "ocean-salty-s2",
+      "component": "river_to_sea",
+      "mechanism": "river_to_sea",
+      "status": "approved",
+      "score": 86,
+      "checks": [
+        {
+          "code": "V_COMPONENT_EXISTS",
+          "ok": true,
+          "message": "Görsel bileşen bulundu: Akarsu taşınımı: karadan denize.",
+          "severity": "error"
+        },
+        {
+          "code": "V_DOMAIN_MATCH",
+          "ok": true,
+          "message": "Bileşen domaini (earth/geology/environment) konu domainiyle (earth/chemistry/geology/environment) uyumlu.",
+          "severity": "error"
+        },
+        {
+          "code": "V_MECHANISM_MATCH",
+          "ok": true,
+          "message": "Bileşen 'river_to_sea' mekanizmasını destekliyor.",
+          "severity": "error"
+        },
+        {
+          "code": "V_FORBIDDEN_CONCEPT",
+          "ok": true,
+          "message": "Yasaklı kavram içermiyor.",
+          "severity": "error"
+        },
+        {
+          "code": "V_COMPONENT_RELEVANT",
+          "ok": true,
+          "message": "Bileşen konu kavramlarıyla örtüşüyor: river_transport, sodium_ion, chloride_ion, ocean, water_cycle.",
+          "severity": "error"
+        },
+        {
+          "code": "V_CONCEPT_SCOPE",
+          "ok": true,
+          "message": "Sahne kavramları bilgi kartında tanımlı.",
+          "severity": "error"
+        },
+        {
+          "code": "V_NARRATION_VISUAL_LINK",
+          "ok": true,
+          "message": "Anlatımdaki kavramlar görselde karşılık buluyor: river_transport.",
+          "severity": "info"
+        },
+        {
+          "code": "V_MISCONCEPTION",
+          "ok": true,
+          "message": "Anlatımda bilinen yanlış iddia yok.",
+          "severity": "error"
+        },
+        {
+          "code": "V_LABEL_FOREIGN_DOMAIN",
+          "ok": true,
+          "message": "Görsel etiketler konuyla aynı bilim alanından.",
+          "severity": "error"
+        },
+        {
+          "code": "V_LABEL_GROUNDING",
+          "ok": false,
+          "message": "Kavram sözlüğünde karşılığı olmayan etiketler: akarsular.",
+          "severity": "warning"
+        }
+      ]
+    },
+    {
+      "id": "ocean-salty-s3",
+      "component": "ion_solution",
+      "mechanism": "ion_solution",
+      "status": "approved",
+      "score": 86,
+      "checks": [
+        {
+          "code": "V_COMPONENT_EXISTS",
+          "ok": true,
+          "message": "Görsel bileşen bulundu: Çözeltide iyonlar ve hidratasyon.",
+          "severity": "error"
+        },
+        {
+          "code": "V_DOMAIN_MATCH",
+          "ok": true,
+          "message": "Bileşen domaini (chemistry/earth) konu domainiyle (earth/chemistry/geology/environment) uyumlu.",
+          "severity": "error"
+        },
+        {
+          "code": "V_MECHANISM_MATCH",
+          "ok": true,
+          "message": "Bileşen 'ion_solution' mekanizmasını destekliyor.",
+          "severity": "error"
+        },
+        {
+          "code": "V_FORBIDDEN_CONCEPT",
+          "ok": true,
+          "message": "Yasaklı kavram içermiyor.",
+          "severity": "error"
+        },
+        {
+          "code": "V_COMPONENT_RELEVANT",
+          "ok": true,
+          "message": "Bileşen konu kavramlarıyla örtüşüyor: sodium_ion, chloride_ion, ion_hydration, water, ocean.",
+          "severity": "error"
+        },
+        {
+          "code": "V_CONCEPT_SCOPE",
+          "ok": true,
+          "message": "Sahne kavramları bilgi kartında tanımlı.",
+          "severity": "error"
+        },
+        {
+          "code": "V_NARRATION_VISUAL_LINK",
+          "ok": true,
+          "message": "Anlatımdaki kavramlar görselde karşılık buluyor: ion_hydration, water.",
+          "severity": "info"
+        },
+        {
+          "code": "V_MISCONCEPTION",
+          "ok": true,
+          "message": "Anlatımda bilinen yanlış iddia yok.",
+          "severity": "error"
+        },
+        {
+          "code": "V_LABEL_FOREIGN_DOMAIN",
+          "ok": true,
+          "message": "Görsel etiketler konuyla aynı bilim alanından.",
+          "severity": "error"
+        },
+        {
+          "code": "V_LABEL_GROUNDING",
+          "ok": false,
+          "message": "Kavram sözlüğünde karşılığı olmayan etiketler: molekülü, çözünmüş, iyonlar.",
+          "severity": "warning"
+        }
+      ]
+    },
+    {
+      "id": "ocean-salty-s4",
+      "component": "evaporation_cycle",
+      "mechanism": "evaporation_cycle",
+      "status": "approved",
+      "score": 86,
+      "checks": [
+        {
+          "code": "V_COMPONENT_EXISTS",
+          "ok": true,
+          "message": "Görsel bileşen bulundu: Buharlaşma ve tuz birikimi.",
+          "severity": "error"
+        },
+        {
+          "code": "V_DOMAIN_MATCH",
+          "ok": true,
+          "message": "Bileşen domaini (earth/physics/environment) konu domainiyle (earth/chemistry/geology/environment) uyumlu.",
+          "severity": "error"
+        },
+        {
+          "code": "V_MECHANISM_MATCH",
+          "ok": true,
+          "message": "Bileşen 'evaporation_cycle' mekanizmasını destekliyor.",
+          "severity": "error"
+        },
+        {
+          "code": "V_FORBIDDEN_CONCEPT",
+          "ok": true,
+          "message": "Yasaklı kavram içermiyor.",
+          "severity": "error"
+        },
+        {
+          "code": "V_COMPONENT_RELEVANT",
+          "ok": true,
+          "message": "Bileşen konu kavramlarıyla örtüşüyor: evaporation, water_cycle, ocean, sodium_ion, chloride_ion.",
+          "severity": "error"
+        },
+        {
+          "code": "V_CONCEPT_SCOPE",
+          "ok": true,
+          "message": "Sahne kavramları bilgi kartında tanımlı.",
+          "severity": "error"
+        },
+        {
+          "code": "V_NARRATION_VISUAL_LINK",
+          "ok": true,
+          "message": "Anlatımdaki kavramlar görselde karşılık buluyor: evaporation, ocean.",
+          "severity": "info"
+        },
+        {
+          "code": "V_MISCONCEPTION",
+          "ok": true,
+          "message": "Anlatımda bilinen yanlış iddia yok.",
+          "severity": "error"
+        },
+        {
+          "code": "V_LABEL_FOREIGN_DOMAIN",
+          "ok": true,
+          "message": "Görsel etiketler konuyla aynı bilim alanından.",
+          "severity": "error"
+        },
+        {
+          "code": "V_LABEL_GROUNDING",
+          "ok": false,
+          "message": "Kavram sözlüğünde karşılığı olmayan etiketler: güneş, buharı, geride, kalır.",
+          "severity": "warning"
+        }
+      ]
+    },
+    {
+      "id": "ocean-salty-s5",
+      "component": "river_to_sea",
+      "mechanism": "river_to_sea",
+      "status": "approved",
+      "score": 100,
+      "checks": [
+        {
+          "code": "V_COMPONENT_EXISTS",
+          "ok": true,
+          "message": "Görsel bileşen bulundu: Akarsu taşınımı: karadan denize.",
+          "severity": "error"
+        },
+        {
+          "code": "V_DOMAIN_MATCH",
+          "ok": true,
+          "message": "Bileşen domaini (earth/geology/environment) konu domainiyle (earth/chemistry/geology/environment) uyumlu.",
+          "severity": "error"
+        },
+        {
+          "code": "V_MECHANISM_MATCH",
+          "ok": true,
+          "message": "Bileşen 'river_to_sea' mekanizmasını destekliyor.",
+          "severity": "error"
+        },
+        {
+          "code": "V_FORBIDDEN_CONCEPT",
+          "ok": true,
+          "message": "Yasaklı kavram içermiyor.",
+          "severity": "error"
+        },
+        {
+          "code": "V_COMPONENT_RELEVANT",
+          "ok": true,
+          "message": "Bileşen konu kavramlarıyla örtüşüyor: river_transport, sodium_ion, chloride_ion, ocean, water_cycle.",
+          "severity": "error"
+        },
+        {
+          "code": "V_CONCEPT_SCOPE",
+          "ok": true,
+          "message": "Sahne kavramları bilgi kartında tanımlı.",
+          "severity": "error"
+        },
+        {
+          "code": "V_NARRATION_VISUAL_LINK",
+          "ok": true,
+          "message": "Anlatımdaki kavramlar görselde karşılık buluyor: ocean, chloride_ion.",
+          "severity": "info"
+        },
+        {
+          "code": "V_MISCONCEPTION",
+          "ok": true,
+          "message": "Anlatımda bilinen yanlış iddia yok.",
+          "severity": "error"
+        },
+        {
+          "code": "V_LABEL_FOREIGN_DOMAIN",
+          "ok": true,
+          "message": "Görsel etiketler konuyla aynı bilim alanından.",
+          "severity": "error"
+        },
+        {
+          "code": "V_LABEL_GROUNDING",
+          "ok": true,
+          "message": "Tüm etiketler kavram sözlüğüne dayanıyor.",
+          "severity": "warning"
+        }
+      ]
+    }
+  ]
+}

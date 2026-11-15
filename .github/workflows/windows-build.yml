@@ -1,0 +1,163 @@
+name: Windows build & release
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  windows:
+    name: Windows x64 — kurulum dosyası + gerçek üretim testi
+    runs-on: windows-latest
+    timeout-minutes: 120
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Bağımlılıkları kur
+        run: npm ci
+
+      - name: Derle (core + server + ui)
+        run: npm run build
+
+      - name: Tip denetimi
+        run: npm run typecheck
+
+      - name: Birim testleri
+        run: npm test
+
+      - name: Gömülü Python + eSpeak NG hazırla
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          New-Item -ItemType Directory -Force -Path vendor\python | Out-Null
+          Invoke-WebRequest -Uri https://www.python.org/ftp/python/3.11.9/python-3.11.9-embed-amd64.zip -OutFile python-embed.zip
+          Expand-Archive -Path python-embed.zip -DestinationPath vendor\python -Force
+          # site-packages etkinleştir
+          $pth = Get-ChildItem vendor\python\python311._pth
+          (Get-Content $pth.FullName) -replace '^#import site', 'import site' | Set-Content $pth.FullName
+          Invoke-WebRequest -Uri https://bootstrap.pypa.io/get-pip.py -OutFile get-pip.py
+          & vendor\python\python.exe get-pip.py
+          & vendor\python\python.exe -m pip install --no-warn-script-location espeakng-loader
+          & vendor\python\python.exe -c "import espeakng_loader, sys; print('espeak lib:', espeakng_loader.get_library_path()); print(sys.version)"
+
+      - name: Arayüz duman testi (gerçek API + jsdom)
+        shell: pwsh
+        run: |
+          $env:NEDENMIS_DATA = "$env:RUNNER_TEMP\nedenmis-ui"
+          $srvLog = Join-Path $env:RUNNER_TEMP "api.log"
+          $srvErr = Join-Path $env:RUNNER_TEMP "api.err"
+          $srv = Start-Process -FilePath "node" -ArgumentList "packages/server/dist/index.js" -PassThru -NoNewWindow -RedirectStandardOutput $srvLog -RedirectStandardError $srvErr
+          $ok = $false
+          for ($i = 0; $i -lt 45; $i++) {
+            Start-Sleep -Seconds 1
+            if ($srv.HasExited) { break }
+            try { $r = Invoke-WebRequest -Uri http://127.0.0.1:4319/api/health -UseBasicParsing -TimeoutSec 3; if ($r.StatusCode -eq 200) { $ok = $true; break } } catch { }
+          }
+          if (-not $ok) {
+            $out = @()
+            if (Test-Path $srvLog) { $out += (Get-Content $srvLog -Raw) }
+            if (Test-Path $srvErr) { $out += (Get-Content $srvErr -Raw) }
+            $joined = ($out -join " | ") -replace "\r?\n", " | "
+            if ($joined.Length -gt 55000) { $joined = $joined.Substring($joined.Length - 55000) }
+            Write-Output "::error title=Arayüz duman testi (API başlamadı)::$joined"
+            Stop-Process -Id $srv.Id -Force -ErrorAction SilentlyContinue
+            exit 1
+          }
+          Get-Content $srvLog -ErrorAction SilentlyContinue | Select-Object -First 20
+          pwsh scripts/ci-run.ps1 -Label "Arayüz duman testi" npm run test:ui
+          $code = $LASTEXITCODE
+          Stop-Process -Id $srv.Id -Force -ErrorAction SilentlyContinue
+          exit $code
+
+      - name: Simge üret
+        run: npm run make-icon
+
+      - name: Gerçek üretim duman testi (TTS + FFmpeg + FFprobe)
+        shell: pwsh
+        env:
+          NEDENMIS_PYTHON: ${{ github.workspace }}\vendor\python\python.exe
+        run: pwsh scripts/ci-run.ps1 -Label "Üretim duman testi" npm run smoke
+
+      - name: Masaüstü paketini hazırla ve kurulum dosyasını üret
+        shell: pwsh
+        run: pwsh scripts/ci-run.ps1 -Label "NSIS kurulum dosyası" npm run build:desktop
+
+      - name: Taşınabilir zip
+        shell: pwsh
+        run: |
+          Compress-Archive -Path release\win-unpacked\* -DestinationPath release\NedenmisStudio-Portable.zip -CompressionLevel Optimal
+          Get-ChildItem release | Select-Object Name, Length
+
+      - name: Kaynak zip
+        shell: pwsh
+        run: pwsh scripts/ci-run.ps1 -Label "Kaynak zip" npm run build:source-zip
+
+      - name: SHA-256 listesi
+        shell: pwsh
+        run: pwsh scripts/ci-run.ps1 -Label "SHA-256 listesi" node scripts/checksums.mjs
+
+      - name: Örnekleri yeniden doğrula (depodaki gerçek MP4'ler)
+        run: npm run verify:samples
+
+      - name: Artefaktları yükle
+        uses: actions/upload-artifact@v4
+        with:
+          name: nedenmis-studio-windows-x64
+          path: |
+            release/NedenmisStudio-Setup.exe
+            release/NedenmisStudio-Portable.zip
+            release/NedenmisStudio-Source.zip
+            release/SHA256SUMS.txt
+            reports/smoke-windows.json
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Build özeti
+        if: always()
+        shell: pwsh
+        run: |
+          "## Nedenmiş Studio — Windows yapısı" >> $env:GITHUB_STEP_SUMMARY
+          if (Test-Path reports\smoke-windows.json) {
+            $s = Get-Content reports\smoke-windows.json -Raw | ConvertFrom-Json
+            "- Duman testi: **$($s.durationSec) sn**, $($s.frames) kare, $($s.resolution), $($s.codecs)" >> $env:GITHUB_STEP_SUMMARY
+            "- Doğrulama: **$($s.verificationOk)**" >> $env:GITHUB_STEP_SUMMARY
+            "- Ses motoru: $($s.narrationEngine)" >> $env:GITHUB_STEP_SUMMARY
+          }
+          Get-ChildItem release -ErrorAction SilentlyContinue | ForEach-Object { "- $($_.Name) — $([math]::Round($_.Length/1MB,1)) MB" >> $env:GITHUB_STEP_SUMMARY }
+
+      - name: Yayın oluştur (etiket)
+        if: startsWith(github.ref, 'refs/tags/v') && !contains(github.ref, '-')
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: pwsh
+        run: |
+          $tag = "${{ github.ref_name }}"
+          $files = @(
+            "release/NedenmisStudio-Setup.exe",
+            "release/NedenmisStudio-Portable.zip",
+            "release/NedenmisStudio-Source.zip",
+            "release/SHA256SUMS.txt",
+            "docs/release-notes.md",
+            "docs/scientific-validation.md",
+            "docs/test-report.md",
+            "samples/manifest.json",
+            "samples/verification-summary.json"
+          )
+          foreach ($f in $files) { if (-not (Test-Path $f)) { Write-Output "::error title=Yayın::Eksik dosya: $f"; exit 1 } }
+          gh release view $tag *> $null
+          if ($LASTEXITCODE -ne 0) {
+            gh release create $tag --title "Nedenmiş Studio $tag" --notes-file docs/release-notes.md
+          }
+          gh release upload $tag $files --clobber
+          Write-Output "Yayın içeriği:"
+          gh release view $tag --json tagName,isDraft,assets --jq '.tagName + " (taslak: " + (.isDraft|tostring) + ")", (.assets[] | "  " + .name + " — " + ((.size/1048576*10|round)/10|tostring) + " MB")' 

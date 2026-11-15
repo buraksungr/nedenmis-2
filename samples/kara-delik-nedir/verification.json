@@ -1,0 +1,160 @@
+{
+  "ok": true,
+  "file": "/home/user/nedenmis-2/data/samples-work/projects/37e8efcf-2ffa-40bc-965b-3243231b1da0/out/37e8efcf-black-hole-60s.mp4",
+  "fileBytes": 4088900,
+  "durationSec": 57.7,
+  "container": "mov,mp4,m4a,3gp,3g2,mj2",
+  "video": {
+    "codec": "h264",
+    "width": 1080,
+    "height": 1920,
+    "fps": 30,
+    "framesRead": 1731,
+    "framesExpected": 1731
+  },
+  "audio": {
+    "codec": "aac",
+    "sampleRate": 48000,
+    "channels": 2,
+    "durationSec": 57.642
+  },
+  "checks": [
+    {
+      "id": "file_exists",
+      "ok": true,
+      "detail": "Dosya var: /home/user/nedenmis-2/data/samples-work/projects/37e8efcf-2ffa-40bc-965b-3243231b1da0/out/37e8efcf-black-hole-60s.mp4",
+      "severity": "error"
+    },
+    {
+      "id": "file_size",
+      "ok": true,
+      "detail": "3.90 MB",
+      "severity": "error"
+    },
+    {
+      "id": "container_mp4",
+      "ok": true,
+      "detail": "mov,mp4,m4a,3gp,3g2,mj2",
+      "severity": "error"
+    },
+    {
+      "id": "video_stream",
+      "ok": true,
+      "detail": "h264 1080x1920",
+      "severity": "error"
+    },
+    {
+      "id": "video_codec_h264",
+      "ok": true,
+      "detail": "h264",
+      "severity": "error"
+    },
+    {
+      "id": "resolution_1080x1920",
+      "ok": true,
+      "detail": "1080x1920",
+      "severity": "warning"
+    },
+    {
+      "id": "fps_30",
+      "ok": true,
+      "detail": "30",
+      "severity": "error"
+    },
+    {
+      "id": "frame_count_exact",
+      "ok": true,
+      "detail": "çözülen 1731 / beklenen 1731",
+      "severity": "error"
+    },
+    {
+      "id": "duration_matches_target",
+      "ok": true,
+      "detail": "57.70 sn (hedef 60 ±%5)",
+      "severity": "error"
+    },
+    {
+      "id": "audio_stream",
+      "ok": true,
+      "detail": "aac 48000 Hz 2 kanal",
+      "severity": "error"
+    },
+    {
+      "id": "audio_codec_aac",
+      "ok": true,
+      "detail": "aac",
+      "severity": "error"
+    },
+    {
+      "id": "audio_sample_rate_48k",
+      "ok": true,
+      "detail": "48000",
+      "severity": "error"
+    },
+    {
+      "id": "av_sync",
+      "ok": true,
+      "detail": "ses 57.642 sn, video 57.700 sn, fark 58 ms",
+      "severity": "error"
+    },
+    {
+      "id": "frame_visible_black-hole-s1",
+      "ok": true,
+      "detail": "t=6.50 sn, ortalama parlaklık 26.66, dağılım 24.33",
+      "severity": "error"
+    },
+    {
+      "id": "frame_visible_black-hole-s2",
+      "ok": true,
+      "detail": "t=19.99 sn, ortalama parlaklık 22.14, dağılım 17.39",
+      "severity": "error"
+    },
+    {
+      "id": "frame_visible_black-hole-s3",
+      "ok": true,
+      "detail": "t=34.70 sn, ortalama parlaklık 27.34, dağılım 26.58",
+      "severity": "error"
+    },
+    {
+      "id": "frame_visible_black-hole-s5",
+      "ok": true,
+      "detail": "t=49.91 sn, ortalama parlaklık 23.25, dağılım 21.94",
+      "severity": "error"
+    }
+  ],
+  "frameSamples": [
+    {
+      "sceneId": "black-hole-s1",
+      "timeSec": 6.5,
+      "meanLuma": 26.66,
+      "stdDev": 24.33,
+      "ok": true,
+      "imagePath": "/home/user/nedenmis-2/data/samples-work/projects/37e8efcf-2ffa-40bc-965b-3243231b1da0/reports/frames/black-hole-s1.jpg"
+    },
+    {
+      "sceneId": "black-hole-s2",
+      "timeSec": 19.99,
+      "meanLuma": 22.14,
+      "stdDev": 17.39,
+      "ok": true,
+      "imagePath": "/home/user/nedenmis-2/data/samples-work/projects/37e8efcf-2ffa-40bc-965b-3243231b1da0/reports/frames/black-hole-s2.jpg"
+    },
+    {
+      "sceneId": "black-hole-s3",
+      "timeSec": 34.7,
+      "meanLuma": 27.34,
+      "stdDev": 26.58,
+      "ok": true,
+      "imagePath": "/home/user/nedenmis-2/data/samples-work/projects/37e8efcf-2ffa-40bc-965b-3243231b1da0/reports/frames/black-hole-s3.jpg"
+    },
+    {
+      "sceneId": "black-hole-s5",
+      "timeSec": 49.91,
+      "meanLuma": 23.25,
+      "stdDev": 21.94,
+      "ok": true,
+      "imagePath": "/home/user/nedenmis-2/data/samples-work/projects/37e8efcf-2ffa-40bc-965b-3243231b1da0/reports/frames/black-hole-s5.jpg"
+    }
+  ],
+  "avSync": 0.05799999999999983
+}

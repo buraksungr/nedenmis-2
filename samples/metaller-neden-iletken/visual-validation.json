@@ -1,0 +1,356 @@
+{
+  "projectId": "eac95835-3576-461c-a2be-9394706b00b8",
+  "topic": "Metaller neden elektriği iletir?",
+  "cardId": "metal-conduction",
+  "status": "approved",
+  "summary": "5 sahnenin tamamı bilimsel görsel doğrulamadan geçti (5 uyarı).",
+  "errors": 0,
+  "warnings": 5,
+  "scenes": [
+    {
+      "id": "metal-conduction-s1",
+      "component": "electron_sea",
+      "mechanism": "electron_sea",
+      "status": "approved",
+      "score": 86,
+      "checks": [
+        {
+          "code": "V_COMPONENT_EXISTS",
+          "ok": true,
+          "message": "Görsel bileşen bulundu: Metal örgüsü ve serbest elektron denizi.",
+          "severity": "error"
+        },
+        {
+          "code": "V_DOMAIN_MATCH",
+          "ok": true,
+          "message": "Bileşen domaini (physics/chemistry/materials) konu domainiyle (physics/chemistry/materials) uyumlu.",
+          "severity": "error"
+        },
+        {
+          "code": "V_MECHANISM_MATCH",
+          "ok": true,
+          "message": "Bileşen 'electron_sea' mekanizmasını destekliyor.",
+          "severity": "error"
+        },
+        {
+          "code": "V_FORBIDDEN_CONCEPT",
+          "ok": true,
+          "message": "Yasaklı kavram içermiyor.",
+          "severity": "error"
+        },
+        {
+          "code": "V_COMPONENT_RELEVANT",
+          "ok": true,
+          "message": "Bileşen konu kavramlarıyla örtüşüyor: metal_lattice, free_electron, atom, electron, current.",
+          "severity": "error"
+        },
+        {
+          "code": "V_CONCEPT_SCOPE",
+          "ok": true,
+          "message": "Sahne kavramları bilgi kartında tanımlı.",
+          "severity": "error"
+        },
+        {
+          "code": "V_NARRATION_VISUAL_LINK",
+          "ok": true,
+          "message": "Anlatımdaki kavramlar görselde karşılık buluyor: metal_lattice, atom.",
+          "severity": "info"
+        },
+        {
+          "code": "V_MISCONCEPTION",
+          "ok": true,
+          "message": "Anlatımda bilinen yanlış iddia yok.",
+          "severity": "error"
+        },
+        {
+          "code": "V_LABEL_FOREIGN_DOMAIN",
+          "ok": true,
+          "message": "Görsel etiketler konuyla aynı bilim alanından.",
+          "severity": "error"
+        },
+        {
+          "code": "V_LABEL_GROUNDING",
+          "ok": false,
+          "message": "Kavram sözlüğünde karşılığı olmayan etiketler: iyonu.",
+          "severity": "warning"
+        }
+      ]
+    },
+    {
+      "id": "metal-conduction-s2",
+      "component": "electron_drift",
+      "mechanism": "electron_drift",
+      "status": "approved",
+      "score": 86,
+      "checks": [
+        {
+          "code": "V_COMPONENT_EXISTS",
+          "ok": true,
+          "message": "Görsel bileşen bulundu: Elektrik alanı ve elektron sürüklenmesi.",
+          "severity": "error"
+        },
+        {
+          "code": "V_DOMAIN_MATCH",
+          "ok": true,
+          "message": "Bileşen domaini (physics/technology) konu domainiyle (physics/chemistry/materials) uyumlu.",
+          "severity": "error"
+        },
+        {
+          "code": "V_MECHANISM_MATCH",
+          "ok": true,
+          "message": "Bileşen 'electron_drift' mekanizmasını destekliyor.",
+          "severity": "error"
+        },
+        {
+          "code": "V_FORBIDDEN_CONCEPT",
+          "ok": true,
+          "message": "Yasaklı kavram içermiyor.",
+          "severity": "error"
+        },
+        {
+          "code": "V_COMPONENT_RELEVANT",
+          "ok": true,
+          "message": "Bileşen konu kavramlarıyla örtüşüyor: electric_field, drift_velocity, current, free_electron, electron.",
+          "severity": "error"
+        },
+        {
+          "code": "V_CONCEPT_SCOPE",
+          "ok": true,
+          "message": "Sahne kavramları bilgi kartında tanımlı.",
+          "severity": "error"
+        },
+        {
+          "code": "V_NARRATION_VISUAL_LINK",
+          "ok": true,
+          "message": "Anlatımdaki kavramlar görselde karşılık buluyor: electric_field, drift_velocity, current, free_electron.",
+          "severity": "info"
+        },
+        {
+          "code": "V_MISCONCEPTION",
+          "ok": true,
+          "message": "Anlatımda bilinen yanlış iddia yok.",
+          "severity": "error"
+        },
+        {
+          "code": "V_LABEL_FOREIGN_DOMAIN",
+          "ok": true,
+          "message": "Görsel etiketler konuyla aynı bilim alanından.",
+          "severity": "error"
+        },
+        {
+          "code": "V_LABEL_GROUNDING",
+          "ok": false,
+          "message": "Kavram sözlüğünde karşılığı olmayan etiketler: pil.",
+          "severity": "warning"
+        }
+      ]
+    },
+    {
+      "id": "metal-conduction-s3",
+      "component": "resistance_heat",
+      "mechanism": "resistance_heat",
+      "status": "approved",
+      "score": 86,
+      "checks": [
+        {
+          "code": "V_COMPONENT_EXISTS",
+          "ok": true,
+          "message": "Görsel bileşen bulundu: Direnç: çarpışmalar ve ısınma.",
+          "severity": "error"
+        },
+        {
+          "code": "V_DOMAIN_MATCH",
+          "ok": true,
+          "message": "Bileşen domaini (physics/engineering) konu domainiyle (physics/chemistry/materials) uyumlu.",
+          "severity": "error"
+        },
+        {
+          "code": "V_MECHANISM_MATCH",
+          "ok": true,
+          "message": "Bileşen 'resistance_heat' mekanizmasını destekliyor.",
+          "severity": "error"
+        },
+        {
+          "code": "V_FORBIDDEN_CONCEPT",
+          "ok": true,
+          "message": "Yasaklı kavram içermiyor.",
+          "severity": "error"
+        },
+        {
+          "code": "V_COMPONENT_RELEVANT",
+          "ok": true,
+          "message": "Bileşen konu kavramlarıyla örtüşüyor: collision_scattering, metal_lattice, drift_velocity, current, electron.",
+          "severity": "error"
+        },
+        {
+          "code": "V_CONCEPT_SCOPE",
+          "ok": true,
+          "message": "Sahne kavramları bilgi kartında tanımlı.",
+          "severity": "error"
+        },
+        {
+          "code": "V_NARRATION_VISUAL_LINK",
+          "ok": true,
+          "message": "Anlatımdaki kavramlar görselde karşılık buluyor: collision_scattering.",
+          "severity": "info"
+        },
+        {
+          "code": "V_MISCONCEPTION",
+          "ok": true,
+          "message": "Anlatımda bilinen yanlış iddia yok.",
+          "severity": "error"
+        },
+        {
+          "code": "V_LABEL_FOREIGN_DOMAIN",
+          "ok": true,
+          "message": "Görsel etiketler konuyla aynı bilim alanından.",
+          "severity": "error"
+        },
+        {
+          "code": "V_LABEL_GROUNDING",
+          "ok": false,
+          "message": "Kavram sözlüğünde karşılığı olmayan etiketler: ısı, iyon.",
+          "severity": "warning"
+        }
+      ]
+    },
+    {
+      "id": "metal-conduction-s4",
+      "component": "insulator_compare",
+      "mechanism": "insulator_compare",
+      "status": "approved",
+      "score": 86,
+      "checks": [
+        {
+          "code": "V_COMPONENT_EXISTS",
+          "ok": true,
+          "message": "Görsel bileşen bulundu: İletken ve yalıtkan karşılaştırması.",
+          "severity": "error"
+        },
+        {
+          "code": "V_DOMAIN_MATCH",
+          "ok": true,
+          "message": "Bileşen domaini (physics/materials/engineering) konu domainiyle (physics/chemistry/materials) uyumlu.",
+          "severity": "error"
+        },
+        {
+          "code": "V_MECHANISM_MATCH",
+          "ok": true,
+          "message": "Bileşen 'insulator_compare' mekanizmasını destekliyor.",
+          "severity": "error"
+        },
+        {
+          "code": "V_FORBIDDEN_CONCEPT",
+          "ok": true,
+          "message": "Yasaklı kavram içermiyor.",
+          "severity": "error"
+        },
+        {
+          "code": "V_COMPONENT_RELEVANT",
+          "ok": true,
+          "message": "Bileşen konu kavramlarıyla örtüşüyor: insulator, electron, current, metal_lattice, electric_field.",
+          "severity": "error"
+        },
+        {
+          "code": "V_CONCEPT_SCOPE",
+          "ok": true,
+          "message": "Sahne kavramları bilgi kartında tanımlı.",
+          "severity": "error"
+        },
+        {
+          "code": "V_NARRATION_VISUAL_LINK",
+          "ok": true,
+          "message": "Anlatımdaki kavramlar görselde karşılık buluyor: insulator, electron, current.",
+          "severity": "info"
+        },
+        {
+          "code": "V_MISCONCEPTION",
+          "ok": true,
+          "message": "Anlatımda bilinen yanlış iddia yok.",
+          "severity": "error"
+        },
+        {
+          "code": "V_LABEL_FOREIGN_DOMAIN",
+          "ok": true,
+          "message": "Görsel etiketler konuyla aynı bilim alanından.",
+          "severity": "error"
+        },
+        {
+          "code": "V_LABEL_GROUNDING",
+          "ok": false,
+          "message": "Kavram sözlüğünde karşılığı olmayan etiketler: iletken, yalıtkanlar.",
+          "severity": "warning"
+        }
+      ]
+    },
+    {
+      "id": "metal-conduction-s5",
+      "component": "electron_drift",
+      "mechanism": "electron_drift",
+      "status": "approved",
+      "score": 86,
+      "checks": [
+        {
+          "code": "V_COMPONENT_EXISTS",
+          "ok": true,
+          "message": "Görsel bileşen bulundu: Elektrik alanı ve elektron sürüklenmesi.",
+          "severity": "error"
+        },
+        {
+          "code": "V_DOMAIN_MATCH",
+          "ok": true,
+          "message": "Bileşen domaini (physics/technology) konu domainiyle (physics/chemistry/materials) uyumlu.",
+          "severity": "error"
+        },
+        {
+          "code": "V_MECHANISM_MATCH",
+          "ok": true,
+          "message": "Bileşen 'electron_drift' mekanizmasını destekliyor.",
+          "severity": "error"
+        },
+        {
+          "code": "V_FORBIDDEN_CONCEPT",
+          "ok": true,
+          "message": "Yasaklı kavram içermiyor.",
+          "severity": "error"
+        },
+        {
+          "code": "V_COMPONENT_RELEVANT",
+          "ok": true,
+          "message": "Bileşen konu kavramlarıyla örtüşüyor: electric_field, drift_velocity, current, free_electron, electron.",
+          "severity": "error"
+        },
+        {
+          "code": "V_CONCEPT_SCOPE",
+          "ok": true,
+          "message": "Sahne kavramları bilgi kartında tanımlı.",
+          "severity": "error"
+        },
+        {
+          "code": "V_NARRATION_VISUAL_LINK",
+          "ok": true,
+          "message": "Anlatımdaki kavramlar görselde karşılık buluyor: free_electron.",
+          "severity": "info"
+        },
+        {
+          "code": "V_MISCONCEPTION",
+          "ok": true,
+          "message": "Anlatımda bilinen yanlış iddia yok.",
+          "severity": "error"
+        },
+        {
+          "code": "V_LABEL_FOREIGN_DOMAIN",
+          "ok": true,
+          "message": "Görsel etiketler konuyla aynı bilim alanından.",
+          "severity": "error"
+        },
+        {
+          "code": "V_LABEL_GROUNDING",
+          "ok": false,
+          "message": "Kavram sözlüğünde karşılığı olmayan etiketler: pil.",
+          "severity": "warning"
+        }
+      ]
+    }
+  ]
+}

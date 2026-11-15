@@ -1,0 +1,127 @@
+{
+  "at": "2026-11-15T00:42:22.213Z",
+  "ffprobe": "/home/user/nedenmis-2/node_modules/@ffprobe-installer/linux-x64/ffprobe",
+  "failures": 0,
+  "samples": [
+    {
+      "slug": "elmas-neden-kirilmaz",
+      "file": "samples/elmas-neden-kirilmaz/elmas-neden-kirilmaz-60s.mp4",
+      "durationSec": 62.334,
+      "targetDurationSec": 60,
+      "deviationPct": 3.89,
+      "frames": 1870,
+      "expectedFrames": 1870,
+      "resolution": "1080x1920",
+      "video": "h264",
+      "audio": "aac@48000",
+      "checks": {
+        "duration_tolerance": true,
+        "resolution_1080x1920": true,
+        "codec_h264": true,
+        "audio_aac_48k": true,
+        "frames_exact": true
+      },
+      "ok": true
+    },
+    {
+      "slug": "gokyuzu-neden-mavi",
+      "file": "samples/gokyuzu-neden-mavi/gokyuzu-neden-mavi-60s.mp4",
+      "durationSec": 62.034,
+      "targetDurationSec": 60,
+      "deviationPct": 3.39,
+      "frames": 1861,
+      "expectedFrames": 1861,
+      "resolution": "1080x1920",
+      "video": "h264",
+      "audio": "aac@48000",
+      "checks": {
+        "duration_tolerance": true,
+        "resolution_1080x1920": true,
+        "codec_h264": true,
+        "audio_aac_48k": true,
+        "frames_exact": true
+      },
+      "ok": true
+    },
+    {
+      "slug": "denizler-neden-tuzlu",
+      "file": "samples/denizler-neden-tuzlu/denizler-neden-tuzlu-60s.mp4",
+      "durationSec": 62.267,
+      "targetDurationSec": 60,
+      "deviationPct": 3.78,
+      "frames": 1868,
+      "expectedFrames": 1868,
+      "resolution": "1080x1920",
+      "video": "h264",
+      "audio": "aac@48000",
+      "checks": {
+        "duration_tolerance": true,
+        "resolution_1080x1920": true,
+        "codec_h264": true,
+        "audio_aac_48k": true,
+        "frames_exact": true
+      },
+      "ok": true
+    },
+    {
+      "slug": "kara-delik-nedir",
+      "file": "samples/kara-delik-nedir/kara-delik-nedir-60s.mp4",
+      "durationSec": 57.7,
+      "targetDurationSec": 60,
+      "deviationPct": -3.83,
+      "frames": 1731,
+      "expectedFrames": 1731,
+      "resolution": "1080x1920",
+      "video": "h264",
+      "audio": "aac@48000",
+      "checks": {
+        "duration_tolerance": true,
+        "resolution_1080x1920": true,
+        "codec_h264": true,
+        "audio_aac_48k": true,
+        "frames_exact": true
+      },
+      "ok": true
+    },
+    {
+      "slug": "metaller-neden-iletken",
+      "file": "samples/metaller-neden-iletken/metaller-neden-iletken-60s.mp4",
+      "durationSec": 62.734,
+      "targetDurationSec": 60,
+      "deviationPct": 4.56,
+      "frames": 1882,
+      "expectedFrames": 1882,
+      "resolution": "1080x1920",
+      "video": "h264",
+      "audio": "aac@48000",
+      "checks": {
+        "duration_tolerance": true,
+        "resolution_1080x1920": true,
+        "codec_h264": true,
+        "audio_aac_48k": true,
+        "frames_exact": true
+      },
+      "ok": true
+    },
+    {
+      "slug": "mitokondri-neden-onemli",
+      "file": "samples/mitokondri-neden-onemli/mitokondri-neden-onemli-60s.mp4",
+      "durationSec": 62,
+      "targetDurationSec": 60,
+      "deviationPct": 3.33,
+      "frames": 1860,
+      "expectedFrames": 1860,
+      "resolution": "1080x1920",
+      "video": "h264",
+      "audio": "aac@48000",
+      "checks": {
+        "duration_tolerance": true,
+        "resolution_1080x1920": true,
+        "codec_h264": true,
+        "audio_aac_48k": true,
+        "frames_exact": true
+      },
+      "ok": true
+    }
+  ]
+}

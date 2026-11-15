@@ -1,0 +1,430 @@
+[
+  {
+    "slug": "elmas-neden-kirilmaz",
+    "topic": "Elmas neden kolay kırılmaz?",
+    "title": "Elmas neden kolay kırılmaz?",
+    "cardId": "diamond-hardness",
+    "targetDurationSec": 60,
+    "durationSec": 62.334,
+    "frames": 1870,
+    "fps": 30,
+    "resolution": "1080x1920",
+    "videoCodec": "h264",
+    "audioCodec": "aac",
+    "audioSampleRate": 48000,
+    "videoPath": "samples/elmas-neden-kirilmaz/elmas-neden-kirilmaz-60s.mp4",
+    "subtitlePath": "samples/elmas-neden-kirilmaz/elmas-neden-kirilmaz.srt",
+    "posterPath": "samples/elmas-neden-kirilmaz/poster.png",
+    "verificationPath": "samples/elmas-neden-kirilmaz/verification.json",
+    "validationPath": "samples/elmas-neden-kirilmaz/visual-validation.json",
+    "sha256": "11d57c8caad451bc1308245f2e9f0eb598e583a36974567ecb04209d00bb2d8f",
+    "bytes": 5741167,
+    "verificationOk": true,
+    "failedChecks": [],
+    "scenes": [
+      {
+        "id": "diamond-hardness-s1",
+        "component": "crystal_lattice",
+        "mechanism": "crystal_lattice",
+        "status": "approved",
+        "score": 86
+      },
+      {
+        "id": "diamond-hardness-s2",
+        "component": "bond_network",
+        "mechanism": "bond_network",
+        "status": "approved",
+        "score": 100
+      },
+      {
+        "id": "diamond-hardness-s3",
+        "component": "hardness_measure",
+        "mechanism": "hardness_measure",
+        "status": "approved",
+        "score": 86
+      },
+      {
+        "id": "diamond-hardness-s4",
+        "component": "brittleness_compare",
+        "mechanism": "brittleness_compare",
+        "status": "approved",
+        "score": 100
+      },
+      {
+        "id": "diamond-hardness-s5",
+        "component": "cleavage_fracture",
+        "mechanism": "cleavage_fracture",
+        "status": "approved",
+        "score": 100
+      },
+      {
+        "id": "diamond-hardness-s6",
+        "component": "brittleness_compare",
+        "mechanism": "hardness_compare_summary",
+        "status": "approved",
+        "score": 86
+      }
+    ],
+    "narrationEngine": "espeak",
+    "narrationNote": "Bu örnekte eSpeak NG (çevrimdışı, robotik) kullanıldı; Chatterbox Multilingual adaptörü ürün içinde mevcut ancak bu derleme ortamında model ağırlıkları indirilemediği için doğrulanamadı.",
+    "renderSeconds": 415.2,
+    "generatedAt": "2026-11-14T21:40:56.682Z"
+  },
+  {
+    "slug": "gokyuzu-neden-mavi",
+    "topic": "Gökyüzü neden mavi?",
+    "title": "Gökyüzü neden mavi?",
+    "cardId": "sky-blue",
+    "targetDurationSec": 60,
+    "durationSec": 62.034,
+    "frames": 1861,
+    "fps": 30,
+    "resolution": "1080x1920",
+    "videoCodec": "h264",
+    "audioCodec": "aac",
+    "audioSampleRate": 48000,
+    "videoPath": "samples/gokyuzu-neden-mavi/gokyuzu-neden-mavi-60s.mp4",
+    "subtitlePath": "samples/gokyuzu-neden-mavi/gokyuzu-neden-mavi.srt",
+    "posterPath": "samples/gokyuzu-neden-mavi/poster.png",
+    "verificationPath": "samples/gokyuzu-neden-mavi/verification.json",
+    "validationPath": "samples/gokyuzu-neden-mavi/visual-validation.json",
+    "sha256": "aa2f7e89fa59224f6c416fd1822f4b65a802cf92f97f00ba78df0ac9b6748693",
+    "bytes": 4559571,
+    "verificationOk": true,
+    "failedChecks": [],
+    "scenes": [
+      {
+        "id": "sky-blue-s1",
+        "component": "spectrum_split",
+        "mechanism": "spectrum_split",
+        "status": "approved",
+        "score": 86
+      },
+      {
+        "id": "sky-blue-s2",
+        "component": "rayleigh_scattering",
+        "mechanism": "rayleigh_scattering",
+        "status": "approved",
+        "score": 86
+      },
+      {
+        "id": "sky-blue-s3",
+        "component": "wavelength_scale",
+        "mechanism": "wavelength_scale",
+        "status": "approved",
+        "score": 86
+      },
+      {
+        "id": "sky-blue-s4",
+        "component": "rayleigh_scattering",
+        "mechanism": "sky_dome_view",
+        "status": "approved",
+        "score": 86
+      },
+      {
+        "id": "sky-blue-s5",
+        "component": "atmosphere_path",
+        "mechanism": "atmosphere_path",
+        "status": "approved",
+        "score": 86
+      },
+      {
+        "id": "sky-blue-s6",
+        "component": "atmosphere_path",
+        "mechanism": "atmosphere_path",
+        "status": "approved",
+        "score": 86
+      }
+    ],
+    "narrationEngine": "espeak",
+    "narrationNote": "Bu örnekte eSpeak NG (çevrimdışı, robotik) kullanıldı; Chatterbox Multilingual adaptörü ürün içinde mevcut ancak bu derleme ortamında model ağırlıkları indirilemediği için doğrulanamadı.",
+    "renderSeconds": 520,
+    "generatedAt": "2026-11-14T23:43:42.715Z"
+  },
+  {
+    "slug": "denizler-neden-tuzlu",
+    "topic": "Denizler neden tuzlu?",
+    "title": "Denizler neden tuzlu?",
+    "cardId": "ocean-salty",
+    "targetDurationSec": 60,
+    "durationSec": 62.267,
+    "frames": 1868,
+    "fps": 30,
+    "resolution": "1080x1920",
+    "videoCodec": "h264",
+    "audioCodec": "aac",
+    "audioSampleRate": 48000,
+    "videoPath": "samples/denizler-neden-tuzlu/denizler-neden-tuzlu-60s.mp4",
+    "subtitlePath": "samples/denizler-neden-tuzlu/denizler-neden-tuzlu.srt",
+    "posterPath": "samples/denizler-neden-tuzlu/poster.png",
+    "verificationPath": "samples/denizler-neden-tuzlu/verification.json",
+    "validationPath": "samples/denizler-neden-tuzlu/visual-validation.json",
+    "sha256": "91cfeb016756750d26b5adde9bd3d1b29f8de815620e74614ae5f505213e1bc1",
+    "bytes": 4852747,
+    "verificationOk": true,
+    "failedChecks": [],
+    "scenes": [
+      {
+        "id": "ocean-salty-s1",
+        "component": "rock_weathering",
+        "mechanism": "rock_weathering",
+        "status": "approved",
+        "score": 86
+      },
+      {
+        "id": "ocean-salty-s2",
+        "component": "river_to_sea",
+        "mechanism": "river_to_sea",
+        "status": "approved",
+        "score": 86
+      },
+      {
+        "id": "ocean-salty-s3",
+        "component": "ion_solution",
+        "mechanism": "ion_solution",
+        "status": "approved",
+        "score": 86
+      },
+      {
+        "id": "ocean-salty-s4",
+        "component": "evaporation_cycle",
+        "mechanism": "evaporation_cycle",
+        "status": "approved",
+        "score": 86
+      },
+      {
+        "id": "ocean-salty-s5",
+        "component": "river_to_sea",
+        "mechanism": "river_to_sea",
+        "status": "approved",
+        "score": 100
+      }
+    ],
+    "narrationEngine": "espeak",
+    "narrationNote": "Bu örnekte eSpeak NG (çevrimdışı, robotik) kullanıldı; Chatterbox Multilingual adaptörü ürün içinde mevcut ancak bu derleme ortamında model ağırlıkları indirilemediği için doğrulanamadı.",
+    "renderSeconds": 322.6,
+    "generatedAt": "2026-11-14T23:49:05.315Z"
+  },
+  {
+    "slug": "kara-delik-nedir",
+    "topic": "Kara delik nedir?",
+    "title": "Kara delikler nasıl çalışır?",
+    "cardId": "black-hole",
+    "targetDurationSec": 60,
+    "durationSec": 57.7,
+    "frames": 1731,
+    "fps": 30,
+    "resolution": "1080x1920",
+    "videoCodec": "h264",
+    "audioCodec": "aac",
+    "audioSampleRate": 48000,
+    "videoPath": "samples/kara-delik-nedir/kara-delik-nedir-60s.mp4",
+    "subtitlePath": "samples/kara-delik-nedir/kara-delik-nedir.srt",
+    "posterPath": "samples/kara-delik-nedir/poster.png",
+    "verificationPath": "samples/kara-delik-nedir/verification.json",
+    "validationPath": "samples/kara-delik-nedir/visual-validation.json",
+    "sha256": "d7228a54359691ec49251464d59c0d0a5f8325a26b5d213b191c6fd11f4dea2c",
+    "bytes": 4088900,
+    "verificationOk": true,
+    "failedChecks": [],
+    "scenes": [
+      {
+        "id": "black-hole-s1",
+        "component": "spacetime_grid",
+        "mechanism": "spacetime_grid",
+        "status": "approved",
+        "score": 86,
+        "durationSec": 13.49,
+        "speechDurationSec": 11.01
+      },
+      {
+        "id": "black-hole-s2",
+        "component": "event_horizon",
+        "mechanism": "event_horizon",
+        "status": "approved",
+        "score": 86,
+        "durationSec": 14.71,
+        "speechDurationSec": 12.23
+      },
+      {
+        "id": "black-hole-s3",
+        "component": "accretion_disk",
+        "mechanism": "accretion_disk",
+        "status": "approved",
+        "score": 86,
+        "durationSec": 15.2,
+        "speechDurationSec": 12.72
+      },
+      {
+        "id": "black-hole-s5",
+        "component": "event_horizon",
+        "mechanism": "event_horizon",
+        "status": "approved",
+        "score": 86,
+        "durationSec": 14.29,
+        "speechDurationSec": 11.82
+      }
+    ],
+    "narrationEngine": "espeak",
+    "narrationNote": "Bu örnekte eSpeak NG (çevrimdışı, robotik) kullanıldı; Chatterbox Multilingual adaptörü ürün içinde mevcut ancak bu derleme ortamında model ağırlıkları indirilemediği için doğrulanamadı.",
+    "renderSeconds": 683.1,
+    "generatedAt": "2026-11-15T00:22:23.046Z"
+  },
+  {
+    "slug": "metaller-neden-iletken",
+    "topic": "Metaller neden elektriği iletir?",
+    "title": "Metaller elektriği neden iletir?",
+    "cardId": "metal-conduction",
+    "targetDurationSec": 60,
+    "durationSec": 62.734,
+    "frames": 1882,
+    "fps": 30,
+    "resolution": "1080x1920",
+    "videoCodec": "h264",
+    "audioCodec": "aac",
+    "audioSampleRate": 48000,
+    "videoPath": "samples/metaller-neden-iletken/metaller-neden-iletken-60s.mp4",
+    "subtitlePath": "samples/metaller-neden-iletken/metaller-neden-iletken.srt",
+    "posterPath": "samples/metaller-neden-iletken/poster.png",
+    "verificationPath": "samples/metaller-neden-iletken/verification.json",
+    "validationPath": "samples/metaller-neden-iletken/visual-validation.json",
+    "sha256": "75a83fbb725279ceda412128fdcbf1679de0dd32c35d332d14301a54b6df7187",
+    "bytes": 5325491,
+    "verificationOk": true,
+    "failedChecks": [],
+    "scenes": [
+      {
+        "id": "metal-conduction-s1",
+        "component": "electron_sea",
+        "mechanism": "electron_sea",
+        "status": "approved",
+        "score": 86,
+        "durationSec": 13.88,
+        "speechDurationSec": 12.96
+      },
+      {
+        "id": "metal-conduction-s2",
+        "component": "electron_drift",
+        "mechanism": "electron_drift",
+        "status": "approved",
+        "score": 86,
+        "durationSec": 13.62,
+        "speechDurationSec": 12.7
+      },
+      {
+        "id": "metal-conduction-s3",
+        "component": "resistance_heat",
+        "mechanism": "resistance_heat",
+        "status": "approved",
+        "score": 86,
+        "durationSec": 12.6,
+        "speechDurationSec": 11.68
+      },
+      {
+        "id": "metal-conduction-s4",
+        "component": "insulator_compare",
+        "mechanism": "insulator_compare",
+        "status": "approved",
+        "score": 86,
+        "durationSec": 12.01,
+        "speechDurationSec": 11.09
+      },
+      {
+        "id": "metal-conduction-s5",
+        "component": "electron_drift",
+        "mechanism": "electron_drift",
+        "status": "approved",
+        "score": 86,
+        "durationSec": 10.63,
+        "speechDurationSec": 9.71
+      }
+    ],
+    "narrationEngine": "espeak",
+    "narrationNote": "Bu örnekte eSpeak NG (çevrimdışı, robotik) kullanıldı; Chatterbox Multilingual adaptörü ürün içinde mevcut ancak bu derleme ortamında model ağırlıkları indirilemediği için doğrulanamadı.",
+    "renderSeconds": 496,
+    "generatedAt": "2026-11-15T00:30:39.091Z"
+  },
+  {
+    "slug": "mitokondri-neden-onemli",
+    "topic": "Mitokondri neden önemli?",
+    "title": "Mitokondri nasıl enerji üretir?",
+    "cardId": "mitochondria-atp",
+    "targetDurationSec": 60,
+    "durationSec": 62,
+    "frames": 1860,
+    "fps": 30,
+    "resolution": "1080x1920",
+    "videoCodec": "h264",
+    "audioCodec": "aac",
+    "audioSampleRate": 48000,
+    "videoPath": "samples/mitokondri-neden-onemli/mitokondri-neden-onemli-60s.mp4",
+    "subtitlePath": "samples/mitokondri-neden-onemli/mitokondri-neden-onemli.srt",
+    "posterPath": "samples/mitokondri-neden-onemli/poster.png",
+    "verificationPath": "samples/mitokondri-neden-onemli/verification.json",
+    "validationPath": "samples/mitokondri-neden-onemli/visual-validation.json",
+    "sha256": "e7f4252341d8110b7b9d235010e1afcd97dfe5fafe20ac45e2f596688e9b6043",
+    "bytes": 4844854,
+    "verificationOk": true,
+    "failedChecks": [],
+    "scenes": [
+      {
+        "id": "mitochondria-atp-s1",
+        "component": "cell_section",
+        "mechanism": "cell_section",
+        "status": "approved",
+        "score": 86,
+        "durationSec": 10.7,
+        "speechDurationSec": 10.03
+      },
+      {
+        "id": "mitochondria-atp-s2",
+        "component": "mitochondrion_cross",
+        "mechanism": "mitochondrion_cross",
+        "status": "approved",
+        "score": 86,
+        "durationSec": 10.93,
+        "speechDurationSec": 10.26
+      },
+      {
+        "id": "mitochondria-atp-s3",
+        "component": "proton_gradient",
+        "mechanism": "proton_gradient",
+        "status": "approved",
+        "score": 86,
+        "durationSec": 10.89,
+        "speechDurationSec": 10.22
+      },
+      {
+        "id": "mitochondria-atp-s4",
+        "component": "atp_synthase_rotor",
+        "mechanism": "atp_synthase_rotor",
+        "status": "approved",
+        "score": 100,
+        "durationSec": 9.33,
+        "speechDurationSec": 8.66
+      },
+      {
+        "id": "mitochondria-atp-s5",
+        "component": "metabolism_summary",
+        "mechanism": "metabolism_summary",
+        "status": "approved",
+        "score": 86,
+        "durationSec": 11.07,
+        "speechDurationSec": 10.4
+      },
+      {
+        "id": "mitochondria-atp-s6",
+        "component": "atp_synthase_rotor",
+        "mechanism": "atp_synthase_rotor",
+        "status": "approved",
+        "score": 86,
+        "durationSec": 9.09,
+        "speechDurationSec": 8.42
+      }
+    ],
+    "narrationEngine": "espeak",
+    "narrationNote": "Bu örnekte eSpeak NG (çevrimdışı, robotik) kullanıldı; Chatterbox Multilingual adaptörü ürün içinde mevcut ancak bu derleme ortamında model ağırlıkları indirilemediği için doğrulanamadı.",
+    "renderSeconds": 510.3,
+    "generatedAt": "2026-11-15T00:39:09.418Z"
+  }
+]

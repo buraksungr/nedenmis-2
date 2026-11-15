@@ -1,0 +1,49 @@
+appId: com.nedenmis.studio
+productName: Nedenmiş Studio
+copyright: "© 2026 Nedenmiş Studio"
+
+directories:
+  output: release
+  buildResources: build
+
+asar: false
+
+files:
+  - dist-app/**
+  - package.json
+
+extraResources:
+  - from: assets/fonts
+    to: fonts
+  - from: packages/core/scripts
+    to: scripts
+  - from: vendor/bin
+    to: bin
+  - from: vendor/python
+    to: python
+  - from: LICENSE
+    to: LICENSES.txt
+
+win:
+  icon: build/icon.ico
+  target:
+    - target: nsis
+      arch:
+        - x64
+  artifactName: NedenmisStudio-Setup.${ext}
+  requestedExecutionLevel: asInvoker
+
+nsis:
+  oneClick: false
+  perMachine: false
+  allowElevation: true
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: Nedenmiş Studio
+  uninstallDisplayName: Nedenmiş Studio
+  deleteAppDataOnUninstall: false
+  runAfterFinish: true
+
+npmRebuild: false
+buildDependenciesFromSource: false

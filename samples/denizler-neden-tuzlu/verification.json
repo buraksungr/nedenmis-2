@@ -1,0 +1,174 @@
+{
+  "ok": true,
+  "file": "/home/user/nedenmis-2/data/samples-work/projects/b12dc57c-1bb4-4df6-a466-41d19aa198af/out/b12dc57c-ocean-salty-60s.mp4",
+  "fileBytes": 4852747,
+  "durationSec": 62.267,
+  "container": "mov,mp4,m4a,3gp,3g2,mj2",
+  "video": {
+    "codec": "h264",
+    "width": 1080,
+    "height": 1920,
+    "fps": 30,
+    "framesRead": 1868,
+    "framesExpected": 1868
+  },
+  "audio": {
+    "codec": "aac",
+    "sampleRate": 48000,
+    "channels": 2,
+    "durationSec": 62.208
+  },
+  "checks": [
+    {
+      "id": "file_exists",
+      "ok": true,
+      "detail": "Dosya var: /home/user/nedenmis-2/data/samples-work/projects/b12dc57c-1bb4-4df6-a466-41d19aa198af/out/b12dc57c-ocean-salty-60s.mp4",
+      "severity": "error"
+    },
+    {
+      "id": "file_size",
+      "ok": true,
+      "detail": "4.63 MB",
+      "severity": "error"
+    },
+    {
+      "id": "container_mp4",
+      "ok": true,
+      "detail": "mov,mp4,m4a,3gp,3g2,mj2",
+      "severity": "error"
+    },
+    {
+      "id": "video_stream",
+      "ok": true,
+      "detail": "h264 1080x1920",
+      "severity": "error"
+    },
+    {
+      "id": "video_codec_h264",
+      "ok": true,
+      "detail": "h264",
+      "severity": "error"
+    },
+    {
+      "id": "resolution_1080x1920",
+      "ok": true,
+      "detail": "1080x1920",
+      "severity": "warning"
+    },
+    {
+      "id": "fps_30",
+      "ok": true,
+      "detail": "30",
+      "severity": "error"
+    },
+    {
+      "id": "frame_count_exact",
+      "ok": true,
+      "detail": "çözülen 1868 / beklenen 1868",
+      "severity": "error"
+    },
+    {
+      "id": "duration_matches_target",
+      "ok": true,
+      "detail": "62.27 sn (hedef 60 ±%5)",
+      "severity": "error"
+    },
+    {
+      "id": "audio_stream",
+      "ok": true,
+      "detail": "aac 48000 Hz 2 kanal",
+      "severity": "error"
+    },
+    {
+      "id": "audio_codec_aac",
+      "ok": true,
+      "detail": "aac",
+      "severity": "error"
+    },
+    {
+      "id": "audio_sample_rate_48k",
+      "ok": true,
+      "detail": "48000",
+      "severity": "error"
+    },
+    {
+      "id": "av_sync",
+      "ok": true,
+      "detail": "ses 62.208 sn, video 62.267 sn, fark 59 ms",
+      "severity": "error"
+    },
+    {
+      "id": "frame_visible_ocean-salty-s1",
+      "ok": true,
+      "detail": "t=6.50 sn, ortalama parlaklık 36.66, dağılım 26.58",
+      "severity": "error"
+    },
+    {
+      "id": "frame_visible_ocean-salty-s2",
+      "ok": true,
+      "detail": "t=19.69 sn, ortalama parlaklık 36.75, dağılım 25.07",
+      "severity": "error"
+    },
+    {
+      "id": "frame_visible_ocean-salty-s3",
+      "ok": true,
+      "detail": "t=32.72 sn, ortalama parlaklık 38.4, dağılım 27.5",
+      "severity": "error"
+    },
+    {
+      "id": "frame_visible_ocean-salty-s4",
+      "ok": true,
+      "detail": "t=45.53 sn, ortalama parlaklık 38.19, dağılım 25.79",
+      "severity": "error"
+    },
+    {
+      "id": "frame_visible_ocean-salty-s5",
+      "ok": true,
+      "detail": "t=57.55 sn, ortalama parlaklık 37.21, dağılım 24.58",
+      "severity": "error"
+    }
+  ],
+  "frameSamples": [
+    {
+      "sceneId": "ocean-salty-s1",
+      "timeSec": 6.5,
+      "meanLuma": 36.66,
+      "stdDev": 26.58,
+      "ok": true,
+      "imagePath": "/home/user/nedenmis-2/data/samples-work/projects/b12dc57c-1bb4-4df6-a466-41d19aa198af/reports/frames/ocean-salty-s1.jpg"
+    },
+    {
+      "sceneId": "ocean-salty-s2",
+      "timeSec": 19.69,
+      "meanLuma": 36.75,
+      "stdDev": 25.07,
+      "ok": true,
+      "imagePath": "/home/user/nedenmis-2/data/samples-work/projects/b12dc57c-1bb4-4df6-a466-41d19aa198af/reports/frames/ocean-salty-s2.jpg"
+    },
+    {
+      "sceneId": "ocean-salty-s3",
+      "timeSec": 32.72,
+      "meanLuma": 38.4,
+      "stdDev": 27.5,
+      "ok": true,
+      "imagePath": "/home/user/nedenmis-2/data/samples-work/projects/b12dc57c-1bb4-4df6-a466-41d19aa198af/reports/frames/ocean-salty-s3.jpg"
+    },
+    {
+      "sceneId": "ocean-salty-s4",
+      "timeSec": 45.54,
+      "meanLuma": 38.19,
+      "stdDev": 25.79,
+      "ok": true,
+      "imagePath": "/home/user/nedenmis-2/data/samples-work/projects/b12dc57c-1bb4-4df6-a466-41d19aa198af/reports/frames/ocean-salty-s4.jpg"
+    },
+    {
+      "sceneId": "ocean-salty-s5",
+      "timeSec": 57.55,
+      "meanLuma": 37.21,
+      "stdDev": 24.58,
+      "ok": true,
+      "imagePath": "/home/user/nedenmis-2/data/samples-work/projects/b12dc57c-1bb4-4df6-a466-41d19aa198af/reports/frames/ocean-salty-s5.jpg"
+    }
+  ],
+  "avSync": 0.059000000000004604
+}
