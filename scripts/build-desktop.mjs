@@ -277,6 +277,17 @@ function verifyPackaged() {
   if (missing.length) {
     console.error("[desktop] HATA: paketlenmiş uygulamada zorunlu dosyalar eksik:");
     for (const m of missing) console.error(`  - ${m}`);
+    console.error(`::error title=Paket doğrulama::Eksik: ${missing.join(", ")}`);
+    // Teşhis için resources ağacının üst düzeyini yaz.
+    try {
+      console.error("[desktop] resources içeriği:", fs.readdirSync(res).join(", "));
+      const nm = path.join(res, "node_modules");
+      if (fs.existsSync(nm)) console.error("[desktop] resources/node_modules:", fs.readdirSync(nm).join(", "));
+      const nested = path.join(nm, "node_modules");
+      if (fs.existsSync(nested)) console.error("[desktop] resources/node_modules/node_modules:", fs.readdirSync(nested).join(", "));
+    } catch {
+      /* yok say */
+    }
     return 1;
   }
   say(`paket doğrulandı: ${required.length + 1} zorunlu dosya yerinde (resvg native: ${nativeFound})`);
