@@ -76,6 +76,7 @@ Bu bilinçli bir sınırdır: uydurma görsel/anlatım yerine açık ret.
 | Motor | Durum | Not |
 |---|---|---|
 | **eSpeak NG** (varsayılan) | ✅ Bu depoda üretilen tüm örneklerde kullanıldı | Tamamen çevrimdışı, Türkçe, robotik; arayüzde böyle etiketlenir. |
+| **Windows SAPI** | ✅ Windows'ta kullanılabilir (yerel test edilemedi: bu ortam Linux) | `System.Speech` köprüsü (`scripts/sapi_tts.ps1`); Türkçe ses (Microsoft Tolga) kuruluysa onu kullanır. Python gerekmez. |
 | **Chatterbox Multilingual** | ⚠️ Adaptör hazır, **bu ortamda doğrulanamadı** | Yerel HTTP köprüsü (`packages/core/scripts/chatterbox_server.py`), `/health` + `/synthesize`. Model ağırlıkları depoya dahil değildir; Hugging Face erişimi bu derleme ortamında engellendiği için gerçek çıktı üretilemedi. Uygulama sessizce başka motora geçmez; hata verir. |
 | **Piper** | ⚠️ Adaptör hazır, ses modeli yok | Türkçe `.onnx` modeli tanımlanırsa çalışır. |
 | sessiz | Test | Süreleri tahmin eder ve **uyarı** üretir. |

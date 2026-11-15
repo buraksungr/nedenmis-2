@@ -1,0 +1,71 @@
+1
+00:00:00,280 --> 00:00:03,442
+Kara delikleri anlamanın yolu
+
+2
+00:00:03,442 --> 00:00:06,277
+uzay-zamandan geçer.
+
+3
+00:00:06,277 --> 00:00:09,985
+Kütle, uzay-zamanı bir çarşaf gibi
+
+4
+00:00:09,985 --> 00:00:11,293
+büker.
+
+5
+00:00:13,773 --> 00:00:16,664
+Bu eğrilik yeterince güçlü
+
+6
+00:00:16,664 --> 00:00:19,666
+olduğunda bir sınır oluşur:
+
+7
+00:00:19,666 --> 00:00:21,445
+olay ufku.
+
+8
+00:00:21,445 --> 00:00:24,781
+İçeride kaçış hızı ışık hızını
+
+9
+00:00:24,781 --> 00:00:26,004
+aşar.
+
+10
+00:00:28,484 --> 00:00:31,555
+Kara deliğin çevresine madde
+
+11
+00:00:31,555 --> 00:00:34,955
+düşerken bir disk oluşur.
+
+12
+00:00:34,955 --> 00:00:38,684
+Sürtünmeyle ısınan bu madde parlak
+
+13
+00:00:38,684 --> 00:00:41,207
+X-ışınları yayar.
+
+14
+00:00:43,687 --> 00:00:45,797
+Olay ufkunun ötesini
+
+15
+00:00:45,797 --> 00:00:48,118
+gözlemleyemeyiz.
+
+16
+00:00:48,118 --> 00:00:51,071
+Bu yüzden kara deliklerin iç
+
+17
+00:00:51,071 --> 00:00:53,603
+yapısı hâlâ kuramsal bir
+
+18
+00:00:53,603 --> 00:00:55,502
+tartışmadır.

@@ -204,5 +204,70 @@
     "narrationNote": "Bu örnekte eSpeak NG (çevrimdışı, robotik) kullanıldı; Chatterbox Multilingual adaptörü ürün içinde mevcut ancak bu derleme ortamında model ağırlıkları indirilemediği için doğrulanamadı.",
     "renderSeconds": 322.6,
     "generatedAt": "2026-11-14T23:49:05.315Z"
+  },
+  {
+    "slug": "kara-delik-nedir",
+    "topic": "Kara delik nedir?",
+    "title": "Kara delikler nasıl çalışır?",
+    "cardId": "black-hole",
+    "targetDurationSec": 60,
+    "durationSec": 57.7,
+    "frames": 1731,
+    "fps": 30,
+    "resolution": "1080x1920",
+    "videoCodec": "h264",
+    "audioCodec": "aac",
+    "audioSampleRate": 48000,
+    "videoPath": "samples/kara-delik-nedir/kara-delik-nedir-60s.mp4",
+    "subtitlePath": "samples/kara-delik-nedir/kara-delik-nedir.srt",
+    "posterPath": "samples/kara-delik-nedir/poster.png",
+    "verificationPath": "samples/kara-delik-nedir/verification.json",
+    "validationPath": "samples/kara-delik-nedir/visual-validation.json",
+    "sha256": "d7228a54359691ec49251464d59c0d0a5f8325a26b5d213b191c6fd11f4dea2c",
+    "bytes": 4088900,
+    "verificationOk": true,
+    "failedChecks": [],
+    "scenes": [
+      {
+        "id": "black-hole-s1",
+        "component": "spacetime_grid",
+        "mechanism": "spacetime_grid",
+        "status": "approved",
+        "score": 86,
+        "durationSec": 13.49,
+        "speechDurationSec": 11.01
+      },
+      {
+        "id": "black-hole-s2",
+        "component": "event_horizon",
+        "mechanism": "event_horizon",
+        "status": "approved",
+        "score": 86,
+        "durationSec": 14.71,
+        "speechDurationSec": 12.23
+      },
+      {
+        "id": "black-hole-s3",
+        "component": "accretion_disk",
+        "mechanism": "accretion_disk",
+        "status": "approved",
+        "score": 86,
+        "durationSec": 15.2,
+        "speechDurationSec": 12.72
+      },
+      {
+        "id": "black-hole-s5",
+        "component": "event_horizon",
+        "mechanism": "event_horizon",
+        "status": "approved",
+        "score": 86,
+        "durationSec": 14.29,
+        "speechDurationSec": 11.82
+      }
+    ],
+    "narrationEngine": "espeak",
+    "narrationNote": "Bu örnekte eSpeak NG (çevrimdışı, robotik) kullanıldı; Chatterbox Multilingual adaptörü ürün içinde mevcut ancak bu derleme ortamında model ağırlıkları indirilemediği için doğrulanamadı.",
+    "renderSeconds": 683.1,
+    "generatedAt": "2026-11-15T00:22:23.046Z"
   }
 ]

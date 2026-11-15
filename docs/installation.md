@@ -60,6 +60,7 @@ Bir şey kırmızıysa uygulama sessizce devam etmez; seslendirme başlatıldı�
 | “Konu en az 5 karakter olmalı” | Konu alanı boş. |
 | “Bu konu için doğrulanmış bilgi kartı yok” | v1.0'da 11 kuratörlü konu var; önerilen kartlar listede gösterilir. |
 | Video çok yavaş üretiliyor | Kaliteyi **Taslak** yapın (540p, hızlı). 1080p için hedef donanımda ~6–10 dk/60 sn. |
+| Ses robotik geliyor | Varsayılan motor eSpeak NG'dir (çevrimdışı, robotik). Ayarlar → Seslendirme motorları; **Windows SAPI** sistem sesini (Türkçe varsa) kullanır. Nöral ses için Chatterbox kurulumu gerekir. |
 | Kurulumda “Windows korumalı bilgisayarınızı korudu” | İmzasız dağıtım; *Ek bilgi → Yine de çalıştır*. |
 | Ekran boş açılıyor | Yerel servis başlamamış olabilir; `%APPDATA%\Nedenmiş Studio\logs\studio.log` dosyasına bakın, uygulamayı yeniden başlatın. |
 
