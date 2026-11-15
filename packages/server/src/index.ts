@@ -2,6 +2,7 @@ import fs from "node:fs";
 import http from "node:http";
 import os from "node:os";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 import {
   applySceneNarration,
   createProject,
@@ -425,7 +426,10 @@ function safe<T>(fn: () => T): T | null {
 }
 
 // Doğrudan çalıştırma: node dist/index.js
-const isMain = process.argv[1] && path.resolve(process.argv[1]).startsWith(path.resolve(path.dirname(new URL(import.meta.url).pathname)));
+// Not: new URL(import.meta.url).pathname Windows'ta "/C:/..." biçiminde döner ve
+// path.resolve ile karşılaştırma tutmaz; bu yüzden fileURLToPath kullanılıyor.
+// (Aksi hâlde sunucu Windows'ta sessizce hiç dinlemiyordu.)
+const isMain = Boolean(process.argv[1]) && path.resolve(process.argv[1]) === path.resolve(fileURLToPath(import.meta.url));
 if (isMain) {
   const dataDir = process.env.NEDENMIS_DATA ?? path.join(process.env.APPDATA ?? process.env.HOME ?? process.cwd(), ".nedenmis-studio");
   const app = createStudioServer({
@@ -434,8 +438,9 @@ if (isMain) {
     host: process.env.HOST ?? "127.0.0.1",
     version: process.env.NEDENMIS_VERSION ?? "1.0.0",
   });
+  const host = process.env.HOST ?? "127.0.0.1";
   app.listen().then(({ port }) => {
-    console.log(`Nedenmiş Studio API: http://127.0.0.1:${port}  (veri: ${dataDir}, db: ${app.store.backend})`);
+    console.log(`Nedenmiş Studio API: http://${host}:${port}  (veri: ${dataDir}, db: ${app.store.backend})`);
   });
   const shutdown = () => {
     void app.close().then(() => process.exit(0));
