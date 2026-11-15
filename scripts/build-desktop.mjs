@@ -12,7 +12,7 @@
  */
 import fs from "node:fs";
 import path from "node:path";
-import { execFileSync, spawnSync } from "node:child_process";
+import { execFileSync, spawn, spawnSync } from "node:child_process";
 import { createRequire } from "node:module";
 
 const root = process.cwd();
@@ -164,13 +164,43 @@ if (!electronInstalled) {
   process.exit(2);
 }
 
+// electron-builder'ı "npx" yerine doğrudan Node ile çalıştırıyoruz: Windows'ta
+// spawn("npx.cmd") kabuk olmadan çalışmaz ve sessizce ENOENT ile düşer.
+let ebCli = null;
+for (const candidate of ["electron-builder/cli.js", "electron-builder/out/cli/cli.js"]) {
+  try {
+    ebCli = require.resolve(candidate);
+    break;
+  } catch {
+    /* sıradaki adaya bak */
+  }
+}
+if (!ebCli) {
+  console.error("[desktop] electron-builder bulunamadı (npm ci çalıştı mı?)");
+  process.exit(1);
+}
+
+const ebArgs = ["--win", "nsis", "--x64", "--config", "packages/desktop/electron-builder.yml", "--publish", "never"];
+const ebEnv = { ...process.env, CSC_IDENTITY_AUTO_DISCOVERY: "false" };
+
+const versionProbe = spawnSync(process.execPath, [ebCli, "--version"], { encoding: "utf8", cwd: root });
+const ebVersion = (versionProbe.stdout || versionProbe.stderr || "").trim().split("\n").pop();
+say(`electron-builder: ${ebVersion || "sürüm okunamadı"} (${path.relative(root, ebCli)})`);
+
 say("electron-builder çalıştırılıyor…");
-const res = spawnSync(
-  process.platform === "win32" ? "npx.cmd" : "npx",
-  ["electron-builder", "--win", "nsis", "--x64", "--config", "packages/desktop/electron-builder.yml", "--publish", "never"],
-  { stdio: "inherit", cwd: root, env: { ...process.env, CSC_IDENTITY_AUTO_DISCOVERY: "false" } },
-);
-process.exit(res.status ?? 1);
+// ÖNEMLİ: stdio "inherit" çocuk sürecin çıktısını ana sürecin stdout'una yazar;
+// CI bunu yakalayamadığı için hata sebebi görünmüyordu. Boru hattıyla akıtıyoruz.
+const child = spawn(process.execPath, [ebCli, ...ebArgs], { cwd: root, env: ebEnv });
+child.stdout.on("data", (d) => process.stdout.write(d));
+child.stderr.on("data", (d) => process.stderr.write(d));
+child.on("error", (e) => {
+  console.error("[desktop] electron-builder başlatılamadı:", e.message);
+  process.exit(1);
+});
+child.on("close", (code, signal) => {
+  if (code !== 0) console.error(`[desktop] electron-builder başarısız (kod ${code}, sinyal ${signal ?? "yok"})`);
+  process.exit(code ?? 1);
+});
 
 function dirSize(dir) {
   let total = 0;
