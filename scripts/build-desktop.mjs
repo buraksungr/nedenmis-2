@@ -74,7 +74,22 @@ fs.rmSync(path.join(appDir, "node_modules"), { recursive: true, force: true });
 copyDir(path.join(root, "packages/ui/dist"), path.join(appDir, "ui"));
 fs.writeFileSync(
   path.join(appDir, "package.json"),
-  JSON.stringify({ name: "nedenmis-studio", productName: "Nedenmiş Studio", version: JSON.parse(fs.readFileSync(path.join(root, "package.json"), "utf8")).version, main: "main.cjs", description: "Nedenmiş Studio masaüstü uygulaması" }, null, 2),
+  JSON.stringify(
+    {
+      name: "nedenmis-studio",
+      productName: "Nedenmiş Studio",
+      version: JSON.parse(fs.readFileSync(path.join(root, "package.json"), "utf8")).version,
+      main: "main.cjs",
+      description: "Nedenmiş Studio masaüstü uygulaması — bilimsel doğruluk odaklı Türkçe kısa bilim videosu üretimi",
+      // NSIS yayıncı adı ve "Programlar ve Özellikler" girdisi için gerekli.
+      author: { name: "Nedenmiş Studio", email: "buraksungr@users.noreply.github.com" },
+      license: "MIT",
+      homepage: "https://github.com/buraksungr/nedenmis-2",
+      repository: { type: "git", url: "https://github.com/buraksungr/nedenmis-2.git" },
+    },
+    null,
+    2,
+  ),
   "utf8",
 );
 

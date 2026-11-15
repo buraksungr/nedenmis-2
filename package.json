@@ -43,5 +43,14 @@
   "engines": {
     "node": ">=22.5"
   },
-  "main": "dist-app/main.cjs"
+  "main": "dist-app/main.cjs",
+  "author": {
+    "name": "Nedenmiş Studio",
+    "email": "buraksungr@users.noreply.github.com"
+  },
+  "homepage": "https://github.com/buraksungr/nedenmis-2",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/buraksungr/nedenmis-2.git"
+  }
 }
