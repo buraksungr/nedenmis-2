@@ -80,10 +80,11 @@ async function main() {
         targetDurationSec: durationOverride ?? sample.duration,
         quality,
         languageLevel,
+        // Ses ayarı proje girdisinde olmalı; opts içindeki narration yalnızca render aşamasına geçer.
+        narration: { engine, voice: "tr", rate: 165 },
       },
       {
         dataDir,
-        narration: { engine, voice: "tr", rate: 165 },
         log: (m) => console.log("  ", m),
         onProgress: (u) => {
           if (u.stage === "render" && u.detail) process.stdout.write(`\r   render ${Math.round(u.progress * 100)}% ${u.detail}   `);
@@ -93,15 +94,15 @@ async function main() {
 
     const dir = path.join(outRoot, sample.slug);
     fs.mkdirSync(dir, { recursive: true });
+    const p = result.project;
+    const videoName = `${sample.slug}-${p.targetDurationSec}s.mp4`;
     // Aynı konunun eski (ör. 60 sn, farklı kalite) videoları kalmaz — yayında tek güncel örnek olur.
     for (const old of fs.readdirSync(dir)) {
-      if (old.endsWith(".mp4") && old !== `${sample.slug}-${p.targetDurationSec}s.mp4`) {
+      if (old.endsWith(".mp4") && old !== videoName) {
         fs.rmSync(path.join(dir, old), { force: true });
         console.log(`  eski örnek silindi: ${old}`);
       }
     }
-    const p = result.project;
-    const videoName = `${sample.slug}-${p.targetDurationSec}s.mp4`;
     fs.copyFileSync(result.videoPath, path.join(dir, videoName));
     if (p.outputs.srtPath) fs.copyFileSync(p.outputs.srtPath, path.join(dir, `${sample.slug}.srt`));
     if (p.outputs.posterPath) fs.copyFileSync(p.outputs.posterPath, path.join(dir, "poster.png"));
