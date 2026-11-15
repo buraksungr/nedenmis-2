@@ -16,7 +16,17 @@ if (!fs.existsSync(manifestPath)) {
   process.exit(0);
 }
 
-type ManifestEntry = { slug: string; videoPath: string; durationSec: number; frames: number; sha256: string; verificationOk: boolean; targetDurationSec: number };
+type ManifestEntry = {
+  slug: string;
+  videoPath: string;
+  durationSec: number;
+  frames: number;
+  sha256: string;
+  verificationOk: boolean;
+  targetDurationSec: number;
+  resolution?: string;
+  quality?: string;
+};
 const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8")) as ManifestEntry[];
 const ffprobe = findFfprobe();
 
@@ -38,9 +48,12 @@ for (const entry of manifest) {
   const a = info.streams.find((s) => s.codec_type === "audio");
   const duration = Number(info.format.duration);
   const frames = Number(v?.nb_read_frames ?? 0);
+  // Çözünürlük, manifestte kayıtlı gerçek değerle karşılaştırılır (taslak 540×960, standart 1080×1920).
+  const expectedRes = (entry.resolution ?? "1080x1920").split("x").map(Number);
   const checks = {
     duration_tolerance: Math.abs(duration - entry.targetDurationSec) / entry.targetDurationSec <= 0.051,
-    resolution_1080x1920: v?.width === 1080 && v?.height === 1920,
+    resolution_matches_manifest: v?.width === expectedRes[0] && v?.height === expectedRes[1],
+    vertical_9_16: Boolean(v?.width && v?.height && Math.abs(v.height / v.width - 16 / 9) < 0.02),
     codec_h264: v?.codec_name === "h264",
     audio_aac_48k: a?.codec_name === "aac" && a?.sample_rate === "48000",
     frames_exact: Math.abs(frames - entry.frames) <= 1,

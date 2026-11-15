@@ -120,7 +120,7 @@ jobs:
         shell: pwsh
         env:
           NEDENMIS_PYTHON: ${{ github.workspace }}\vendor\python\python.exe
-          SAMPLE_QUALITY: draft
+          SAMPLE_QUALITY: standard
           SAMPLE_DURATION: "30"
           SAMPLE_ENGINE: espeak
           SAMPLE_LANGUAGE_LEVEL: simple

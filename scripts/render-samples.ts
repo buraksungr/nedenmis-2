@@ -55,6 +55,7 @@ type ManifestEntry = {
   scenes: { id: string; component: string; mechanism: string; status: string; score: number; durationSec: number; speechDurationSec: number }[];
   narrationEngine: string;
   narrationNote: string;
+  quality: string;
   languageLevel: string;
   scriptQuality: { score: number; avgWordsPerSentence: number; longestSentenceWords: number; technicalTermCount: number; hook: boolean };
   visualComplexity: string;
@@ -92,6 +93,13 @@ async function main() {
 
     const dir = path.join(outRoot, sample.slug);
     fs.mkdirSync(dir, { recursive: true });
+    // Aynı konunun eski (ör. 60 sn, farklı kalite) videoları kalmaz — yayında tek güncel örnek olur.
+    for (const old of fs.readdirSync(dir)) {
+      if (old.endsWith(".mp4") && old !== `${sample.slug}-${p.targetDurationSec}s.mp4`) {
+        fs.rmSync(path.join(dir, old), { force: true });
+        console.log(`  eski örnek silindi: ${old}`);
+      }
+    }
     const p = result.project;
     const videoName = `${sample.slug}-${p.targetDurationSec}s.mp4`;
     fs.copyFileSync(result.videoPath, path.join(dir, videoName));
@@ -133,6 +141,7 @@ async function main() {
       posterPath: `samples/${sample.slug}/poster.png`,
       verificationPath: `samples/${sample.slug}/verification.json`,
       validationPath: `samples/${sample.slug}/visual-validation.json`,
+      quality,
       languageLevel: p.languageLevel,
       scriptQuality: {
         score: p.scriptQuality?.score ?? 0,
