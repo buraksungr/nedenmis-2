@@ -99,10 +99,12 @@ jobs:
           Get-ChildItem release | Select-Object Name, Length
 
       - name: Kaynak zip
-        run: npm run build:source-zip
+        shell: pwsh
+        run: pwsh scripts/ci-run.ps1 -Label "Kaynak zip" npm run build:source-zip
 
       - name: SHA-256 listesi
-        run: node scripts/checksums.mjs
+        shell: pwsh
+        run: pwsh scripts/ci-run.ps1 -Label "SHA-256 listesi" node scripts/checksums.mjs
 
       - name: Örnekleri yeniden doğrula (depodaki gerçek MP4'ler)
         run: npm run verify:samples
@@ -157,3 +159,5 @@ jobs:
             gh release create $tag --title "Nedenmiş Studio $tag" --notes-file docs/release-notes.md
           }
           gh release upload $tag $files --clobber
+          Write-Output "Yayın içeriği:"
+          gh release view $tag --json tagName,isDraft,assets --jq '.tagName + " (taslak: " + (.isDraft|tostring) + ")", (.assets[] | "  " + .name + " — " + ((.size/1048576*10|round)/10|tostring) + " MB")' 
