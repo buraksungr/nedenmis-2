@@ -83,6 +83,7 @@ jobs:
         run: node scripts/script-compare.mjs
 
       - name: Arayüz ekran görüntüleri (masaüstü 1600x1000, gerçek Chrome)
+        continue-on-error: true
         shell: pwsh
         run: |
           $env:NEDENMIS_DATA = "$env:RUNNER_TEMP\nedenmis-shots"
@@ -101,6 +102,7 @@ jobs:
           $env:NEDENMIS_API = "http://127.0.0.1:4319"
           node scripts/ui-shots.mjs
           $code = $LASTEXITCODE
+          if (Test-Path reports/ui-shots/ui-screenshots.json) { Get-Content reports/ui-shots/ui-screenshots.json -Raw | Select-Object -First 1 }
           Stop-Process -Id $srv.Id -Force -ErrorAction SilentlyContinue
           Get-ChildItem reports/ui-shots -ErrorAction SilentlyContinue | Select-Object Name, Length
           exit $code

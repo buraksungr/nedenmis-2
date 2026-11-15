@@ -161,8 +161,7 @@ async function main() {
           ? "Bu örnekte eSpeak NG (çevrimdışı, robotik) kullanıldı. Chatterbox Multilingual adaptörü üründe mevcut; gerçek Türkçe sentez yalnızca model kurulabildiğinde ve reports/chatterbox-tr.json içinde kanıtlandığında geçerlidir."
           : p.narration.engineUsed === "chatterbox"
             ? "Bu örnekte Chatterbox Multilingual (Türkçe) kullanıldı; model bu makinede gerçekten çalıştı."
-            : `Bu örnekte ${p.narration.engineUsed} motoru kullanıldı.`
-          : "Chatterbox Multilingual.",
+            : `Bu örnekte ${p.narration.engineUsed} motoru kullanıldı.`,
       renderSeconds: Math.round((Date.now() - started) / 100) / 10,
       generatedAt: new Date().toISOString(),
     };
