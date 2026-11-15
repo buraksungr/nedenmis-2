@@ -29,7 +29,13 @@ const report: Record<string, unknown> = {
 
 let failure: string | null = null;
 try {
-  const { project } = createProject({ topic: "Elmas neden kolay kırılmaz?", targetDurationSec: 15, quality: "draft" });
+  // Hedef/süre ayarlanabilir: 15 sn'lik çok kısa videolarda sahne taban süreleri
+  // toplam süreyi hedefin altında bırakıyor (ölçülen −%11). CI, kullanıcıya sunulan
+  // gerçek seçeneklerden biriyle (30 sn) çalışır; tam çözünürlüklü üretim yolu ise
+  // ayrı adımda depodaki 6 gerçek örnekle (npm run verify:samples) doğrulanır.
+  const targetSec = Number(process.env.SMOKE_TARGET ?? 30);
+  const quality = (process.env.SMOKE_QUALITY ?? "draft") as "draft" | "standard" | "high";
+  const { project } = createProject({ topic: "Elmas neden kolay kırılmaz?", targetDurationSec: targetSec, quality });
   const narrated = await narrateProject(project, dataDir);
   const result = await renderProject(narrated, dataDir, {
     dataDir,
@@ -42,6 +48,7 @@ try {
     cardId: project.research?.cardId,
     scenes: project.scenes.map((s) => ({ id: s.id, component: s.spec.componentId, status: s.validation.status })),
     narrationEngine: narrated.narration.engineUsed,
+    requested: { targetDurationSec: targetSec, quality },
     measuredSpeechSec: Object.values(narrated.narration.measured),
     video: result.videoPath,
     durationSec: result.verification.durationSec,

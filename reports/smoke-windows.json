@@ -1,0 +1,96 @@
+{
+  "at": "2026-11-15T01:32:40.995Z",
+  "platform": "linux",
+  "arch": "x64",
+  "node": "v22.22.3",
+  "ffmpeg": "/home/user/nedenmis-2/node_modules/@ffmpeg-installer/linux-x64/ffmpeg",
+  "ffprobe": "/home/user/nedenmis-2/node_modules/@ffprobe-installer/linux-x64/ffprobe",
+  "fonts": {
+    "regular": "/home/user/nedenmis-2/assets/fonts/DejaVuSans.ttf",
+    "bold": "/home/user/nedenmis-2/assets/fonts/DejaVuSans-Bold.ttf"
+  },
+  "pythonCandidates": [
+    "/home/user/nedenmis-2/.venv/bin/python",
+    "python3",
+    "python",
+    "py"
+  ],
+  "tts": [
+    {
+      "engine": "chatterbox",
+      "label": "Chatterbox Multilingual (Türkçe)",
+      "available": false,
+      "detail": "Chatterbox sunucusuna ulaşılamadı: fetch failed",
+      "silent": false
+    },
+    {
+      "engine": "piper",
+      "label": "Piper (yerel nöral ses)",
+      "available": false,
+      "detail": "Ses modeli (.onnx) tanımlı değil",
+      "silent": false
+    },
+    {
+      "engine": "sapi",
+      "label": "Windows SAPI (sistem sesi)",
+      "available": false,
+      "detail": "Yalnızca Windows'ta kullanılabilir.",
+      "silent": false
+    },
+    {
+      "engine": "espeak",
+      "label": "eSpeak NG (çevrimdışı, robotik)",
+      "available": true,
+      "detail": "espeak-ng OK (espeakng-loader), 22050 Hz, ses=tr",
+      "silent": false
+    },
+    {
+      "engine": "silent",
+      "label": "Sessiz (seslendirme yok)",
+      "available": true,
+      "detail": "Yalnızca açıkça istendiğinde kullanılır.",
+      "silent": true
+    }
+  ],
+  "projectId": "e1079bd0-084d-4040-b85b-cd43270a4f2b",
+  "cardId": "diamond-hardness",
+  "scenes": [
+    {
+      "id": "diamond-hardness-s1",
+      "component": "crystal_lattice",
+      "status": "approved"
+    },
+    {
+      "id": "diamond-hardness-s2",
+      "component": "bond_network",
+      "status": "approved"
+    },
+    {
+      "id": "diamond-hardness-s3",
+      "component": "cleavage_fracture",
+      "status": "approved"
+    }
+  ],
+  "narrationEngine": "espeak",
+  "requested": {
+    "targetDurationSec": 30,
+    "quality": "draft"
+  },
+  "measuredSpeechSec": [
+    8.003,
+    10.402,
+    10.662
+  ],
+  "video": "/tmp/nedenmis-smoke-PYv25x/projects/e1079bd0-084d-4040-b85b-cd43270a4f2b/out/e1079bd0-diamond-hardness-30s.mp4",
+  "durationSec": 31.067,
+  "frames": 932,
+  "resolution": "540x960",
+  "codecs": "h264/aac@48000",
+  "verificationOk": true,
+  "failedChecks": [
+    "resolution_1080x1920"
+  ],
+  "sizeBytes": 2350858,
+  "failure": null,
+  "elapsedSec": 76.5
+}

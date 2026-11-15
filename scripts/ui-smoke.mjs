@@ -67,12 +67,34 @@ const goto = async (hash, wait = 900) => {
   return { html: root?.innerHTML ?? "", text: root?.textContent ?? "" };
 };
 
+let list = await (await fetch(`/api/projects`)).json();
+let projectId = list.projects?.[0]?.id;
+let seeded = false;
+
+// Boş kütüphanede (CI'da her zaman böyledir) gerçek bir plan oluşturup stüdyoyu
+// yine de test ediyoruz; aksi halde test boş veri yüzünden yanlış yere kırmızı yanar.
+if (!projectId) {
+  const res = await fetch(`/api/projects`, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ topic: "Elmas neden kolay kırılmaz?", targetDurationSec: 30, quality: "draft" }),
+  });
+  if (res.ok) {
+    const created = await res.json();
+    projectId = created.project?.id;
+    seeded = Boolean(projectId);
+    list = await (await fetch(`/api/projects`)).json();
+  } else {
+    console.log(`  ! kütüphane boş ve plan oluşturulamadı (HTTP ${res.status})`);
+  }
+}
+
+// Kütüphane ekranı (plan oluşturulduktan sonra)
 const lib = await goto("#/library");
 checks.library = lib.text.includes("Projeler");
+if (seeded) checks.seeded = (list.projects ?? []).some((p) => p.id === projectId);
 
 // Stüdyo ekranı (gerçek proje kimliğiyle)
-const list = await (await fetch(`/api/projects`)).json();
-const projectId = list.projects?.[0]?.id;
 if (projectId) {
   const studio = await goto(`#/studio/${projectId}`, 1500);
   checks.studio = studio.text.includes("Zaman çizelgesi") && (studio.text.includes("Seslendir") || studio.text.includes("Sesi yenile"));
