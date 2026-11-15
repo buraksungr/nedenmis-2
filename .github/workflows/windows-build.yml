@@ -79,6 +79,32 @@ jobs:
           Stop-Process -Id $srv.Id -Force -ErrorAction SilentlyContinue
           exit $code
 
+      - name: Senaryo öncesi/sonrası karşılaştırma raporu
+        run: node scripts/script-compare.mjs
+
+      - name: Arayüz ekran görüntüleri (masaüstü 1600x1000, gerçek Chrome)
+        shell: pwsh
+        run: |
+          $env:NEDENMIS_DATA = "$env:RUNNER_TEMP\nedenmis-shots"
+          $srv = Start-Process -FilePath "node" -ArgumentList "packages/server/dist/index.js" -PassThru -NoNewWindow -RedirectStandardOutput "$env:RUNNER_TEMP\shots-api.log" -RedirectStandardError "$env:RUNNER_TEMP\shots-api.err"
+          $ok = $false
+          for ($i = 0; $i -lt 45; $i++) {
+            Start-Sleep -Seconds 1
+            if ($srv.HasExited) { break }
+            try { $r = Invoke-WebRequest -Uri http://127.0.0.1:4319/api/health -UseBasicParsing -TimeoutSec 3; if ($r.StatusCode -eq 200) { $ok = $true; break } } catch { }
+          }
+          if (-not $ok) {
+            Write-Output "::warning title=Ekran görüntüsü::API başlamadı; ekran görüntüsü alınamadı."
+            Stop-Process -Id $srv.Id -Force -ErrorAction SilentlyContinue
+            exit 0
+          }
+          $env:NEDENMIS_API = "http://127.0.0.1:4319"
+          node scripts/ui-shots.mjs
+          $code = $LASTEXITCODE
+          Stop-Process -Id $srv.Id -Force -ErrorAction SilentlyContinue
+          Get-ChildItem reports/ui-shots -ErrorAction SilentlyContinue | Select-Object Name, Length
+          exit $code
+
       - name: Simge üret
         run: npm run make-icon
 
@@ -87,6 +113,18 @@ jobs:
         env:
           NEDENMIS_PYTHON: ${{ github.workspace }}\vendor\python\python.exe
         run: pwsh scripts/ci-run.ps1 -Label "Üretim duman testi" npm run smoke
+
+      - name: Örnek videoları yeniden üret (4 zorunlu konu, sade dil, gerçek eSpeak)
+        shell: pwsh
+        env:
+          NEDENMIS_PYTHON: ${{ github.workspace }}\vendor\python\python.exe
+          SAMPLE_QUALITY: draft
+          SAMPLE_DURATION: "30"
+          SAMPLE_ENGINE: espeak
+          SAMPLE_LANGUAGE_LEVEL: simple
+        run: |
+          pwsh scripts/ci-run.ps1 -Label "Örnek üretimi" node --import tsx scripts/render-samples.ts elmas-neden-kirilmaz gokyuzu-neden-mavi denizler-neden-tuzlu kara-delik-nedir
+          Get-ChildItem samples -Recurse -Filter *.mp4 | Select-Object FullName, Length
 
       - name: Masaüstü paketini hazırla ve kurulum dosyasını üret
         shell: pwsh
@@ -213,6 +251,30 @@ jobs:
 
       - name: Örnekleri yeniden doğrula (depodaki gerçek MP4'ler)
         run: npm run verify:samples
+      - name: Chatterbox Türkçe sentez testi (gerçek model, isteğe bağlı)
+        id: chatterbox
+        continue-on-error: true
+        timeout-minutes: 45
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Continue"
+          $venv = Join-Path $env:RUNNER_TEMP "cbvenv"
+          python -m venv $venv
+          $py = Join-Path $venv "Scripts\python.exe"
+          if (-not (Test-Path $py)) { $py = Join-Path $venv "bin/python" }
+          & $py -m pip install --upgrade pip --quiet
+          Write-Output "chatterbox-tts kuruluyor (torch CPU ile birlikte; birkaç dakika sürebilir)…"
+          & $py -m pip install chatterbox-tts 2>&1 | Select-Object -Last 15
+          & $py packages/core/scripts/chatterbox_server.py --status | Tee-Object -FilePath reports/chatterbox-status.json
+          & $py scripts/chatterbox-verify.py --wav reports/chatterbox-turkish-sample.wav --json reports/chatterbox-tr.json
+          $code = $LASTEXITCODE
+          if (Test-Path reports/chatterbox-turkish-sample.wav) {
+            ffprobe -hide_banner -v error -show_entries format=duration,size -show_entries stream=sample_rate,channels,codec_name -of json reports/chatterbox-turkish-sample.wav 2>&1 | Tee-Object -FilePath reports/chatterbox-ffprobe.json
+          }
+          Write-Output "Chatterbox doğrulama çıkış kodu: $code"
+          # Sentez yapılamadıysa rapor bunu dürüstçe söyler; iş akışı durdurulmaz.
+          exit 0
+
 
       - name: Artefaktları yükle
         uses: actions/upload-artifact@v4
@@ -230,6 +292,19 @@ jobs:
             reports/install-test-stdout.log
             reports/install-test-stderr.log
             reports/install-test-studio.log
+            reports/script-comparison.json
+            reports/ui-screenshots.json
+            reports/ui-shots/*.png
+            reports/chatterbox-tr.json
+            reports/chatterbox-turkish-sample.wav
+            reports/chatterbox-status.json
+            reports/chatterbox-ffprobe.json
+            docs/before-after-script.md
+            samples/manifest.json
+            samples/**/*.mp4
+            samples/**/*.srt
+            samples/**/script.txt
+            samples/**/verification.json
           if-no-files-found: error
           retention-days: 30
 
@@ -254,6 +329,18 @@ jobs:
             "- Doğrulama: **$($s.verificationOk)**" >> $env:GITHUB_STEP_SUMMARY
             "- Ses motoru: $($s.narrationEngine)" >> $env:GITHUB_STEP_SUMMARY
           }
+          if (Test-Path reports\chatterbox-tr.json) {
+            $cb = Get-Content reports\chatterbox-tr.json -Raw | ConvertFrom-Json
+            if ($cb.ok) {
+              "- Chatterbox Türkçe sentez: **BAŞARILI** ($($cb.audio.durationSec) sn, $($cb.audio.sampleRate) Hz, RMS $($cb.audio.rms))" >> $env:GITHUB_STEP_SUMMARY
+            } else {
+              "- Chatterbox Türkçe sentez: **yapılmadı** — $($cb.outcome) ($($cb.error))" >> $env:GITHUB_STEP_SUMMARY
+            }
+          }
+          if (Test-Path reports\ui-screenshots.json) {
+            $ui = Get-Content reports\ui-screenshots.json -Raw | ConvertFrom-Json
+            "- Arayüz ekran görüntüleri: $($ui.shots.Count) adet, 1600x1000, sonuç: **$($ui.ok)**" >> $env:GITHUB_STEP_SUMMARY
+          }
           Get-ChildItem release -ErrorAction SilentlyContinue | ForEach-Object { "- $($_.Name) — $([math]::Round($_.Length/1MB,1)) MB" >> $env:GITHUB_STEP_SUMMARY }
 
       - name: Yayın oluştur (etiket)
@@ -276,8 +363,17 @@ jobs:
             "reports/windows-install-test.json",
             "reports/installation-test.md",
             "reports/build-desktop.log",
-            "reports/smoke-windows.json"
+            "reports/smoke-windows.json",
+            "reports/script-comparison.json",
+            "reports/ui-screenshots.json",
+            "docs/before-after-script.md"
           )
+          # Ekran görüntüleri ve (üretildiyse) gerçek Türkçe Chatterbox sesi
+          if (Test-Path "reports/ui-shots") {
+            Get-ChildItem "reports/ui-shots" -Filter *.png | ForEach-Object { $files += $_.FullName }
+          }
+          if (Test-Path "reports/chatterbox-turkish-sample.wav") { $files += "reports/chatterbox-turkish-sample.wav" }
+          if (Test-Path "reports/chatterbox-tr.json") { $files += "reports/chatterbox-tr.json" }
           foreach ($f in $files) { if (-not (Test-Path $f)) { Write-Output "::error title=Yayın::Eksik dosya: $f"; exit 1 } }
           gh release view $tag *> $null
           if ($LASTEXITCODE -ne 0) {

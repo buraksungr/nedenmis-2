@@ -5,6 +5,9 @@ Bir soru yazarsınız; uygulama doğrulanmış bilgi kartıyla eşleştirir, Tü
 her sahne için konuya özgü bir görsel seçer, görseli **denetler**, sesi üretir, süreyi **ölçülen** ses
 sürelerine göre kurar ve 1080×1920 dikey MP4 üretip FFprobe ile doğrular.
 
+> Anlatım kuralı: **karmaşık şeyleri, bilimsel olarak yanlış yapmadan, sade bir dille anlat.**
+> Varsayılan dil düzeyi her zaman **Sade**; akademik metin iç doğrulama için saklanır, izleyiciye sade hâli gider.
+>
 > Temel kural: **yanlış görsel göstermektense sahneyi reddetmek yeğdir.** Bir sahnenin görseli konu ve
 > mekanizmayla uyuşmuyorsa sahne `rejected` olur ve render kapısı kapanır.
 
@@ -18,6 +21,9 @@ sürelerine göre kurar ve 1080×1920 dikey MP4 üretip FFprobe ile doğrular.
 | **Açık reddetme** | 10 tip denetim (bileşen, alan, mekanizma, yasaklı kavram, yanılgı, yabancı alan etiketi…). Hata varsa sahne reddedilir, `assertApproved` render'ı durdurur. |
 | **Dürüst zamanlama** | Anlatım süresi TTS'ten **ölçülür**; hedef süreye göre konuşma temposu ayarlanır, sessizce kırpma yapılmaz. %5 tolerans aşılırsa `DurationError`. |
 | **Gerçek doğrulama** | Her çıktı FFprobe ile denetlenir: kare sayısı, süre, kodekler, 48 kHz AAC, ses-görüntü senkronu (<120 ms), sahne başına parlaklık/varyans, kare örnekleri. |
+| **Sade Türkçe** | Her adımın sade anlatımı ayrı yazılır; kalite kapısı cümle uzunluğu, terim yoğunluğu ve kancayı ölçer, gerekirse yeniden sadeleştirir. |
+| **Tek renk arayüz** | Siyah/beyaz/gri, ölçülü gölge ve geçişler; menü dört giriş. Renkli ton kalmadığı testle ölçülür. |
+| **İsteğe bağlı nöral ses** | Chatterbox Multilingual (Türkçe) köprüsü durum bildirimli (`hazır`/`indiriliyor`/`kullanılamıyor`/`yedek`); ses önizlemesi gerçek WAV üretir. |
 | **Çevrimdışı** | eSpeak NG yerel seslendirme + FFmpeg + SQLite; internet gerekmez. |
 | **Masaüstü** | Electron kabuğu, NSIS kurulum dosyası, taşınabilir zip, kaynak zip; Node/Python/FFmpeg paket içinde. |
 
@@ -40,14 +46,28 @@ GPU gerekmez (tüm render CPU'da). 60 sn 1080p video, hedef donanımda yaklaşı
 
 ## Kullanım
 
-1. **Yeni video** → konuyu yazın (örn. “Elmas neden kolay kırılmaz?”), süreyi seçin (30 / 45 / 60 / 90 / özel).
-2. **Planla** → konu bilgi kartıyla eşleşir, araştırma özeti + senaryo + sahne planı + doğrulama raporu üretilir.
+1. **Video oluştur** → konuyu yazın (örn. “Elmas neden kolay kırılmaz?”), dil düzeyini (varsayılan Sade) ve süreyi seçin.
+2. **Planla** → konu bilgi kartıyla eşleşir; sade senaryo, sahne planı, senaryo kalite ölçümü ve görsel doğrulama raporu üretilir.
 3. **Stüdyo** ekranında:
    - Sahne kartlarında gerçek render motorundan alınan **önizleme kareleri**, kullanılan bileşen, mekanizma ve doğrulama durumu görünür.
    - Anlatımı düzenleyebilir, görsel bileşeni değiştirip **sahneyi yeniden üretebilirsiniz**.
    - **Seslendir** → gerçek TTS; süreler ölçülür ve zaman çizelgesi kurulur.
    - **Videoyu üret** → kareler üretilir, sesle birleştirilir, FFprobe doğrulaması yapılır.
+   - Sağ üstteki **Senaryo kalitesi** paneli: puan, ortalama cümle uzunluğu, en uzun cümle, terim sayısı, kanca.
+5. Ayarlar ekranında varsayılanlar (dil, süre, görsel karmaşıklık, altyazı, kalite, motor, hız) ve motor durumları.
 4. Çıktılar: `…/out/<id>-<kart>-<süre>s.mp4`, `.srt`, `reports/verification.json`, `reports/visual-validation.json`, `reports/frames/*.jpg`, `reports/poster.png`.
+
+## Sade anlatım örneği
+
+| Önce (v1.0.1, akademik) | Sonra (v1.1.0, sade) |
+|---|---|
+| “Elmasın üç boyutlu tetrahedral kristal kafes yapısı, karbon atomları arasındaki güçlü kovalent bağlarla meydana gelir.” | “Elmasın içindeki karbon atomları birbirine çok sıkı tutunur. Her atom, dört komşusuna birden bağlıdır.” |
+| “Bu bağ ağı, ona çok yüksek sertlik kazandırır; ancak sertlik ile tokluk farklı özelliklerdir ve elmas gevrektir.” | “Ama sert olmak, kırılmaz olmak demek değil. Elmas serttir; yine de darbeyle çatlayabilir.” |
+
+Tam karşılaştırma (4 konu, ölçümlerle): [`docs/before-after-script.md`](docs/before-after-script.md).
+İçerik ilkeleri: [`docs/content-identity.md`](docs/content-identity.md) ·
+Arayüz: [`docs/ui-redesign.md`](docs/ui-redesign.md) ·
+Chatterbox: [`docs/chatterbox-voice.md`](docs/chatterbox-voice.md).
 
 ## Bilimsel doğrulama
 

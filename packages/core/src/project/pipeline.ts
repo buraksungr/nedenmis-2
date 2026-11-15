@@ -39,11 +39,19 @@ export class PipelineError extends Error {
   }
 }
 
+import { ensureSimple, evaluateScript, normalizeLevel, type LanguageLevel, type ScriptQuality } from "../script/style.js";
+
 export type CreateProjectInput = {
   topic: string;
   targetDurationSec: number;
   fps?: number;
   narration?: Partial<Project["narration"]>;
+  /** Senaryo dil düzeyi: sade (varsayılan) | standart | ayrıntılı. */
+  languageLevel?: LanguageLevel;
+  /** Görsel karmaşıklığı: sade (varsayılan) | dengeli | zengin. */
+  visualComplexity?: "sade" | "dengeli" | "zengin";
+  /** Altyazı istemiyorsanız false. */
+  subtitles?: boolean;
   quality?: "draft" | "standard" | "high";
 };
 
@@ -62,8 +70,12 @@ const QUALITY: Record<string, { width: number; crf: number; preset: string }> = 
   high: { width: 1080, crf: 18, preset: "medium" },
 };
 
-export function exportSettingsFor(quality: "draft" | "standard" | "high", fps = 30): ExportSettings {
-  return { width: 1080, height: 1920, fps, videoCodec: "h264", audioCodec: "aac", audioSampleRate: 48000, quality };
+export function exportSettingsFor(
+  quality: "draft" | "standard" | "high",
+  fps = 30,
+  subtitles = true,
+): ExportSettings {
+  return { width: 1080, height: 1920, fps, videoCodec: "h264", audioCodec: "aac", audioSampleRate: 48000, quality, subtitles };
 }
 
 export function projectDir(dataDir: string, id: string): string {
@@ -87,7 +99,7 @@ function narrationDefaults(input?: Partial<Project["narration"]>): Project["narr
 function scriptFromScenes(scenes: Scene[]): Project["script"] {
   const text = scenes.map((s) => s.narration.trim()).join(" ");
   const wordCount = text.split(/\s+/).filter(Boolean).length;
-  return { text, wordCount, estimatedSec: Math.round((wordCount / 2.35) * 10) / 10, edited: false };
+  return { text, wordCount, estimatedSec: Math.round((wordCount / 2.6) * 10) / 10, edited: false };
 }
 
 /** Konu → araştırma → senaryo → sahne planı → doğrulama. Ses üretmez. */
@@ -112,7 +124,12 @@ export function createProject(input: CreateProjectInput, onProgress?: (u: Progre
   const research = buildResearchSummary(card, topic, resolution.confidence);
   onProgress?.({ stage: "script", progress: 0.18, message: `Bilgi kartı: ${card.topicTitleTr}. Senaryo hazırlanıyor…` });
 
-  const plan = planScenes(card, { targetDurationSec: input.targetDurationSec });
+  const languageLevel = normalizeLevel(input.languageLevel);
+  const plan = planScenes(card, {
+    targetDurationSec: input.targetDurationSec,
+    languageLevel,
+    visualComplexity: input.visualComplexity,
+  });
   onProgress?.({ stage: "scenes", progress: 0.34, message: `${plan.scenes.length} sahne planlandı; görsel mekanizmalar seçildi.` });
 
   const report = validatePlan(card, plan.scenes);
@@ -124,6 +141,16 @@ export function createProject(input: CreateProjectInput, onProgress?: (u: Progre
       report,
     });
   }
+
+  // Senaryo kalite kapısı: sade dilde anlaşılmıyorsa yeniden sadeleştir.
+  const quality = evaluateScript(report.scenes.map((s) => s.narration).join(" "), languageLevel);
+  if (!quality.ok && languageLevel !== "detailed") {
+    for (const scene of report.scenes) {
+      const fixed = ensureSimple(scene.narration, languageLevel);
+      if (fixed.text) scene.narration = fixed.text;
+    }
+  }
+  const finalQuality = evaluateScript(report.scenes.map((s) => s.narration).join(" "), languageLevel);
 
   const now = new Date().toISOString();
   const project: Project = {
@@ -137,15 +164,23 @@ export function createProject(input: CreateProjectInput, onProgress?: (u: Progre
     progress: 0.45,
     targetDurationSec: input.targetDurationSec,
     fps: input.fps ?? 30,
+    languageLevel,
+    scriptQuality: finalQuality,
     research,
     script: scriptFromScenes(plan.scenes),
     scenes: report.scenes,
     narration: narrationDefaults(input.narration),
     timelineMeta: undefined,
     validation: { status: report.status, summary: report.summary, errors: report.errors, warnings: report.warnings },
-    exportSettings: exportSettingsFor(input.quality ?? "draft", input.fps ?? 30),
+    visualComplexity: input.visualComplexity ?? "sade",
+    exportSettings: exportSettingsFor(input.quality ?? "draft", input.fps ?? 30, input.subtitles !== false),
     outputs: {},
-    warnings: plan.notes,
+    warnings: [
+      ...plan.notes,
+      ...finalQuality.issues
+        .filter((i) => i.severity === "error")
+        .map((i) => `Senaryo dili: ${i.messageTr}`),
+    ],
     notes: [resolution.reason, `Eşleşme güveni: ${(resolution.confidence * 100).toFixed(0)}%`],
     topicConfidence: resolution.confidence,
     renderHistory: [],
@@ -373,6 +408,7 @@ export async function renderProject(project: Project, dataDir: string, opts: Pip
     width: qualityWidth,
     crf: quality.crf,
     preset: quality.preset,
+    frameOptions: { showSubtitles: project.exportSettings.subtitles !== false },
     frameRange: opts.frameLimit ? [0, Math.min(opts.frameLimit, timeline.frames)] : undefined,
     onProgress: (done, total, fps) => {
       opts.onProgress?.({

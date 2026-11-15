@@ -68,8 +68,16 @@ export interface Fact {
 
 export interface MechanismStep {
   id: string;
-  /** Sahnenin Türkçe anlatımı (senaryo). */
+  /** Sahnenin Türkçe anlatımı (senaryo) — bilimsel/ayrıntılı sürüm. */
   narration: string;
+  /**
+   * Aynı adımın SADE anlatımı (hedef kitle dili). Varsa "sade" dil düzeyinde
+   * doğrudan bu kullanılır; yoksa narration otomatik sadeleştirilir.
+   * Bilimsel içerik aynıdır: yalnızca dil sadeleşir.
+   */
+  narrationSimple?: string;
+  /** Sade dil düzeyinde ekranda görünen kısa başlık (jargonsuz, en fazla birkaç kelime). */
+  overlaySimple?: string;
   /** Bu sahnenin anlatmak zorunda olduğu kavramlar. */
   concepts: string[];
   /** Görsel bileşen seçiminde kullanılan mekanizma kimliği. */

@@ -20,6 +20,7 @@ import {
   resolveTopic,
   suggestedTopics,
   summarizeProject,
+  synthesize,
   ttsStatus,
   validatePlan,
   VISUAL_COMPONENTS,
@@ -331,6 +332,49 @@ export function createStudioServer(opts: StudioServerOptions) {
       });
     }),
 
+    // Ses önizleme: seçilen motorla kısa bir Türkçe örnek üretir ve WAV döndürür.
+    // "Gerçekten üretilen" sesi dinlemeden hiçbir motor önerilmez.
+    route("POST", "/api/tts/preview", async ({ res, body }) => {
+      const input = (body ?? {}) as {
+        engine?: string;
+        voice?: string;
+        rate?: number;
+        chatterboxUrl?: string;
+        text?: string;
+      };
+      const engine = (input.engine ?? "espeak") as NarrationSettings["engine"];
+      if (!["espeak", "sapi", "piper", "chatterbox", "silent"].includes(engine)) {
+        throw new HttpError(400, `Bilinmeyen ses motoru: ${engine}`);
+      }
+      const text = (input.text ?? "Merhaba, ben Nedenmiş. Elmas çok serttir ama yine de kırılabilir.").slice(0, 300);
+      const previewDir = path.join(dataDir, "previews");
+      fs.mkdirSync(previewDir, { recursive: true });
+      const out = path.join(previewDir, `preview-${engine}-${Date.now()}.wav`);
+      try {
+        const result = await synthesize(text, out, {
+          engine,
+          voice: input.voice ?? defaultNarration.voice ?? "tr",
+          rate: Number(input.rate ?? defaultNarration.rate ?? 165),
+          chatterboxUrl: input.chatterboxUrl ?? defaultNarration.chatterboxUrl,
+          voiceRef: defaultNarration.voiceRef,
+          piperModel: defaultNarration.piperModel,
+        });
+        const buf = fs.readFileSync(out);
+        res.writeHead(200, {
+          "content-type": "audio/wav",
+          "content-length": String(buf.length),
+          "cache-control": "no-store",
+          "x-tts-engine": result.engine,
+          "x-tts-duration": result.durationSec.toFixed(3),
+        });
+        res.end(buf);
+      } catch (e) {
+        const err = e as { code?: string; message?: string; hint?: string };
+        const hint = [err.code, err.hint].filter(Boolean).join(" · ");
+        throw new HttpError(503, err.message ?? "Ses önizlemesi üretilemedi.", hint || undefined);
+      }
+    }),
+
     route("GET", "/api/system/tts", async ({ res }) => {
       json(res, 200, { status: await ttsStatus({ engine: defaultNarration.engine ?? "espeak", voice: defaultNarration.voice ?? "tr" }) });
     }),
@@ -417,6 +461,17 @@ export function createStudioServer(opts: StudioServerOptions) {
   };
 }
 
+/** Sürüm bilgisi: ortam değişkeni yoksa kök package.json'dan okunur. */
+function appVersion(): string {
+  try {
+    const pkgPath = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..", "..", "..", "package.json");
+    const pkg = JSON.parse(fs.readFileSync(pkgPath, "utf8")) as { version?: string };
+    return pkg.version ?? "0.0.0";
+  } catch {
+    return "0.0.0";
+  }
+}
+
 function safe<T>(fn: () => T): T | null {
   try {
     return fn();
@@ -436,7 +491,7 @@ if (isMain) {
     dataDir,
     port: Number(process.env.PORT ?? 4319),
     host: process.env.HOST ?? "127.0.0.1",
-    version: process.env.NEDENMIS_VERSION ?? "1.0.0",
+    version: process.env.NEDENMIS_VERSION ?? appVersion(),
   });
   const host = process.env.HOST ?? "127.0.0.1";
   app.listen().then(({ port }) => {

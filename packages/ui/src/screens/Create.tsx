@@ -1,20 +1,25 @@
 import { useEffect, useState } from "react";
 import { api, ApiError } from "../api.ts";
 import { navigate, useApp } from "../App.tsx";
+import { LANGUAGE_LEVEL_INFO, loadSettings, type LanguageLevelId, type VisualComplexityId } from "../settings.ts";
 
-const DURATIONS = [30, 45, 60, 90];
+const DURATIONS = [20, 30, 45, 60];
 
 export function Create() {
   const { health, toast } = useApp();
+  const settings = loadSettings();
   const [topic, setTopic] = useState("");
-  const [duration, setDuration] = useState<number>(60);
+  const [level, setLevel] = useState<LanguageLevelId>(settings.languageLevel);
+  const [visualComplexity, setVisualComplexity] = useState<VisualComplexityId>(settings.visualComplexity);
+  const [subtitles, setSubtitles] = useState(settings.subtitles);
+  const [duration, setDuration] = useState<number>(settings.targetDurationSec);
   const [custom, setCustom] = useState("");
-  const [quality, setQuality] = useState<"draft" | "standard" | "high">("high");
-  const [engine, setEngine] = useState("espeak");
+  const [quality, setQuality] = useState<"draft" | "standard" | "high">(settings.quality);
+  const [engine, setEngine] = useState(settings.engine);
   const [advanced, setAdvanced] = useState(false);
-  const [voice, setVoice] = useState("tr");
-  const [rate, setRate] = useState(165);
-  const [chatterboxUrl, setChatterboxUrl] = useState("http://127.0.0.1:4321");
+  const [voice, setVoice] = useState(settings.voice);
+  const [rate, setRate] = useState(settings.rate);
+  const [chatterboxUrl, setChatterboxUrl] = useState(settings.chatterboxUrl);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<{ message: string; hint?: string; detail?: string } | null>(null);
   const [suggestions, setSuggestions] = useState<{ topic: string }[]>([]);
@@ -44,9 +49,17 @@ export function Create() {
         topic: topic.trim(),
         targetDurationSec: effectiveDuration,
         quality,
+        languageLevel: level,
+        visualComplexity,
+        subtitles,
         narration: { engine, voice, rate, chatterboxUrl },
       });
-      toast(`Plan hazır: ${project.scenes.length} sahne, doğrulama ${project.validation?.status === "approved" ? "onaylı" : "reddedildi"}.`);
+      const q = project.scriptQuality;
+      toast(
+        `Plan hazır: ${project.scenes.length} sahne · senaryo ${q ? `${q.score}/100` : "—"} · doğrulama ${
+          project.validation?.status === "approved" ? "onaylı" : "reddedildi"
+        }.`,
+      );
       navigate(`/studio/${project.id}`);
     } catch (e) {
       const err = e as ApiError;
@@ -116,6 +129,21 @@ export function Create() {
 
       <div className="grid two">
         <section className="panel">
+          <h2>Anlatım dili</h2>
+          <span className="small" style={{ display: "block", marginBottom: 14 }}>
+            Karmaşık konular sade Türkçeyle anlatılır; bilimsel doğruluk korunur. Varsayılan: Sade.
+          </span>
+          <div className="lang-options">
+            {LANGUAGE_LEVEL_INFO.map((l) => (
+              <button key={l.id} className={`option ${level === l.id ? "active" : ""}`} onClick={() => setLevel(l.id)}>
+                <div className="option-title">{l.label}</div>
+                <div className="option-desc">{l.desc}</div>
+              </button>
+            ))}
+          </div>
+        </section>
+
+        <section className="panel">
           <h2>Süre ve kalite</h2>
           <div className="stack">
             <div className="field">
@@ -161,6 +189,38 @@ export function Create() {
                 ))}
               </div>
               <span className="small">Nihai videolar her zaman 1080×1920 dikey formattadır; Taslak yalnızca hızlı bakış içindir.</span>
+            </div>
+
+            <div className="field">
+              <span className="label">Görsel karmaşıklık</span>
+              <div className="chips">
+                {[
+                  { id: "sade", label: "Sade (az etiket)" },
+                  { id: "dengeli", label: "Dengeli" },
+                  { id: "zengin", label: "Zengin" },
+                ].map((v) => (
+                  <button
+                    key={v.id}
+                    className={`chip ${visualComplexity === v.id ? "active" : ""}`}
+                    onClick={() => setVisualComplexity(v.id as VisualComplexityId)}
+                  >
+                    {v.label}
+                  </button>
+                ))}
+              </div>
+              <span className="small">Her sahnede tek ana fikir; sade seçimde en fazla iki etiket gösterilir.</span>
+            </div>
+
+            <div className="field">
+              <span className="label">Altyazı</span>
+              <div className="chips">
+                <button className={`chip ${subtitles ? "active" : ""}`} onClick={() => setSubtitles(true)}>
+                  Açık
+                </button>
+                <button className={`chip ${!subtitles ? "active" : ""}`} onClick={() => setSubtitles(false)}>
+                  Kapalı
+                </button>
+              </div>
             </div>
           </div>
         </section>

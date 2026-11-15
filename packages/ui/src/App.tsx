@@ -4,6 +4,7 @@ import { Create } from "./screens/Create.tsx";
 import { Studio } from "./screens/Studio.tsx";
 import { Library } from "./screens/Library.tsx";
 import { Settings } from "./screens/Settings.tsx";
+import { lastProject, rememberProject } from "./settings.ts";
 
 export type Route = { name: "new" } | { name: "studio"; id: string } | { name: "library" } | { name: "settings" };
 
@@ -31,12 +32,18 @@ export const useApp = () => useContext(Ctx);
 
 export function App() {
   const [route, setRoute] = useState<Route>(() => parseRoute(window.location.hash));
+  const [studioId, setStudioId] = useState<string | null>(() => lastProject());
   const [health, setHealth] = useState<Health | null>(null);
   const [toastMsg, setToastMsg] = useState<string | null>(null);
 
   useEffect(() => {
     const onHash = () => {
-      setRoute(parseRoute(window.location.hash));
+      const next = parseRoute(window.location.hash);
+      setRoute(next);
+      if (next.name === "studio") {
+        setStudioId(next.id);
+        rememberProject(next.id);
+      }
       window.scrollTo({ top: 0 });
     };
     window.addEventListener("hashchange", onHash);
@@ -61,7 +68,8 @@ export function App() {
 
   const value = useMemo<AppState>(() => ({ health, refreshHealth, toast }), [health, refreshHealth, toast]);
 
-  const engineOk = health?.tts?.find((t) => t.engine === "espeak")?.available ?? false;
+  const engineOk = health?.tts?.some((t) => t.available && !t.silent) ?? false;
+  const chatterbox = health?.tts?.find((t) => t.engine === "chatterbox");
 
   return (
     <Ctx.Provider value={value}>
@@ -76,14 +84,23 @@ export function App() {
           </div>
 
           <nav className="nav">
-            <button className={`nav-item ${route.name === "new" ? "active" : ""}`} onClick={() => navigate("/new")}>
-              <span className="nav-icon">✦</span>
-              <span className="nav-label">Yeni video</span>
-            </button>
             <button className={`nav-item ${route.name === "library" ? "active" : ""}`} onClick={() => navigate("/library")}>
               <span className="nav-icon">▤</span>
-              <span className="nav-label">Kütüphane</span>
+              <span className="nav-label">Projeler</span>
             </button>
+            <button className={`nav-item ${route.name === "new" ? "active" : ""}`} onClick={() => navigate("/new")}>
+              <span className="nav-icon">✦</span>
+              <span className="nav-label">Video oluştur</span>
+            </button>
+            <button
+              className={`nav-item ${route.name === "studio" ? "active" : ""}`}
+              onClick={() => navigate(studioId ? `/studio/${studioId}` : "/library")}
+              title={studioId ? "Son projeyi aç" : "Önce bir proje oluşturun"}
+            >
+              <span className="nav-icon">◫</span>
+              <span className="nav-label">Stüdyo</span>
+            </button>
+            <div className="nav-group">Sistem</div>
             <button className={`nav-item ${route.name === "settings" ? "active" : ""}`} onClick={() => navigate("/settings")}>
               <span className="nav-icon">⚙</span>
               <span className="nav-label">Ayarlar</span>
@@ -94,6 +111,10 @@ export function App() {
             <div className="status-line">
               <span className={`dot ${health ? (engineOk ? "ok" : "warn") : "err"}`} />
               {health ? (engineOk ? "Yerel ses motoru hazır" : "Ses motoru eksik") : "Motora bağlanılamadı"}
+            </div>
+            <div className="status-line">
+              <span className={`dot ${chatterbox?.available ? "ok" : "warn"}`} />
+              {chatterbox?.available ? "Chatterbox kullanılabilir" : "Chatterbox yok (yedek motor)"}
             </div>
             <div className="status-line">
               <span className={`dot ${health?.ffmpeg ? "ok" : "err"}`} />

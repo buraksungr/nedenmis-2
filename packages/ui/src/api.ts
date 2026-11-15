@@ -6,6 +6,7 @@ export type TtsStatus = {
   available: boolean;
   detail: string;
   silent: boolean;
+  state: "ready" | "downloading" | "unavailable" | "fallback";
 };
 
 export type Health = {
@@ -73,6 +74,9 @@ export type PlanInput = {
   topic: string;
   targetDurationSec: number;
   quality?: "draft" | "standard" | "high";
+  languageLevel?: "simple" | "standard" | "detailed";
+  visualComplexity?: "sade" | "dengeli" | "zengin";
+  subtitles?: boolean;
   narration?: { engine?: string; voice?: string; rate?: number; chatterboxUrl?: string };
   fps?: number;
 };

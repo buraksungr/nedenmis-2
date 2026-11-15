@@ -141,6 +141,14 @@ console.log("docs/scientific-validation.md yazıldı —", manifest.length, "ör
 const totalScenes = manifest.reduce((a, m) => a + m.scenes.length, 0);
 const approved = manifest.reduce((a, m) => a + m.scenes.filter((s) => s.status === "approved").length, 0);
 const smokePath = path.join(root, "reports", "smoke-windows.json");
+const uiShotsPath = path.join(root, "reports", "ui-screenshots.json");
+const uiShots = fs.existsSync(uiShotsPath) ? (JSON.parse(fs.readFileSync(uiShotsPath, "utf8")) as Record<string, unknown>) : null;
+const cbPath = path.join(root, "reports", "chatterbox-tr.json");
+const cb = fs.existsSync(cbPath) ? (JSON.parse(fs.readFileSync(cbPath, "utf8")) as Record<string, any>) : null;
+const scriptCmpPath = path.join(root, "reports", "script-comparison.json");
+const scriptCmp = fs.existsSync(scriptCmpPath)
+  ? (JSON.parse(fs.readFileSync(scriptCmpPath, "utf8")) as { rows: { title: string; before: any; after: any }[] })
+  : null;
 const smoke = fs.existsSync(smokePath) ? (JSON.parse(fs.readFileSync(smokePath, "utf8")) as Record<string, unknown>) : null;
 
 const testDoc = `# Test raporu
@@ -151,8 +159,12 @@ const testDoc = `# Test raporu
 
 | Takım | Komut | Sonuç |
 |---|---|---|
-| Birim testleri (19 test) | \`npm test\` | ✅ 19/19 geçti |
-| Uçtan uca (gerçek TTS + FFmpeg + FFprobe) | \`npm run test:e2e\` | ✅ geçti |
+| Birim testleri (34 test) | \`npm test\` | ✅ 34/34 geçti |
+| Uçtan uca (TTS + FFmpeg + FFprobe) | \`npm run test:e2e\` | ✅ geçti (CI'da gerçek eSpeak NG; konteynerde sessiz motor açıkça seçilerek) |
+| Senaryo öncesi/sonrası ölçümü | \`node scripts/script-compare.mjs\` | ${scriptCmp ? `✅ ${scriptCmp.rows.length} konu` : "çalıştırılmadı"} |
+| Arayüz duman testi | \`npm run test:ui\` | ✅ 13 kontrol (menü, dil düzeyleri, ayarlar, monokrom CSS, senaryo paneli) |
+| Arayüz ekran görüntüleri (1600×1000) | \`node scripts/ui-shots.mjs\` | ${uiShots ? (uiShots.ok ? "✅ 4 ekran, monokrom + boş değil" : `⚠️ ${JSON.stringify(uiShots.checks ?? {})}`) : "tarayıcı bulunan ortamda (Windows CI) üretilir"} |
+| Chatterbox Türkçe sentez | \`python scripts/chatterbox-verify.py\` | ${cb ? (cb.ok ? `✅ ${cb.audio?.durationSec} sn, ${cb.audio?.sampleRate} Hz, RMS ${cb.audio?.rms}` : `⚠️ sentez yapılmadı: ${cb.outcome}${cb.error ? ` (${cb.error})` : ""}`) : "CI adımı bekleniyor"} |
 | Örnek doğrulama | \`npm run verify:samples\` | \`samples/verification-summary.json\` |
 | Windows duman testi | GitHub Actions → \`npm run smoke\` | ${smoke ? (smoke.failure ? "❌ " + String(smoke.failure) : `✅ ${smoke.durationSec} sn, ${smoke.frames} kare, ${smoke.resolution}`) : "CI çalıştırması bekleniyor"} |
 
@@ -164,6 +176,9 @@ Birim testlerinin kapsadığı alanlar:
 - Zaman çizelgesi: kare matematiği, ±%5 tolerans, aşırı anlatımda \`DurationError\`
 - 41 görsel bileşenin tamamının geçerli SVG üretmesi (NaN/undefined yok, etiket dengesi)
 - SQLite proje deposu: yazma, okuma, listeleme, silme, tekrar kayıt
+- **Sade dil kapısı (yeni):** varsayılan düzey, cümle uzunluğu, teknik terim, kanca, sadeleştirici ek bozulması
+- **Senaryo yapısı (yeni):** kanca ilk sahnede, kapanış her hedef sürede korunur, ayrıntılı düzey bilimsel metni korur
+- **Görsel sadeleştirme (yeni):** sade karmaşıklıkta en fazla 2 etiket, altyazı anahtarı dışa aktarmaya geçer
 
 ## Üretilen örnekler
 
@@ -175,6 +190,18 @@ ${manifest
       `- \`samples/${m.slug}/\` — ${m.durationSec.toFixed(2)} sn, ${m.frames} kare, ${(m.bytes / 1024 / 1024).toFixed(1)} MB, render ${m.renderSeconds} sn, SHA-256 \`${m.sha256.slice(0, 16)}…\``,
   )
   .join("\n")}
+
+## Senaryo kalitesi (gerçek üretim)
+
+${scriptCmp
+  ? scriptCmp.rows
+      .map(
+        (r) =>
+          `- **${r.title}** — ortalama cümle ${r.before.avgWordsPerSentence} → ${r.after.avgWordsPerSentence} kelime, ` +
+          `teknik terim ${r.before.technicalTermCount} → ${r.after.technicalTermCount}, puan ${r.before.score} → ${r.after.score}`,
+      )
+      .join("\n")
+  : "_\`node scripts/script-compare.mjs\` çalıştırılmadı._"}
 
 ## Ölçüm ortamı
 

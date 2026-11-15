@@ -131,6 +131,9 @@ export function Studio({ id }: { id: string }) {
               görsel doğrulama: {project.validation?.status ?? "—"}
             </Badge>
             <Badge tone="neutral">hedef {project.targetDurationSec} sn</Badge>
+            <Badge tone="neutral">
+              dil: {project.languageLevel === "simple" ? "sade" : project.languageLevel === "standard" ? "standart" : "ayrıntılı"}
+            </Badge>
             {project.timelineMeta && <Badge tone="info">gerçek {formatSec(project.timelineMeta.durationSec)}</Badge>}
             {project.narration.engineUsed && <Badge tone="neutral">{project.narration.engineUsed}</Badge>}
           </div>
@@ -242,6 +245,53 @@ export function Studio({ id }: { id: string }) {
         </div>
 
         <div className="stack" style={{ position: "sticky", top: 24 }}>
+          {project.scriptQuality && (
+            <section className="panel">
+              <div className="panel-head">
+                <div>
+                  <h2>Senaryo kalitesi</h2>
+                  <span className="small">Sade dil · anlaşılırlık ölçümü</span>
+                </div>
+                <Badge tone={project.scriptQuality.ok ? "ok" : "warn"}>
+                  {project.scriptQuality.score}/100
+                </Badge>
+              </div>
+              <div className="meter" style={{ marginBottom: 14 }}>
+                <div className="meter-bar" style={{ width: `${Math.max(4, project.scriptQuality.score)}%` }} />
+              </div>
+              <div className="stat-grid">
+                <div className="stat">
+                  <div className="stat-value">{project.scriptQuality.avgWordsPerSentence.toFixed(1)}</div>
+                  <div className="stat-label">ort. kelime / cümle</div>
+                </div>
+                <div className="stat">
+                  <div className="stat-value">{project.scriptQuality.longestSentenceWords}</div>
+                  <div className="stat-label">en uzun cümle</div>
+                </div>
+                <div className="stat">
+                  <div className="stat-value">{project.scriptQuality.technicalTermCount}</div>
+                  <div className="stat-label">teknik terim</div>
+                </div>
+              </div>
+              <div className="stack" style={{ gap: 6, marginTop: 14 }}>
+                {project.scriptQuality.hook.ok ? (
+                  <CheckRow ok title="Açılış merak uyandırıyor" detail={`“${project.scriptQuality.hook.sample}”`} />
+                ) : (
+                  <CheckRow ok={false} warn title="Açılış zayıf" detail="İlk iki cümlede soru veya şaşırtıcı bilgi yok." />
+                )}
+                {project.scriptQuality.issues.length === 0 && <CheckRow ok title="Cümle uzunluğu ve terim yoğunluğu sınır içinde" />}
+                {project.scriptQuality.issues.map((i) => (
+                  <CheckRow
+                    key={i.code}
+                    ok={i.severity !== "error"}
+                    warn={i.severity !== "error"}
+                    title={i.messageTr}
+                  />
+                ))}
+              </div>
+            </section>
+          )}
+
           <section className="panel">
             <h2>Çıktı</h2>
             {project.outputs.videoPath ? (

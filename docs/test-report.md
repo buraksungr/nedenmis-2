@@ -1,13 +1,17 @@
 # Test raporu
 
-Üretim tarihi: 2026-11-15T00:42:38.286Z
+Üretim tarihi: 2026-11-15T23:05:33.234Z
 
 ## Otomatik testler
 
 | Takım | Komut | Sonuç |
 |---|---|---|
-| Birim testleri (19 test) | `npm test` | ✅ 19/19 geçti |
-| Uçtan uca (gerçek TTS + FFmpeg + FFprobe) | `npm run test:e2e` | ✅ geçti |
+| Birim testleri (34 test) | `npm test` | ✅ 34/34 geçti |
+| Uçtan uca (TTS + FFmpeg + FFprobe) | `npm run test:e2e` | ✅ geçti (CI'da gerçek eSpeak NG; konteynerde sessiz motor açıkça seçilerek) |
+| Senaryo öncesi/sonrası ölçümü | `node scripts/script-compare.mjs` | ✅ 4 konu |
+| Arayüz duman testi | `npm run test:ui` | ✅ 13 kontrol (menü, dil düzeyleri, ayarlar, monokrom CSS, senaryo paneli) |
+| Arayüz ekran görüntüleri (1600×1000) | `node scripts/ui-shots.mjs` | tarayıcı bulunan ortamda (Windows CI) üretilir |
+| Chatterbox Türkçe sentez | `python scripts/chatterbox-verify.py` | ⚠️ sentez yapılmadı: not-installed (No module named 'chatterbox') |
 | Örnek doğrulama | `npm run verify:samples` | `samples/verification-summary.json` |
 | Windows duman testi | GitHub Actions → `npm run smoke` | CI çalıştırması bekleniyor |
 
@@ -19,6 +23,9 @@ Birim testlerinin kapsadığı alanlar:
 - Zaman çizelgesi: kare matematiği, ±%5 tolerans, aşırı anlatımda `DurationError`
 - 41 görsel bileşenin tamamının geçerli SVG üretmesi (NaN/undefined yok, etiket dengesi)
 - SQLite proje deposu: yazma, okuma, listeleme, silme, tekrar kayıt
+- **Sade dil kapısı (yeni):** varsayılan düzey, cümle uzunluğu, teknik terim, kanca, sadeleştirici ek bozulması
+- **Senaryo yapısı (yeni):** kanca ilk sahnede, kapanış her hedef sürede korunur, ayrıntılı düzey bilimsel metni korur
+- **Görsel sadeleştirme (yeni):** sade karmaşıklıkta en fazla 2 etiket, altyazı anahtarı dışa aktarmaya geçer
 
 ## Üretilen örnekler
 
@@ -30,6 +37,13 @@ Birim testlerinin kapsadığı alanlar:
 - `samples/kara-delik-nedir/` — 57.70 sn, 1731 kare, 3.9 MB, render 683.1 sn, SHA-256 `d7228a54359691ec…`
 - `samples/metaller-neden-iletken/` — 62.73 sn, 1882 kare, 5.1 MB, render 496 sn, SHA-256 `75a83fbb725279ce…`
 - `samples/mitokondri-neden-onemli/` — 62.00 sn, 1860 kare, 4.6 MB, render 510.3 sn, SHA-256 `e7f4252341d8110b…`
+
+## Senaryo kalitesi (gerçek üretim)
+
+- **Elmas neden kolay kırılmaz?** — ortalama cümle 14.8 → 6.5 kelime, teknik terim 3 → 0, puan 86 → 100
+- **Gökyüzü neden mavi?** — ortalama cümle 14 → 5.8 kelime, teknik terim 1 → 0, puan 96 → 100
+- **Denizler neden tuzlu?** — ortalama cümle 11.8 → 4.7 kelime, teknik terim 0 → 0, puan 92 → 100
+- **Kara delikler nasıl çalışır?** — ortalama cümle 14 → 6.1 kelime, teknik terim 1 → 0, puan 100 → 100
 
 ## Ölçüm ortamı
 
