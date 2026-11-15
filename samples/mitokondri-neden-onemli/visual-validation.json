@@ -1,0 +1,425 @@
+{
+  "projectId": "d8d47284-72eb-4a2e-8419-e88392c4fdec",
+  "topic": "Mitokondri neden önemli?",
+  "cardId": "mitochondria-atp",
+  "status": "approved",
+  "summary": "6 sahnenin tamamı bilimsel görsel doğrulamadan geçti (5 uyarı).",
+  "errors": 0,
+  "warnings": 5,
+  "scenes": [
+    {
+      "id": "mitochondria-atp-s1",
+      "component": "cell_section",
+      "mechanism": "cell_section",
+      "status": "approved",
+      "score": 86,
+      "checks": [
+        {
+          "code": "V_COMPONENT_EXISTS",
+          "ok": true,
+          "message": "Görsel bileşen bulundu: Hücre kesiti ve organeller.",
+          "severity": "error"
+        },
+        {
+          "code": "V_DOMAIN_MATCH",
+          "ok": true,
+          "message": "Bileşen domaini (biology) konu domainiyle (biology/chemistry) uyumlu.",
+          "severity": "error"
+        },
+        {
+          "code": "V_MECHANISM_MATCH",
+          "ok": true,
+          "message": "Bileşen 'cell_section' mekanizmasını destekliyor.",
+          "severity": "error"
+        },
+        {
+          "code": "V_FORBIDDEN_CONCEPT",
+          "ok": true,
+          "message": "Yasaklı kavram içermiyor.",
+          "severity": "error"
+        },
+        {
+          "code": "V_COMPONENT_RELEVANT",
+          "ok": true,
+          "message": "Bileşen konu kavramlarıyla örtüşüyor: cell, cell_membrane, mitochondrion.",
+          "severity": "error"
+        },
+        {
+          "code": "V_CONCEPT_SCOPE",
+          "ok": true,
+          "message": "Sahne kavramları bilgi kartında tanımlı.",
+          "severity": "error"
+        },
+        {
+          "code": "V_NARRATION_VISUAL_LINK",
+          "ok": true,
+          "message": "Anlatımdaki kavramlar görselde karşılık buluyor: cell, cell_membrane, mitochondrion.",
+          "severity": "info"
+        },
+        {
+          "code": "V_MISCONCEPTION",
+          "ok": true,
+          "message": "Anlatımda bilinen yanlış iddia yok.",
+          "severity": "error"
+        },
+        {
+          "code": "V_LABEL_FOREIGN_DOMAIN",
+          "ok": true,
+          "message": "Görsel etiketler konuyla aynı bilim alanından.",
+          "severity": "error"
+        },
+        {
+          "code": "V_LABEL_GROUNDING",
+          "ok": false,
+          "message": "Kavram sözlüğünde karşılığı olmayan etiketler: çekirdek, içinde.",
+          "severity": "warning"
+        }
+      ]
+    },
+    {
+      "id": "mitochondria-atp-s2",
+      "component": "mitochondrion_cross",
+      "mechanism": "mitochondrion_cross",
+      "status": "approved",
+      "score": 86,
+      "checks": [
+        {
+          "code": "V_COMPONENT_EXISTS",
+          "ok": true,
+          "message": "Görsel bileşen bulundu: Mitokondri kesiti ve kristalar.",
+          "severity": "error"
+        },
+        {
+          "code": "V_DOMAIN_MATCH",
+          "ok": true,
+          "message": "Bileşen domaini (biology) konu domainiyle (biology/chemistry) uyumlu.",
+          "severity": "error"
+        },
+        {
+          "code": "V_MECHANISM_MATCH",
+          "ok": true,
+          "message": "Bileşen 'mitochondrion_cross' mekanizmasını destekliyor.",
+          "severity": "error"
+        },
+        {
+          "code": "V_FORBIDDEN_CONCEPT",
+          "ok": true,
+          "message": "Yasaklı kavram içermiyor.",
+          "severity": "error"
+        },
+        {
+          "code": "V_COMPONENT_RELEVANT",
+          "ok": true,
+          "message": "Bileşen konu kavramlarıyla örtüşüyor: mitochondrion, cristae, cell_membrane, proton_gradient, electron_transport_chain.",
+          "severity": "error"
+        },
+        {
+          "code": "V_CONCEPT_SCOPE",
+          "ok": true,
+          "message": "Sahne kavramları bilgi kartında tanımlı.",
+          "severity": "error"
+        },
+        {
+          "code": "V_NARRATION_VISUAL_LINK",
+          "ok": true,
+          "message": "Anlatımdaki kavramlar görselde karşılık buluyor: cristae, cell_membrane.",
+          "severity": "info"
+        },
+        {
+          "code": "V_MISCONCEPTION",
+          "ok": true,
+          "message": "Anlatımda bilinen yanlış iddia yok.",
+          "severity": "error"
+        },
+        {
+          "code": "V_LABEL_FOREIGN_DOMAIN",
+          "ok": true,
+          "message": "Görsel etiketler konuyla aynı bilim alanından.",
+          "severity": "error"
+        },
+        {
+          "code": "V_LABEL_GROUNDING",
+          "ok": false,
+          "message": "Kavram sözlüğünde karşılığı olmayan etiketler: krıstalar.",
+          "severity": "warning"
+        }
+      ]
+    },
+    {
+      "id": "mitochondria-atp-s3",
+      "component": "proton_gradient",
+      "mechanism": "proton_gradient",
+      "status": "approved",
+      "score": 86,
+      "checks": [
+        {
+          "code": "V_COMPONENT_EXISTS",
+          "ok": true,
+          "message": "Görsel bileşen bulundu: Proton eğimi (zarlar arası boşluk).",
+          "severity": "error"
+        },
+        {
+          "code": "V_DOMAIN_MATCH",
+          "ok": true,
+          "message": "Bileşen domaini (biology/chemistry) konu domainiyle (biology/chemistry) uyumlu.",
+          "severity": "error"
+        },
+        {
+          "code": "V_MECHANISM_MATCH",
+          "ok": true,
+          "message": "Bileşen 'proton_gradient' mekanizmasını destekliyor.",
+          "severity": "error"
+        },
+        {
+          "code": "V_FORBIDDEN_CONCEPT",
+          "ok": true,
+          "message": "Yasaklı kavram içermiyor.",
+          "severity": "error"
+        },
+        {
+          "code": "V_COMPONENT_RELEVANT",
+          "ok": true,
+          "message": "Bileşen konu kavramlarıyla örtüşüyor: proton_gradient, electron_transport_chain, cristae, cell_membrane, glucose.",
+          "severity": "error"
+        },
+        {
+          "code": "V_CONCEPT_SCOPE",
+          "ok": true,
+          "message": "Sahne kavramları bilgi kartında tanımlı.",
+          "severity": "error"
+        },
+        {
+          "code": "V_NARRATION_VISUAL_LINK",
+          "ok": true,
+          "message": "Anlatımdaki kavramlar görselde karşılık buluyor: electron_transport_chain, proton_gradient, glucose.",
+          "severity": "info"
+        },
+        {
+          "code": "V_MISCONCEPTION",
+          "ok": true,
+          "message": "Anlatımda bilinen yanlış iddia yok.",
+          "severity": "error"
+        },
+        {
+          "code": "V_LABEL_FOREIGN_DOMAIN",
+          "ok": true,
+          "message": "Görsel etiketler konuyla aynı bilim alanından.",
+          "severity": "error"
+        },
+        {
+          "code": "V_LABEL_GROUNDING",
+          "ok": false,
+          "message": "Kavram sözlüğünde karşılığı olmayan etiketler: kompleksleri.",
+          "severity": "warning"
+        }
+      ]
+    },
+    {
+      "id": "mitochondria-atp-s4",
+      "component": "atp_synthase_rotor",
+      "mechanism": "atp_synthase_rotor",
+      "status": "approved",
+      "score": 100,
+      "checks": [
+        {
+          "code": "V_COMPONENT_EXISTS",
+          "ok": true,
+          "message": "Görsel bileşen bulundu: ATP sentaz: dönen moleküler motor.",
+          "severity": "error"
+        },
+        {
+          "code": "V_DOMAIN_MATCH",
+          "ok": true,
+          "message": "Bileşen domaini (biology) konu domainiyle (biology/chemistry) uyumlu.",
+          "severity": "error"
+        },
+        {
+          "code": "V_MECHANISM_MATCH",
+          "ok": true,
+          "message": "Bileşen 'atp_synthase_rotor' mekanizmasını destekliyor.",
+          "severity": "error"
+        },
+        {
+          "code": "V_FORBIDDEN_CONCEPT",
+          "ok": true,
+          "message": "Yasaklı kavram içermiyor.",
+          "severity": "error"
+        },
+        {
+          "code": "V_COMPONENT_RELEVANT",
+          "ok": true,
+          "message": "Bileşen konu kavramlarıyla örtüşüyor: atp_synthase, atp, proton_gradient, cell_membrane, energy.",
+          "severity": "error"
+        },
+        {
+          "code": "V_CONCEPT_SCOPE",
+          "ok": true,
+          "message": "Sahne kavramları bilgi kartında tanımlı.",
+          "severity": "error"
+        },
+        {
+          "code": "V_NARRATION_VISUAL_LINK",
+          "ok": true,
+          "message": "Anlatımdaki kavramlar görselde karşılık buluyor: atp_synthase, atp, proton_gradient.",
+          "severity": "info"
+        },
+        {
+          "code": "V_MISCONCEPTION",
+          "ok": true,
+          "message": "Anlatımda bilinen yanlış iddia yok.",
+          "severity": "error"
+        },
+        {
+          "code": "V_LABEL_FOREIGN_DOMAIN",
+          "ok": true,
+          "message": "Görsel etiketler konuyla aynı bilim alanından.",
+          "severity": "error"
+        },
+        {
+          "code": "V_LABEL_GROUNDING",
+          "ok": true,
+          "message": "Tüm etiketler kavram sözlüğüne dayanıyor.",
+          "severity": "warning"
+        }
+      ]
+    },
+    {
+      "id": "mitochondria-atp-s5",
+      "component": "metabolism_summary",
+      "mechanism": "metabolism_summary",
+      "status": "approved",
+      "score": 86,
+      "checks": [
+        {
+          "code": "V_COMPONENT_EXISTS",
+          "ok": true,
+          "message": "Görsel bileşen bulundu: Metabolik girdi–çıktı özeti.",
+          "severity": "error"
+        },
+        {
+          "code": "V_DOMAIN_MATCH",
+          "ok": true,
+          "message": "Bileşen domaini (biology/chemistry) konu domainiyle (biology/chemistry) uyumlu.",
+          "severity": "error"
+        },
+        {
+          "code": "V_MECHANISM_MATCH",
+          "ok": true,
+          "message": "Bileşen 'metabolism_summary' mekanizmasını destekliyor.",
+          "severity": "error"
+        },
+        {
+          "code": "V_FORBIDDEN_CONCEPT",
+          "ok": true,
+          "message": "Yasaklı kavram içermiyor.",
+          "severity": "error"
+        },
+        {
+          "code": "V_COMPONENT_RELEVANT",
+          "ok": true,
+          "message": "Bileşen konu kavramlarıyla örtüşüyor: glucose, oxygen, carbon_dioxide, water, atp.",
+          "severity": "error"
+        },
+        {
+          "code": "V_CONCEPT_SCOPE",
+          "ok": true,
+          "message": "Sahne kavramları bilgi kartında tanımlı.",
+          "severity": "error"
+        },
+        {
+          "code": "V_NARRATION_VISUAL_LINK",
+          "ok": true,
+          "message": "Anlatımdaki kavramlar görselde karşılık buluyor: glucose, oxygen, carbon_dioxide, water.",
+          "severity": "info"
+        },
+        {
+          "code": "V_MISCONCEPTION",
+          "ok": true,
+          "message": "Anlatımda bilinen yanlış iddia yok.",
+          "severity": "error"
+        },
+        {
+          "code": "V_LABEL_FOREIGN_DOMAIN",
+          "ok": true,
+          "message": "Görsel etiketler konuyla aynı bilim alanından.",
+          "severity": "error"
+        },
+        {
+          "code": "V_LABEL_GROUNDING",
+          "ok": false,
+          "message": "Kavram sözlüğünde karşılığı olmayan etiketler: girdi, çıktı.",
+          "severity": "warning"
+        }
+      ]
+    },
+    {
+      "id": "mitochondria-atp-s6",
+      "component": "atp_synthase_rotor",
+      "mechanism": "atp_synthase_rotor",
+      "status": "approved",
+      "score": 86,
+      "checks": [
+        {
+          "code": "V_COMPONENT_EXISTS",
+          "ok": true,
+          "message": "Görsel bileşen bulundu: ATP sentaz: dönen moleküler motor.",
+          "severity": "error"
+        },
+        {
+          "code": "V_DOMAIN_MATCH",
+          "ok": true,
+          "message": "Bileşen domaini (biology) konu domainiyle (biology/chemistry) uyumlu.",
+          "severity": "error"
+        },
+        {
+          "code": "V_MECHANISM_MATCH",
+          "ok": true,
+          "message": "Bileşen 'atp_synthase_rotor' mekanizmasını destekliyor.",
+          "severity": "error"
+        },
+        {
+          "code": "V_FORBIDDEN_CONCEPT",
+          "ok": true,
+          "message": "Yasaklı kavram içermiyor.",
+          "severity": "error"
+        },
+        {
+          "code": "V_COMPONENT_RELEVANT",
+          "ok": true,
+          "message": "Bileşen konu kavramlarıyla örtüşüyor: atp_synthase, atp, proton_gradient, cell_membrane, energy.",
+          "severity": "error"
+        },
+        {
+          "code": "V_CONCEPT_SCOPE",
+          "ok": true,
+          "message": "Sahne kavramları bilgi kartında tanımlı.",
+          "severity": "error"
+        },
+        {
+          "code": "V_NARRATION_VISUAL_LINK",
+          "ok": true,
+          "message": "Anlatımdaki kavramlar görselde karşılık buluyor: proton_gradient.",
+          "severity": "info"
+        },
+        {
+          "code": "V_MISCONCEPTION",
+          "ok": true,
+          "message": "Anlatımda bilinen yanlış iddia yok.",
+          "severity": "error"
+        },
+        {
+          "code": "V_LABEL_FOREIGN_DOMAIN",
+          "ok": true,
+          "message": "Görsel etiketler konuyla aynı bilim alanından.",
+          "severity": "error"
+        },
+        {
+          "code": "V_LABEL_GROUNDING",
+          "ok": false,
+          "message": "Kavram sözlüğünde karşılığı olmayan etiketler: özet.",
+          "severity": "warning"
+        }
+      ]
+    }
+  ]
+}

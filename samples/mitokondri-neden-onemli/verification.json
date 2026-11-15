@@ -1,0 +1,188 @@
+{
+  "ok": true,
+  "file": "/home/user/nedenmis-2/data/samples-work/projects/d8d47284-72eb-4a2e-8419-e88392c4fdec/out/d8d47284-mitochondria-atp-60s.mp4",
+  "fileBytes": 4844854,
+  "durationSec": 62,
+  "container": "mov,mp4,m4a,3gp,3g2,mj2",
+  "video": {
+    "codec": "h264",
+    "width": 1080,
+    "height": 1920,
+    "fps": 30,
+    "framesRead": 1860,
+    "framesExpected": 1860
+  },
+  "audio": {
+    "codec": "aac",
+    "sampleRate": 48000,
+    "channels": 2,
+    "durationSec": 61.952
+  },
+  "checks": [
+    {
+      "id": "file_exists",
+      "ok": true,
+      "detail": "Dosya var: /home/user/nedenmis-2/data/samples-work/projects/d8d47284-72eb-4a2e-8419-e88392c4fdec/out/d8d47284-mitochondria-atp-60s.mp4",
+      "severity": "error"
+    },
+    {
+      "id": "file_size",
+      "ok": true,
+      "detail": "4.62 MB",
+      "severity": "error"
+    },
+    {
+      "id": "container_mp4",
+      "ok": true,
+      "detail": "mov,mp4,m4a,3gp,3g2,mj2",
+      "severity": "error"
+    },
+    {
+      "id": "video_stream",
+      "ok": true,
+      "detail": "h264 1080x1920",
+      "severity": "error"
+    },
+    {
+      "id": "video_codec_h264",
+      "ok": true,
+      "detail": "h264",
+      "severity": "error"
+    },
+    {
+      "id": "resolution_1080x1920",
+      "ok": true,
+      "detail": "1080x1920",
+      "severity": "warning"
+    },
+    {
+      "id": "fps_30",
+      "ok": true,
+      "detail": "30",
+      "severity": "error"
+    },
+    {
+      "id": "frame_count_exact",
+      "ok": true,
+      "detail": "çözülen 1860 / beklenen 1860",
+      "severity": "error"
+    },
+    {
+      "id": "duration_matches_target",
+      "ok": true,
+      "detail": "62.00 sn (hedef 60 ±%5)",
+      "severity": "error"
+    },
+    {
+      "id": "audio_stream",
+      "ok": true,
+      "detail": "aac 48000 Hz 2 kanal",
+      "severity": "error"
+    },
+    {
+      "id": "audio_codec_aac",
+      "ok": true,
+      "detail": "aac",
+      "severity": "error"
+    },
+    {
+      "id": "audio_sample_rate_48k",
+      "ok": true,
+      "detail": "48000",
+      "severity": "error"
+    },
+    {
+      "id": "av_sync",
+      "ok": true,
+      "detail": "ses 61.952 sn, video 62.000 sn, fark 48 ms",
+      "severity": "error"
+    },
+    {
+      "id": "frame_visible_mitochondria-atp-s1",
+      "ok": true,
+      "detail": "t=5.88 sn, ortalama parlaklık 37.21, dağılım 24.68",
+      "severity": "error"
+    },
+    {
+      "id": "frame_visible_mitochondria-atp-s2",
+      "ok": true,
+      "detail": "t=16.71 sn, ortalama parlaklık 38.84, dağılım 28.59",
+      "severity": "error"
+    },
+    {
+      "id": "frame_visible_mitochondria-atp-s3",
+      "ok": true,
+      "detail": "t=27.62 sn, ortalama parlaklık 34.92, dağılım 25.69",
+      "severity": "error"
+    },
+    {
+      "id": "frame_visible_mitochondria-atp-s4",
+      "ok": true,
+      "detail": "t=37.65 sn, ortalama parlaklık 35.4, dağılım 27.79",
+      "severity": "error"
+    },
+    {
+      "id": "frame_visible_mitochondria-atp-s5",
+      "ok": true,
+      "detail": "t=47.93 sn, ortalama parlaklık 30.78, dağılım 19.31",
+      "severity": "error"
+    },
+    {
+      "id": "frame_visible_mitochondria-atp-s6",
+      "ok": true,
+      "detail": "t=57.91 sn, ortalama parlaklık 35.64, dağılım 28.05",
+      "severity": "error"
+    }
+  ],
+  "frameSamples": [
+    {
+      "sceneId": "mitochondria-atp-s1",
+      "timeSec": 5.88,
+      "meanLuma": 37.21,
+      "stdDev": 24.68,
+      "ok": true,
+      "imagePath": "/home/user/nedenmis-2/data/samples-work/projects/d8d47284-72eb-4a2e-8419-e88392c4fdec/reports/frames/mitochondria-atp-s1.jpg"
+    },
+    {
+      "sceneId": "mitochondria-atp-s2",
+      "timeSec": 16.71,
+      "meanLuma": 38.84,
+      "stdDev": 28.59,
+      "ok": true,
+      "imagePath": "/home/user/nedenmis-2/data/samples-work/projects/d8d47284-72eb-4a2e-8419-e88392c4fdec/reports/frames/mitochondria-atp-s2.jpg"
+    },
+    {
+      "sceneId": "mitochondria-atp-s3",
+      "timeSec": 27.62,
+      "meanLuma": 34.92,
+      "stdDev": 25.69,
+      "ok": true,
+      "imagePath": "/home/user/nedenmis-2/data/samples-work/projects/d8d47284-72eb-4a2e-8419-e88392c4fdec/reports/frames/mitochondria-atp-s3.jpg"
+    },
+    {
+      "sceneId": "mitochondria-atp-s4",
+      "timeSec": 37.65,
+      "meanLuma": 35.4,
+      "stdDev": 27.79,
+      "ok": true,
+      "imagePath": "/home/user/nedenmis-2/data/samples-work/projects/d8d47284-72eb-4a2e-8419-e88392c4fdec/reports/frames/mitochondria-atp-s4.jpg"
+    },
+    {
+      "sceneId": "mitochondria-atp-s5",
+      "timeSec": 47.93,
+      "meanLuma": 30.78,
+      "stdDev": 19.31,
+      "ok": true,
+      "imagePath": "/home/user/nedenmis-2/data/samples-work/projects/d8d47284-72eb-4a2e-8419-e88392c4fdec/reports/frames/mitochondria-atp-s5.jpg"
+    },
+    {
+      "sceneId": "mitochondria-atp-s6",
+      "timeSec": 57.91,
+      "meanLuma": 35.64,
+      "stdDev": 28.05,
+      "ok": true,
+      "imagePath": "/home/user/nedenmis-2/data/samples-work/projects/d8d47284-72eb-4a2e-8419-e88392c4fdec/reports/frames/mitochondria-atp-s6.jpg"
+    }
+  ],
+  "avSync": 0.04800000000000182
+}

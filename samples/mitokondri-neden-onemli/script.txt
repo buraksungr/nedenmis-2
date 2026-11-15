@@ -1,0 +1,14 @@
+Mitokondri nasıl enerji üretir?
+Mitokondri neden önemli?
+
+1. [0.00–10.70 sn | konuşma 10.03 sn] Hücrenin içinde, enerji ihtiyacının karşılandığı yer mitokondridir. Çift zarlı bu organel kendi DNA'sına bile sahiptir.
+
+2. [10.70–21.63 sn | konuşma 10.26 sn] İç zar, krista denilen kıvrımlar yapar. Bu kıvrımlar tepkime yüzeyini büyütür; enerji üretimi bu zarlarda gerçekleşir.
+
+3. [21.63–32.52 sn | konuşma 10.22 sn] Besinlerden gelen elektronlar zincir boyunca aktarılır. Bu enerji, protonların zarlar arası boşluğa pompalanmasını sağlar.
+
+4. [32.52–41.85 sn | konuşma 8.66 sn] Protonlar ATP sentazdan geri akarken enzim döner. Her dönüşte ADP ve fosfattan ATP üretilir.
+
+5. [41.85–52.91 sn | konuşma 10.39 sn] Glikoz ve oksijen kullanılır; karbondioksit, su ve ATP ortaya çıkar. Hücrenin kullanabileceği enerji işte bu ATP'dir.
+
+6. [52.91–62.00 sn | konuşma 8.42 sn] Kısaca mitokondri, proton eğimini dönen bir moleküler motora çevirip hücrenin enerji taşıyıcısını üretir.

@@ -1,0 +1,111 @@
+1
+00:00:00,280 --> 00:00:02,096
+Hücrenin içinde, enerji
+
+2
+00:00:02,096 --> 00:00:04,307
+ihtiyacının karşılandığı yer
+
+3
+00:00:04,307 --> 00:00:05,887
+mitokondridir.
+
+4
+00:00:05,887 --> 00:00:08,019
+Çift zarlı bu organel kendi
+
+5
+00:00:08,019 --> 00:00:10,309
+DNA'sına bile sahiptir.
+
+6
+00:00:10,979 --> 00:00:13,585
+İç zar, krista denilen kıvrımlar
+
+7
+00:00:13,585 --> 00:00:14,562
+yapar.
+
+8
+00:00:14,562 --> 00:00:16,924
+Bu kıvrımlar tepkime yüzeyini
+
+9
+00:00:16,924 --> 00:00:19,041
+büyütür; enerji üretimi bu
+
+10
+00:00:19,041 --> 00:00:21,240
+zarlarda gerçekleşir.
+
+11
+00:00:21,910 --> 00:00:24,190
+Besinlerden gelen elektronlar
+
+12
+00:00:24,190 --> 00:00:26,627
+zincir boyunca aktarılır.
+
+13
+00:00:26,627 --> 00:00:28,907
+Bu enerji, protonların zarlar
+
+14
+00:00:28,907 --> 00:00:31,108
+arası boşluğa pompalanmasını
+
+15
+00:00:31,108 --> 00:00:32,130
+sağlar.
+
+16
+00:00:32,800 --> 00:00:35,200
+Protonlar ATP sentazdan geri
+
+17
+00:00:35,200 --> 00:00:37,428
+akarken enzim döner.
+
+18
+00:00:37,428 --> 00:00:40,170
+Her dönüşte ADP ve fosfattan ATP
+
+19
+00:00:40,170 --> 00:00:41,456
+üretilir.
+
+20
+00:00:42,126 --> 00:00:44,538
+Glikoz ve oksijen kullanılır;
+
+21
+00:00:44,538 --> 00:00:47,116
+karbondioksit, su ve ATP ortaya
+
+22
+00:00:47,116 --> 00:00:48,114
+çıkar.
+
+23
+00:00:48,114 --> 00:00:50,691
+Hücrenin kullanabileceği enerji
+
+24
+00:00:50,691 --> 00:00:52,521
+işte bu ATP'dir.
+
+25
+00:00:53,191 --> 00:00:55,765
+Kısaca mitokondri, proton eğimini
+
+26
+00:00:55,765 --> 00:00:58,417
+dönen bir moleküler motora çevirip
+
+27
+00:00:58,417 --> 00:01:00,601
+hücrenin enerji taşıyıcısını
+
+28
+00:01:00,601 --> 00:01:01,615
+üretir.

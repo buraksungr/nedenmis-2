@@ -343,5 +343,88 @@
     "narrationNote": "Bu örnekte eSpeak NG (çevrimdışı, robotik) kullanıldı; Chatterbox Multilingual adaptörü ürün içinde mevcut ancak bu derleme ortamında model ağırlıkları indirilemediği için doğrulanamadı.",
     "renderSeconds": 496,
     "generatedAt": "2026-11-15T00:30:39.091Z"
+  },
+  {
+    "slug": "mitokondri-neden-onemli",
+    "topic": "Mitokondri neden önemli?",
+    "title": "Mitokondri nasıl enerji üretir?",
+    "cardId": "mitochondria-atp",
+    "targetDurationSec": 60,
+    "durationSec": 62,
+    "frames": 1860,
+    "fps": 30,
+    "resolution": "1080x1920",
+    "videoCodec": "h264",
+    "audioCodec": "aac",
+    "audioSampleRate": 48000,
+    "videoPath": "samples/mitokondri-neden-onemli/mitokondri-neden-onemli-60s.mp4",
+    "subtitlePath": "samples/mitokondri-neden-onemli/mitokondri-neden-onemli.srt",
+    "posterPath": "samples/mitokondri-neden-onemli/poster.png",
+    "verificationPath": "samples/mitokondri-neden-onemli/verification.json",
+    "validationPath": "samples/mitokondri-neden-onemli/visual-validation.json",
+    "sha256": "e7f4252341d8110b7b9d235010e1afcd97dfe5fafe20ac45e2f596688e9b6043",
+    "bytes": 4844854,
+    "verificationOk": true,
+    "failedChecks": [],
+    "scenes": [
+      {
+        "id": "mitochondria-atp-s1",
+        "component": "cell_section",
+        "mechanism": "cell_section",
+        "status": "approved",
+        "score": 86,
+        "durationSec": 10.7,
+        "speechDurationSec": 10.03
+      },
+      {
+        "id": "mitochondria-atp-s2",
+        "component": "mitochondrion_cross",
+        "mechanism": "mitochondrion_cross",
+        "status": "approved",
+        "score": 86,
+        "durationSec": 10.93,
+        "speechDurationSec": 10.26
+      },
+      {
+        "id": "mitochondria-atp-s3",
+        "component": "proton_gradient",
+        "mechanism": "proton_gradient",
+        "status": "approved",
+        "score": 86,
+        "durationSec": 10.89,
+        "speechDurationSec": 10.22
+      },
+      {
+        "id": "mitochondria-atp-s4",
+        "component": "atp_synthase_rotor",
+        "mechanism": "atp_synthase_rotor",
+        "status": "approved",
+        "score": 100,
+        "durationSec": 9.33,
+        "speechDurationSec": 8.66
+      },
+      {
+        "id": "mitochondria-atp-s5",
+        "component": "metabolism_summary",
+        "mechanism": "metabolism_summary",
+        "status": "approved",
+        "score": 86,
+        "durationSec": 11.07,
+        "speechDurationSec": 10.4
+      },
+      {
+        "id": "mitochondria-atp-s6",
+        "component": "atp_synthase_rotor",
+        "mechanism": "atp_synthase_rotor",
+        "status": "approved",
+        "score": 86,
+        "durationSec": 9.09,
+        "speechDurationSec": 8.42
+      }
+    ],
+    "narrationEngine": "espeak",
+    "narrationNote": "Bu örnekte eSpeak NG (çevrimdışı, robotik) kullanıldı; Chatterbox Multilingual adaptörü ürün içinde mevcut ancak bu derleme ortamında model ağırlıkları indirilemediği için doğrulanamadı.",
+    "renderSeconds": 510.3,
+    "generatedAt": "2026-11-15T00:39:09.418Z"
   }
 ]
