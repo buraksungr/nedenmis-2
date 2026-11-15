@@ -13,6 +13,11 @@ files:
   - package.json
 
 extraResources:
+  # Çalışma zamanı Node modülleri. Uygulama klasöründeki node_modules electron-builder
+  # tarafından dışlandığı için (@resvg/resvg-js v1.0.0'da bu yüzden eksikti) modüller
+  # resources/node_modules altına konur; Node yukarı doğru yürürken burayı bulur.
+  - from: vendor/node_modules
+    to: node_modules
   - from: assets/fonts
     to: fonts
   - from: packages/core/scripts

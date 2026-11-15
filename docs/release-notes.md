@@ -1,5 +1,32 @@
 # Nedenmiş Studio — Sürüm notları
 
+## v1.0.1 — paketleme düzeltmesi (Windows kurulumu)
+
+**v1.0.0 kurulum dosyası açılışta `Cannot find package '@resvg/resvg-js'` hatası veriyordu.**
+Nedeni: electron-builder, uygulama klasöründeki **her** `node_modules` dizinini koşulsuz dışlıyor
+(`app-builder-lib/out/fileMatcher.js` → `!**/node_modules`). Çalışma zamanı modülleri
+`dist-app/node_modules` içine konduğu için kurulan uygulamaya hiç girmiyordu; kök `package.json`'da
+production `dependencies` olmadığından electron-builder'ın modül toplayıcısı da bir şey eklemiyordu.
+
+Düzeltme:
+
+- Çalışma zamanı modülleri artık `vendor/node_modules` altına hazırlanıp **`extraResources`** ile
+  `resources/node_modules` olarak paketleniyor; Node, `resources/app/dist-app/server.mjs` dosyasından
+  yukarı yürürken burayı buluyor.
+- `@resvg/resvg-js` **ve** platforma özgü native eklenti (`@resvg/resvg-js-win32-x64-msvc`,
+  `resvg.win32-x64-msvc.node`) birlikte paketleniyor; ikisinin de varlığı yapı sırasında doğrulanıyor.
+- **Yapı kapısı:** `scripts/build-desktop.mjs`, `win-unpacked` üretildikten sonra zorunlu dosyaları
+  (`server.mjs`, `ui/index.html`, `@resvg` + `.node`, `bin/ffmpeg.exe`, `bin/ffprobe.exe`,
+  `python/python.exe`, `fonts/DejaVuSans.ttf`, `scripts/espeak_bridge.py`, `LICENSES.txt`) denetliyor;
+  biri eksikse kurulum dosyası **hiç üretilmiyor**.
+- **Çalışma zamanı kontrolü:** uygulama açılırken aynı bileşenleri doğruluyor; eksikse hangi modülün
+  hangi yolda arandığını gösteren bir hata penceresi çıkıyor (belirsiz "servis başlamadı" yerine).
+- **`--self-test`:** kurulu uygulama kendi kendini test edebiliyor — resvg'yi (native eklentiyle)
+  yükleyip gerçek PNG üretiyor, FFmpeg/FFprobe/Python/fontları denetliyor, sunucuyu başlatıyor,
+  proje oluşturup **gerçek MP4** üretiyor ve FFprobe ile doğruluyor. Rapor: `windows-install-test.json`.
+- CI artık kurulum dosyasını **gerçekten kuruyor** (sessiz NSIS), kurulan uygulamayı çalıştırıp
+  yukarıdaki testi koşuyor ve raporu yayına ekliyor. Test geçmeden yayın oluşturulmuyor.
+
 ## v1.0.0 — ilk yayın
 
 ### Ne yapar?

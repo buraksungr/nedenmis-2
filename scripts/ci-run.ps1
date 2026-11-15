@@ -32,8 +32,10 @@ $code = $LASTEXITCODE
 $sw.Stop()
 
 if ($code -ne 0) {
-  $tail = ($collected | Select-Object -Last 120) -join " ⏎ "
-  if ($tail.Length -gt 60000) { $tail = $tail.Substring($tail.Length - 60000) }
+  # Not: GitHub, ::error:: mesajını ~4000 karakterde kesiyor ve BAŞTAN kesiyor;
+  # bu yüzden yalnızca son satırları gönderiyoruz ki gerçek hata görünsün.
+  $tail = ($collected | Select-Object -Last 25) -join " ⏎ "
+  if ($tail.Length -gt 3500) { $tail = $tail.Substring($tail.Length - 3500) }
   if ($tail.Length -eq 0) { $tail = "(çıktı yok)" }
   Write-Output "::error title=$Label başarısız (çıkış kodu $code, $([math]::Round($sw.Elapsed.TotalSeconds,1)) sn)::$tail"
   exit $code
