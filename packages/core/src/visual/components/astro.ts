@@ -31,7 +31,8 @@ export const spacetimeGrid: VisualComponent = {
       const dx = (x - CX) / 340;
       const dy = (baseY - y0) / 340;
       const r2 = dx * dx + dy * dy + 0.18;
-      return baseY - (depth / r2) * 0.55;
+      // Değerler kadraj dışına taşarsa resvg'de dejenere geometri oluşur; güvenli aralığa sıkıştır.
+      return clamp(baseY - (depth / r2) * 0.55, 140, 1860);
     };
     let horizontal = "";
     let vertical = "";
@@ -52,8 +53,8 @@ export const spacetimeGrid: VisualComponent = {
         const dx = (baseX - CX) / 340;
         const dy = (y - y0) / 340;
         const r2 = dx * dx + dy * dy + 0.18;
-        const yy = y - (depth / r2) * 0.55;
-        const xx = baseX + (baseX - CX) * (depth / r2) * 0.05;
+        const yy = clamp(y - (depth / r2) * 0.55, 140, 1860);
+        const xx = clamp(baseX + (baseX - CX) * (depth / r2) * 0.05, 40, 1040);
         d += `${r === 0 ? "M" : "L"} ${n(xx)} ${n(yy)} `;
       }
       vertical += `<path d="${d}" fill="none" stroke="${pal.accent}" stroke-width="1.2" opacity="0.2"/>`;

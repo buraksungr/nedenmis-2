@@ -29,6 +29,11 @@ test("tüm bileşenler geçerli SVG üretir (NaN / undefined yok)", () => {
     assert.ok(svg.length > 80, `${comp.id}: çıktı çok kısa`);
     assert.ok(!svg.includes("NaN"), `${comp.id}: NaN içeriyor`);
     assert.ok(!svg.includes("undefined"), `${comp.id}: undefined içeriyor`);
+    // Dejenere geometri koruması: aşırı büyük koordinatlar resvg'de panik üretebiliyor.
+    const withoutHex = svg.replace(/#[0-9a-fA-F]{3,8}/g, "");
+    const nums = withoutHex.match(/-?\d+(?:\.\d+)?/g) ?? [];
+    const extreme = nums.find((v) => Math.abs(Number(v)) > 6000);
+    assert.ok(!extreme, `${comp.id}: aşırı koordinat (${extreme})`);
     const opens = (svg.match(/</g) ?? []).length;
     const closes = (svg.match(/>/g) ?? []).length;
     assert.ok(opens > 3 && closes === opens, `${comp.id}: etiket dengesi bozuk`);

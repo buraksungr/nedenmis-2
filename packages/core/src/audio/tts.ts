@@ -4,7 +4,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { ensureDir, findFfprobe } from "../render/tools.js";
 
-export type TtsEngineId = "chatterbox" | "piper" | "espeak" | "silent";
+export type TtsEngineId = "chatterbox" | "piper" | "espeak" | "sapi" | "silent";
 
 export type TtsConfig = {
   engine: TtsEngineId;
@@ -64,6 +64,27 @@ function bridgeScript(): string {
   ].filter(Boolean);
   for (const c of candidates) if (fs.existsSync(c)) return c;
   throw new TtsError("espeak köprüsü bulunamadı (scripts/espeak_tts.py).", "TTS_BRIDGE_MISSING");
+}
+
+function sapiAvailable(): boolean {
+  try {
+    sapiScript();
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function sapiScript(): string {
+  const resources = process.env.NEDENMIS_RESOURCES ?? (process as unknown as { resourcesPath?: string }).resourcesPath ?? "";
+  const candidates = [
+    path.resolve(here, "../../scripts/sapi_tts.ps1"),
+    path.resolve(here, "../../../scripts/sapi_tts.ps1"),
+    path.join(process.cwd(), "packages", "core", "scripts", "sapi_tts.ps1"),
+    resources ? path.join(resources, "scripts", "sapi_tts.ps1") : "",
+  ].filter(Boolean);
+  for (const c of candidates) if (fs.existsSync(c)) return c;
+  throw new TtsError("Windows ses köprüsü bulunamadı (scripts/sapi_tts.ps1).", "TTS_BRIDGE_MISSING");
 }
 
 export function pythonCandidates(cfg?: TtsConfig): string[] {
@@ -177,6 +198,16 @@ export async function ttsStatus(cfg: TtsConfig): Promise<TtsStatus[]> {
       silent: false,
     },
     {
+      engine: "sapi",
+      label: "Windows SAPI (sistem sesi)",
+      available: process.platform === "win32" && sapiAvailable(),
+      detail:
+        process.platform === "win32"
+          ? "System.Speech; Türkçe ses (Microsoft Tolga) kuruluysa onu kullanır."
+          : "Yalnızca Windows'ta kullanılabilir.",
+      silent: false,
+    },
+    {
       engine: "espeak",
       label: "eSpeak NG (çevrimdışı, robotik)",
       available: esp.ok,
@@ -280,6 +311,30 @@ async function synthSilent(text: string, outPath: string, cfg: TtsConfig): Promi
   void cfg;
 }
 
+async function synthSapi(text: string, outPath: string, cfg: TtsConfig): Promise<TtsResult> {
+  if (process.platform !== "win32") {
+    throw new TtsError("Windows SAPI yalnızca Windows'ta kullanılabilir.", "TTS_UNAVAILABLE", "Başka bir seslendirme motoru seçin (eSpeak NG).");
+  }
+  const script = sapiScript();
+  const tmp = outPath.replace(/\.wav$/, ".txt");
+  ensureDir(path.dirname(outPath));
+  fs.writeFileSync(tmp, text, "utf8");
+  const r = await run(
+    "powershell.exe",
+    ["-NoProfile", "-ExecutionPolicy", "Bypass", "-File", script, "-TextFile", tmp, "-Out", outPath, "-Rate", String(Math.round(((cfg.rate ?? 165) - 165) / 20))],
+    { timeoutMs: 180_000 },
+  );
+  fs.rmSync(tmp, { force: true });
+  if (r.code !== 0 || !fs.existsSync(outPath)) {
+    throw new TtsError("Windows SAPI seslendirmesi başarısız.", "TTS_FAILED", (r.stderr || r.stdout).trim().slice(-500));
+  }
+  const durationSec = await measureAudio(outPath);
+  const sampleRate = await wavSampleRate(outPath);
+  const warnings: string[] = [];
+  if (/varsayılan/.test(r.stdout)) warnings.push("Sistemde Türkçe ses bulunamadı; Windows varsayılan sesi kullanıldı.");
+  return { engine: "sapi", audioPath: outPath, durationSec, sampleRate, warnings };
+}
+
 export async function synthesize(text: string, outPath: string, cfg: TtsConfig): Promise<TtsResult> {
   if (!text.trim()) throw new TtsError("Boş anlatım seslendirilemez.", "TTS_EMPTY");
   switch (cfg.engine) {
@@ -287,6 +342,8 @@ export async function synthesize(text: string, outPath: string, cfg: TtsConfig):
       return synthChatterbox(text, outPath, cfg);
     case "piper":
       return synthPiper(text, outPath, cfg);
+    case "sapi":
+      return synthSapi(text, outPath, cfg);
     case "espeak":
       return synthEspeak(text, outPath, cfg);
     case "silent":

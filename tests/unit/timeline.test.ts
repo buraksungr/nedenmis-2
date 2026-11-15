@@ -7,8 +7,10 @@ import { buildTimeline, DurationError } from "../../packages/core/src/render/tim
 test("ölçülen ses süreleriyle zaman çizelgesi hedefe oturur", () => {
   const card = getCard("sky-blue")!;
   const scenes = planScenes(card, { targetDurationSec: 45 }).scenes;
+  // Ölçülen konuşma, hedefin %94'ünü kaplayacak şekilde dağıtılır.
+  const per = (45 * 0.94) / scenes.length;
   const speech: Record<string, number> = {};
-  scenes.forEach((s, i) => (speech[s.id] = 6 + (i % 3) * 0.5));
+  scenes.forEach((s) => (speech[s.id] = per));
   const tl = buildTimeline(scenes, { targetDurationSec: 45, fps: 30, speechDurations: speech });
   assert.equal(tl.fps, 30);
   assert.equal(tl.frames, Math.round(tl.durationSec * tl.fps));
@@ -22,6 +24,16 @@ test("anlatım hedefi aşarsa sessizce kırpılmaz, hata verir", () => {
   const speech: Record<string, number> = {};
   scenes.forEach((s) => (speech[s.id] = 20));
   assert.throws(() => buildTimeline(scenes, { targetDurationSec: 30, speechDurations: speech }), DurationError);
+});
+
+test("konuşma hedefin çok altındaysa tolerans dürüstçe bildirilir", () => {
+  const card = getCard("sky-blue")!;
+  const scenes = planScenes(card, { targetDurationSec: 60 }).scenes;
+  const speech: Record<string, number> = {};
+  scenes.forEach((s) => (speech[s.id] = 5));
+  const tl = buildTimeline(scenes, { targetDurationSec: 60, fps: 30, speechDurations: speech });
+  assert.equal(tl.withinTolerance, false);
+  assert.ok(tl.warnings.length > 0);
 });
 
 test("kare sayısı her zaman tam sayı ve fps ile tutarlı", () => {
