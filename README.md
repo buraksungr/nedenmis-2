@@ -30,7 +30,8 @@ sürelerine göre kurar ve 1080×1920 dikey MP4 üretip FFprobe ile doğrular.
 ## Kurulum (Windows)
 
 **İndirme:** [Son sürüm (Setup.exe, Portable.zip, Source.zip, SHA-256)](https://github.com/buraksungr/nedenmis-2/releases/latest)
-— v1.0.0 kurulum dosyasındaki `@resvg/resvg-js` paketleme hatası **v1.0.1**'de giderildi; v1.0.0'ı kullanmayın.
+— v1.1.0 sürümü: [github.com/buraksungr/nedenmis-2/releases/tag/v1.1.0](https://github.com/buraksungr/nedenmis-2/releases/tag/v1.1.0)
+(v1.0.0 kurulum dosyasındaki `@resvg/resvg-js` paketleme hatası **v1.0.1**'de giderildi; v1.0.0'ı kullanmayın.)
 
 1. `NedenmisStudio-Setup.exe` dosyasını çalıştırın (imzasız geliştirici uyarısı çıkarsa *Ek bilgi → Yine de çalıştır*).
 2. Kurulum klasörünü seçin, kısayollar oluşturulur. Yönetici izni gerekmez (`asInvoker`).

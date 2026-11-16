@@ -410,7 +410,11 @@ jobs:
             "reports/build-desktop.log",
             "reports/smoke-windows.json",
             "reports/script-comparison.json",
-            "docs/before-after-script.md"
+            "docs/before-after-script.md",
+            "docs/content-identity.md",
+            "docs/chatterbox-voice.md",
+            "docs/ui-redesign.md",
+            "docs/regression-report.md"
           )
           # Ekran görüntüleri ve (üretildiyse) gerçek Türkçe Chatterbox sesi
           if (Test-Path "reports/ui-shots") {
@@ -422,14 +426,18 @@ jobs:
           }
           if (Test-Path "samples") {
             Get-ChildItem "samples" -Recurse -Filter *.mp4 | ForEach-Object { $files += $_.FullName }
-            Get-ChildItem "samples" -Recurse -Filter script.txt | ForEach-Object { $files += $_.FullName }
+            # Senaryo metinleri: aynı adlı dosyalar çakışmasın diye klasör adıyla kopyalanır.
+            Get-ChildItem "samples" -Recurse -Filter script.txt | ForEach-Object {
+              $dest = "reports/script-$($_.Directory.Name).txt"
+              Copy-Item $_.FullName $dest -Force
+              $files += $dest
+            }
           }
           if (Test-Path "reports/chatterbox-turkish-sample.wav") { $files += "reports/chatterbox-turkish-sample.wav" }
           if (Test-Path "reports/chatterbox-turkish-warm.wav") { $files += "reports/chatterbox-turkish-warm.wav" }
           foreach ($f in @("chatterbox-tr.json", "chatterbox-status.json", "chatterbox-verify.log", "chatterbox-import-check.log", "chatterbox-pip.log", "chatterbox-ffprobe.json")) {
             if (Test-Path "reports/$f") { $files += "reports/$f" }
           }
-          if (Test-Path "reports/chatterbox-tr.json") { $files += "reports/chatterbox-tr.json" }
           foreach ($f in $files) { if (-not (Test-Path $f)) { Write-Output "::error title=Yayın::Eksik dosya: $f"; exit 1 } }
           gh release view $tag *> $null
           if ($LASTEXITCODE -ne 0) {

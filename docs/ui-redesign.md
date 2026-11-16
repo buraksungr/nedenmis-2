@@ -11,7 +11,7 @@ işe yarayan kısmı (tek renk, boşluk, tipografi, sınırlı animasyon, net hi
 | Yüzey | `#ffffff`, ikincil `#f5f5f7` |
 | Metin | `#1d1d1f` · ikincil `#6e6e73` · soluk `#8e8e93` |
 | Çizgi | `#e3e3e8`, güçlü `#cfcfd6` |
-| Vurgu | **siyah** `#111113` (renk yok) |
+| Vurgu | **siyah** `#111111` (renk yok) |
 | Yarıçap | 8 / 12 / 18 px |
 | Gölge | iki katmanlı, çok hafif (`0 1px 3px` + `0 12px 32px`) |
 | Geçiş | 140–200 ms, `cubic-bezier(.32,.72,0,1)` |
@@ -34,9 +34,18 @@ Kenar çubuğu tek sütun, 244 px; durum satırları (ses motoru, Chatterbox, FF
 
 ## Stüdyo: önizleme önce gelir
 
-- Sol: zaman çizelgesi + sahne kartları (anlatım, görsel bileşen, doğrulama).
-- Sağ: **Senaryo kalitesi** paneli (puan, ortalama cümle, en uzun cümle, terim sayısı, kanca),
-  ardından çıktı/video ve iş ilerlemesi.
+Düzen üç katmandır (yukarıdan aşağıya): **başlık ve eylemler → sahne → ayrıntı**.
+
+- **Sahne (ana odak):** büyük, ortalanmış 9:16 video çerçevesi (yükseklik `min(58vh, 520px)`).
+  Video hazır değilse aynı çerçevede "önce seslendir, sonra üret" yönlendirmesi görünür.
+  Çerçevenin altında doğrulama rozetleri (süre, çözünürlük, kare) ve çıktı bağlantıları.
+- **Sağ ray (360 px):** iş ilerlemesi (aşama hapları), **Senaryo kalitesi** paneli
+  (puan, ortalama cümle, en uzun cümle, terim sayısı, kanca) ve ses/kalite özeti.
+  1180 px altında tek sütuna iner.
+- **Zaman çizelgesi:** sahne uzunluklarıyla orantılı ince şerit; tıklayınca sahne seçilir.
+- **Sahne kartları:** anlatım, görsel bileşen ve doğrulama; kapalı başlar, tıklayınca açılır.
+- **Teknik ayrıntılar:** doğrulama/araştırma sekmeleri, zamanlama tablosu, kare örnekleri ve
+  işlem geçmişi katlanır panelde (`<details>`). Arayüzü kalabalıklaştırmaz.
 - Sahne kartları varsayılan olarak kapalıdır; tıklayınca anlatım düzenleme + bileşen seçimi açılır
   (progressive disclosure).
 
