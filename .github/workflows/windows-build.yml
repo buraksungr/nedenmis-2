@@ -107,6 +107,14 @@ jobs:
           if (Test-Path reports/ui-shots/ui-screenshots.json) { Get-Content reports/ui-shots/ui-screenshots.json -Raw | Select-Object -First 1 }
           Stop-Process -Id $srv.Id -Force -ErrorAction SilentlyContinue
           Get-ChildItem reports/ui-shots -ErrorAction SilentlyContinue | Select-Object Name, Length
+          try {
+            $r = Get-Content reports/ui-shots/ui-screenshots.json -Raw | ConvertFrom-Json
+            $shotCount = @($r.shots | Where-Object { $_.ok }).Count
+            $msg = "ok=$($r.ok) shots=$shotCount error=$($r.error)"
+            if ($r.ok) { Write-Output "::notice title=Ekran görüntüsü::$msg" } else { Write-Output "::warning title=Ekran görüntüsü::$msg" }
+          } catch {
+            Write-Output "::warning title=Ekran görüntüsü::rapor okunamadı: $($_.Exception.Message)"
+          }
           exit $code
 
       - name: Simge üret
@@ -271,13 +279,34 @@ jobs:
           # setuptools şart: resemble-perth -> perth_net/__init__.py -> pkg_resources.
           # Python 3.12 venv'lerinde setuptools varsayılan gelmez; eksikse filigran modülü
           # sessizce None olur ve sentez "'NoneType' object is not callable" ile düşer.
-          & $py -m pip install chatterbox-tts setuptools 2>&1 | Select-Object -Last 15
+          & $py -m pip install chatterbox-tts setuptools 2>&1 | Tee-Object -FilePath reports/chatterbox-pip.log | Select-Object -Last 15
+          $pipCode = $LASTEXITCODE
           & $py -c "import pkg_resources, perth; print('perth:', perth.__version__, 'watermarker:', perth.PerthImplicitWatermarker)" 2>&1 | Tee-Object -FilePath reports/chatterbox-import-check.log
           & $py packages/core/scripts/chatterbox_server.py --status | Tee-Object -FilePath reports/chatterbox-status.json
-          & $py scripts/chatterbox-verify.py --wav reports/chatterbox-turkish-sample.wav --json reports/chatterbox-tr.json
-          $code = $LASTEXITCODE
+          $code = 99
+          if ($pipCode -eq 0) {
+            & $py scripts/chatterbox-verify.py --wav reports/chatterbox-turkish-sample.wav --json reports/chatterbox-tr.json
+            $code = $LASTEXITCODE
+          } else {
+            Write-Output "chatterbox-tts kurulumu başarısız (çıkış $pipCode); sentez denenmedi."
+          }
           if (Test-Path reports/chatterbox-turkish-sample.wav) {
             ffprobe -hide_banner -v error -show_entries format=duration,size -show_entries stream=sample_rate,channels,codec_name -of json reports/chatterbox-turkish-sample.wav 2>&1 | Tee-Object -FilePath reports/chatterbox-ffprobe.json
+          }
+          # Rapor her durumda yazılır: bayat bir başarı/başarısızlık iddiası yayına taşınmasın.
+          if (-not (Test-Path reports/chatterbox-tr.json)) {
+            $why = if ($pipCode -ne 0) { "pip install chatterbox-tts başarısız (çıkış $pipCode)" } else { "sentez doğrulaması rapor üretmedi (çıkış $code)" }
+            $hint = if (Test-Path reports/chatterbox-import-check.log) { (Get-Content reports/chatterbox-import-check.log -Tail 5) -join " | " } else { $null }
+            [ordered]@{ ok = $false; outcome = "not-produced"; error = $why; hint = $hint; pipExitCode = $pipCode; verifyExitCode = $code } |
+              ConvertTo-Json | Set-Content -Encoding utf8 reports/chatterbox-tr.json
+          }
+          # Durumu annotasyon olarak yayınla: günlük indirmeye gerek kalmadan okunabilsin.
+          try {
+            $r = Get-Content reports/chatterbox-tr.json -Raw | ConvertFrom-Json
+            $msg = "ok=$($r.ok) outcome=$($r.outcome) error=$($r.error) hint=$($r.hint)"
+            if ($r.ok) { Write-Output "::notice title=Chatterbox::$msg" } else { Write-Output "::warning title=Chatterbox::$msg" }
+          } catch {
+            Write-Output "::warning title=Chatterbox::rapor okunamadı: $($_.Exception.Message)"
           }
           Write-Output "Chatterbox doğrulama çıkış kodu: $code"
           # Sentez yapılamadıysa rapor bunu dürüstçe söyler; iş akışı durdurulmaz.

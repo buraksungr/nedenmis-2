@@ -184,7 +184,7 @@ const shots = [
   { name: "04-ayarlar", hash: "#/settings", expect: /Dil karmaşıklığı/ },
 ];
 
-function capture(file, mode, budgetMs) {
+function capture(file, mode, budgetMs, hash) {
   const profile = fs.mkdtempSync(path.join(os.tmpdir(), "nedenmis-chrome-"));
   const args = [
     mode,
@@ -203,7 +203,7 @@ function capture(file, mode, budgetMs) {
     `--window-size=${width},${height}`,
     `--virtual-time-budget=${budgetMs}`,
     `--screenshot=${file}`,
-    `${base}/${shot.hash}`,
+    `${base}/${hash}`,
   ];
   const res = spawnSync(chrome, args, { encoding: "utf8", timeout: 150_000 });
   try {
@@ -226,7 +226,7 @@ for (const shot of shots) {
     } catch {
       /* yoksay */
     }
-    const res = capture(file, attempt.mode, attempt.budget);
+    const res = capture(file, attempt.mode, attempt.budget, shot.hash);
     if (!fs.existsSync(file)) {
       report.shots.push({ name: shot.name, ok: false, mode: attempt.mode, error: (res.stderr ?? "").slice(-400) || "PNG üretilmedi" });
       continue;
