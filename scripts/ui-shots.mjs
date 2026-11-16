@@ -153,9 +153,18 @@ if (!chrome) {
   process.exit(0);
 }
 
-const { id, seeded } = await seedProject();
-report.projectId = id;
-report.seededProject = seeded;
+let id = null;
+try {
+  const seededInfo = await seedProject();
+  id = seededInfo.id;
+  report.projectId = id;
+  report.seededProject = seededInfo.seeded;
+} catch (e) {
+  report.error = `Proje tohumlanamadı: ${String(e)}`;
+  console.log(`::warning title=Ekran görüntüsü::${report.error.slice(0, 500)}`);
+  fs.writeFileSync(path.join(outDir, "ui-screenshots.json"), JSON.stringify(report, null, 2));
+  process.exit(0);
+}
 
 const shots = [
   { name: "01-video-olustur", hash: "#/new", expect: /kanıtlı|Bir soru yazın/ },

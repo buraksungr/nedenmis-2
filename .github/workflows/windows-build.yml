@@ -96,6 +96,8 @@ jobs:
           }
           if (-not $ok) {
             Write-Output "::warning title=Ekran görüntüsü::API başlamadı; ekran görüntüsü alınamadı."
+            New-Item -ItemType Directory -Force -Path reports/ui-shots | Out-Null
+            @{ generatedAt = (Get-Date).ToUniversalTime().ToString("o"); ok = $false; note = "API başlamadı" } | ConvertTo-Json | Set-Content reports/ui-shots/ui-screenshots.json
             Stop-Process -Id $srv.Id -Force -ErrorAction SilentlyContinue
             exit 0
           }
@@ -367,12 +369,15 @@ jobs:
             "reports/build-desktop.log",
             "reports/smoke-windows.json",
             "reports/script-comparison.json",
-            "reports/ui-shots/ui-screenshots.json",
             "docs/before-after-script.md"
           )
           # Ekran görüntüleri ve (üretildiyse) gerçek Türkçe Chatterbox sesi
           if (Test-Path "reports/ui-shots") {
             Get-ChildItem "reports/ui-shots" -Filter *.png | ForEach-Object { $files += $_.FullName }
+            if (Test-Path "reports/ui-shots/ui-screenshots.json") { $files += "reports/ui-shots/ui-screenshots.json" }
+            else { Write-Output "::warning title=Yayın::Ekran görüntüsü raporu yok; PNG'ler varsa yine de eklenir." }
+          } else {
+            Write-Output "::warning title=Yayın::Ekran görüntüsü klasörü yok — bu çalıştırmada arayüz görüntüsü üretilemedi."
           }
           if (Test-Path "reports/chatterbox-turkish-sample.wav") { $files += "reports/chatterbox-turkish-sample.wav" }
           if (Test-Path "reports/chatterbox-tr.json") { $files += "reports/chatterbox-tr.json" }
