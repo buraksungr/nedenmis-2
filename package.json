@@ -27,6 +27,7 @@
     "make-icon": "node --import tsx scripts/make-icon.ts",
     "smoke": "node --import tsx scripts/smoke-windows.ts",
     "test:ui": "node scripts/ui-smoke.mjs",
+    "check:colors": "node scripts/check-colors.mjs",
     "report": "node --import tsx scripts/gen-validation-report.ts"
   },
   "devDependencies": {

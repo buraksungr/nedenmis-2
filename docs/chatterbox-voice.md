@@ -83,14 +83,19 @@ Windows CI'da gerçek sentez denemesinde şu hata alındı:
 
 Kök neden (paket kaynağından doğrulandı): `resemble-perth` içindeki
 `perth/perth_net/__init__.py` → `from pkg_resources import resource_filename`.
-Python 3.12 venv'lerinde `setuptools` varsayılan olarak kurulu gelmediği için bu import
-**sessizce** başarısız olur; `perth/__init__.py` bu durumda
-`PerthImplicitWatermarker = None` yapar. Chatterbox modeli kurulurken
+**setuptools 81 sürümünde `pkg_resources` kaldırıldı.** Bu import başarısız olunca
+`perth/__init__.py` hatayı yutar ve `PerthImplicitWatermarker = None` yapar.
+Aynı hata iki farklı kurulumda görülür:
+
+- setuptools hiç kurulu değil (temiz Python 3.12 venv'i),
+- setuptools **çok yeni** (81+): modül var ama `pkg_resources` yok.
+
+Yani "setuptools kur" tek başına yetmez; sürüm **`setuptools<81`** olarak sabitlenmelidir. Chatterbox modeli kurulurken
 `self.watermarker = perth.PerthImplicitWatermarker()` çağrısı bu yüzden `None`'ı çağırmaya çalışır.
 
-Çözüm: sanal ortama `setuptools` kurun (`pip install setuptools`). Bu sürümde:
+Çözüm: `pip install "setuptools<81"`. Bu sürümde:
 
-- CI adımı `pip install chatterbox-tts setuptools` yapar ve `perth` importunu doğrular,
+- CI adımı `pip install chatterbox-tts "setuptools<81"` yapar ve `perth` importunu doğrular,
 - `chatterbox_server.py` model yüklenirken filigran modülünü denetler ve anlaşılır hata verir
   (`ensure_watermarker`), `/health` ve `--status` çıktısında `watermarker.available` alanı bulunur,
 - `scripts/chatterbox-verify.py` hatayı tam iz (traceback) ve çözüm ipucuyla raporlar.

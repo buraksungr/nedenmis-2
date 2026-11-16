@@ -36,7 +36,7 @@ function findChrome() {
   return null;
 }
 
-function pngInfo(buffer) {
+function pngInfo(buffer, regions) {
   if (buffer.readUInt32BE(0) !== 0x89504e47) throw new Error("PNG imzası yok");
   let offset = 8;
   let ihdr = null;
@@ -91,6 +91,12 @@ function pngInfo(buffer) {
   }
   // Örnekleme ile istatistik (tam çözünürlük gerekmiyor).
   const step = Math.max(1, Math.floor(ihdr.height / 200));
+  const inRegion = (x, y) => {
+    if (!regions || regions.length === 0) return true;
+    const fx = x / ihdr.width;
+    const fy = y / ihdr.height;
+    return regions.some((r) => fx >= r.x0 && fx <= r.x1 && fy >= r.y0 && fy <= r.y1);
+  };
   let sum = 0;
   let count = 0;
   let colorful = 0;
@@ -98,6 +104,7 @@ function pngInfo(buffer) {
   const colorSet = new Set();
   for (let y = 0; y < ihdr.height; y += step) {
     for (let x = 0; x < ihdr.width; x += step) {
+      if (!inRegion(x, y)) continue;
       const i = y * stride + x * channels;
       const r = pixels[i];
       const g = pixels[i + 1];
@@ -180,7 +187,18 @@ try {
 const shots = [
   { name: "01-video-olustur", hash: "#/new", expect: /kanıtlı|Bir soru yazın/ },
   { name: "02-projeler", hash: "#/library", expect: /Projeler|Kütüphane|Henüz/ },
-  { name: "03-studyo", hash: `#/studio/${id}`, expect: /Senaryo kalitesi|Zaman çizelgesi/ },
+  {
+    name: "03-studyo",
+    hash: `#/studio/${id}`,
+    expect: /Senaryo kalitesi|Zaman çizelgesi/,
+    // Stüdyo sayfası sahne önizlemeleri/video gösterir; bunlar *içerik* görselidir
+    // (mavi gökyüzü, deniz...). Tek renk kuralı arayüz kromu için geçerli:
+    // üst şerit (başlık) ve sol kenar çubuğu ölçülür.
+    regions: [
+      { x0: 0, y0: 0, x1: 1, y1: 0.08 },
+      { x0: 0, y0: 0, x1: 0.17, y1: 1 },
+    ],
+  },
   { name: "04-ayarlar", hash: "#/settings", expect: /Dil karmaşıklığı/ },
 ];
 
@@ -233,14 +251,17 @@ for (const shot of shots) {
     }
     let buffer;
     let info;
+    let chromeInfo = null;
     try {
       buffer = fs.readFileSync(file);
       info = pngInfo(buffer);
+      if (shot.regions) chromeInfo = pngInfo(buffer, shot.regions);
     } catch (e) {
       report.shots.push({ name: shot.name, ok: false, mode: attempt.mode, error: `PNG okunamadı: ${String(e).slice(0, 300)}` });
       continue;
     }
     const meaningful = info.distinctColorBuckets >= 6 && buffer.length > 12_000;
+    const judged = chromeInfo ?? info;
     report.shots = report.shots.filter((s) => s.name !== shot.name);
     const entry = {
       name: shot.name,
@@ -249,18 +270,29 @@ for (const shot of shots) {
       file: path.relative(process.cwd(), file).replace(/\\/g, "/"),
       bytes: buffer.length,
       ...info,
+      ...(chromeInfo
+        ? {
+            contentColourNote: "içerik önizlemeleri renkli olabilir; ölçüm arayüz kromunda",
+            chrome: {
+              colorfulRatio: chromeInfo.colorfulRatio,
+              meanLuminance: chromeInfo.meanLuminance,
+              distinctColorBuckets: chromeInfo.distinctColorBuckets,
+            },
+          }
+        : {}),
       ok:
         info.width === width &&
         info.height === height &&
         buffer.length > 12_000 &&
         info.distinctColorBuckets >= 6 &&
-        info.colorfulRatio <= 0.02 &&
-        info.meanLuminance > 120,
+        judged.colorfulRatio <= 0.02 &&
+        judged.meanLuminance > 120,
     };
     report.shots.push(entry);
     console.log(
       `  ${entry.ok ? "✓" : "✗"} ${shot.name} ${info.width}x${info.height} ` +
-        `parlaklık=${info.meanLuminance} renkli=${info.colorfulRatio} ton=${info.distinctColorBuckets} ` +
+        `parlaklık=${judged.meanLuminance} renkli=${judged.colorfulRatio} ton=${info.distinctColorBuckets} ` +
+        (chromeInfo ? `(krom; tam görüntü renkli=${info.colorfulRatio}) ` : "") +
         `${(buffer.length / 1024).toFixed(0)} KB (${attempt.mode})`,
     );
     if (meaningful) break;
@@ -268,11 +300,21 @@ for (const shot of shots) {
 }
 
 report.ok = report.shots.length === shots.length && report.shots.every((s) => s.ok);
+const palette = (() => {
+  const res = spawnSync(process.execPath, ["scripts/check-colors.mjs", "--json"], { encoding: "utf8" });
+  try {
+    return JSON.parse(res.stdout);
+  } catch {
+    return { ok: false, error: "palet denetimi çalıştırılamadı", stderr: (res.stderr ?? "").slice(-300) };
+  }
+})();
+report.palette = palette;
 report.checks = {
   desktopResolution: report.shots.every((s) => s.width === width && s.height === height),
   notBlank: report.shots.every((s) => (s.distinctColorBuckets ?? 0) >= 6),
-  monochrome: report.shots.every((s) => (s.colorfulRatio ?? 1) <= 0.02),
-  lightTheme: report.shots.every((s) => (s.meanLuminance ?? 0) > 120),
+  monochrome: report.shots.every((s) => ((s.chrome ?? s).colorfulRatio ?? 1) <= 0.02),
+  lightTheme: report.shots.every((s) => ((s.chrome ?? s).meanLuminance ?? 0) > 120),
+  monochromePalette: palette.ok === true && (palette.findings ?? []).length === 0,
 };
 fs.writeFileSync(path.join(outDir, "ui-screenshots.json"), JSON.stringify(report, null, 2));
 console.log(`Rapor: ${path.join(outDir, "ui-screenshots.json")}`);

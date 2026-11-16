@@ -117,6 +117,9 @@ jobs:
           }
           exit $code
 
+      - name: Arayüz paleti denetimi (tek renk kuralı)
+        run: npm run check:colors
+
       - name: Simge üret
         run: npm run make-icon
 
@@ -274,12 +277,13 @@ jobs:
           python -m venv $venv
           $py = Join-Path $venv "Scripts\python.exe"
           if (-not (Test-Path $py)) { $py = Join-Path $venv "bin/python" }
-          & $py -m pip install --upgrade pip setuptools wheel --quiet
+          & $py -m pip install --upgrade pip wheel --quiet
           Write-Output "chatterbox-tts kuruluyor (torch CPU ile birlikte; birkaç dakika sürebilir)…"
-          # setuptools şart: resemble-perth -> perth_net/__init__.py -> pkg_resources.
-          # Python 3.12 venv'lerinde setuptools varsayılan gelmez; eksikse filigran modülü
-          # sessizce None olur ve sentez "'NoneType' object is not callable" ile düşer.
-          & $py -m pip install chatterbox-tts setuptools 2>&1 | Tee-Object -FilePath reports/chatterbox-pip.log | Select-Object -Last 15
+          # resemble-perth -> perth_net/__init__.py -> "from pkg_resources import resource_filename".
+          # setuptools 81+ bu modülü kaldırdı; perth içe aktarma hatasını yutup
+          # PerthImplicitWatermarker = None yapıyor, sonuç: "'NoneType' object is not callable".
+          # Bu yüzden setuptools<81 şart (üst sürümler kurulu olsa bile geri indirilir).
+          & $py -m pip install chatterbox-tts "setuptools<81" 2>&1 | Tee-Object -FilePath reports/chatterbox-pip.log | Select-Object -Last 15
           $pipCode = $LASTEXITCODE
           & $py -c "import pkg_resources, perth; print('perth:', perth.__version__, 'watermarker:', perth.PerthImplicitWatermarker)" 2>&1 | Tee-Object -FilePath reports/chatterbox-import-check.log
           & $py packages/core/scripts/chatterbox_server.py --status | Tee-Object -FilePath reports/chatterbox-status.json

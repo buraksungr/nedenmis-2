@@ -11,7 +11,7 @@
   --dim: #8e8e93;
   --line: #e3e3e8;
   --line-strong: #cfcfd6;
-  --black: #111113;
+  --black: #111111;
   --radius-s: 8px;
   --radius: 12px;
   --radius-l: 18px;
@@ -83,7 +83,7 @@ textarea {
 }
 
 ::selection {
-  background: #111113;
+  background: #111111;
   color: #fff;
 }
 
@@ -427,7 +427,7 @@ textarea {
 
 .hero-title em {
   font-style: normal;
-  background: linear-gradient(180deg, transparent 62%, rgba(17, 17, 19, 0.08) 62%);
+  background: linear-gradient(180deg, transparent 62%, rgba(17, 17, 17, 0.08) 62%);
 }
 
 .hero-grid {
@@ -511,7 +511,7 @@ textarea {
 .select:focus,
 .textarea:focus {
   border-color: var(--black);
-  box-shadow: 0 0 0 3px rgba(17, 17, 19, 0.08);
+  box-shadow: 0 0 0 3px rgba(17, 17, 17, 0.08);
 }
 
 .input.hero {
@@ -620,9 +620,9 @@ textarea {
 }
 
 .btn.danger:hover:not(:disabled) {
-  background: #111113;
+  background: #111111;
   color: #fff;
-  border-color: #111113;
+  border-color: #111111;
 }
 
 .icon-btn {
@@ -1401,7 +1401,7 @@ textarea {
   background: var(--surface);
   border-color: var(--ink);
   color: var(--ink);
-  box-shadow: 0 0 0 3px rgba(17, 17, 19, 0.06);
+  box-shadow: 0 0 0 3px rgba(17, 17, 17, 0.06);
 }
 
 /* ---------- sahne kartı seçimi ---------- */
