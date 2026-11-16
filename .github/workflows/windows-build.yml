@@ -266,9 +266,13 @@ jobs:
           python -m venv $venv
           $py = Join-Path $venv "Scripts\python.exe"
           if (-not (Test-Path $py)) { $py = Join-Path $venv "bin/python" }
-          & $py -m pip install --upgrade pip --quiet
+          & $py -m pip install --upgrade pip setuptools wheel --quiet
           Write-Output "chatterbox-tts kuruluyor (torch CPU ile birlikte; birkaç dakika sürebilir)…"
-          & $py -m pip install chatterbox-tts 2>&1 | Select-Object -Last 15
+          # setuptools şart: resemble-perth -> perth_net/__init__.py -> pkg_resources.
+          # Python 3.12 venv'lerinde setuptools varsayılan gelmez; eksikse filigran modülü
+          # sessizce None olur ve sentez "'NoneType' object is not callable" ile düşer.
+          & $py -m pip install chatterbox-tts setuptools 2>&1 | Select-Object -Last 15
+          & $py -c "import pkg_resources, perth; print('perth:', perth.__version__, 'watermarker:', perth.PerthImplicitWatermarker)" 2>&1 | Tee-Object -FilePath reports/chatterbox-import-check.log
           & $py packages/core/scripts/chatterbox_server.py --status | Tee-Object -FilePath reports/chatterbox-status.json
           & $py scripts/chatterbox-verify.py --wav reports/chatterbox-turkish-sample.wav --json reports/chatterbox-tr.json
           $code = $LASTEXITCODE
@@ -378,6 +382,10 @@ jobs:
             else { Write-Output "::warning title=Yayın::Ekran görüntüsü raporu yok; PNG'ler varsa yine de eklenir." }
           } else {
             Write-Output "::warning title=Yayın::Ekran görüntüsü klasörü yok — bu çalıştırmada arayüz görüntüsü üretilemedi."
+          }
+          if (Test-Path "samples") {
+            Get-ChildItem "samples" -Recurse -Filter *.mp4 | ForEach-Object { $files += $_.FullName }
+            Get-ChildItem "samples" -Recurse -Filter script.txt | ForEach-Object { $files += $_.FullName }
           }
           if (Test-Path "reports/chatterbox-turkish-sample.wav") { $files += "reports/chatterbox-turkish-sample.wav" }
           if (Test-Path "reports/chatterbox-tr.json") { $files += "reports/chatterbox-tr.json" }

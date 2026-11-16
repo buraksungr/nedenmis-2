@@ -59,6 +59,34 @@ STATE: dict = {
 }
 
 REQUIRED_HINT = "pip install chatterbox-tts  (Python 3.10+; torch/torchaudio ile birlikte ~2 GB)"
+# resemble-perth, pkg_resources üzerinden model dosyası arıyor. Python 3.12 venv'lerinde
+# setuptools varsayılan gelmediği için içe aktarma sessizce başarısız olur ve paket
+# PerthImplicitWatermarker = None yapar; sonuç: "'NoneType' object is not callable".
+WATERMARK_HINT = "pip install setuptools  (resemble-perth'in pkg_resources bağımlılığı)"
+
+
+def watermarker_status() -> dict:
+    """Filigran (perth) kullanılabilir mi? Sessiz bozulmayı önceden yakalar."""
+    try:
+        import perth  # type: ignore
+
+        impl = getattr(perth, "PerthImplicitWatermarker", None)
+        return {
+            "available": impl is not None,
+            "import": "ok",
+            "detail": None if impl is not None else "PerthImplicitWatermarker yüklenemedi (pkg_resources eksik olabilir)",
+        }
+    except Exception as e:
+        return {"available": False, "import": "failed", "detail": str(e)}
+
+
+def ensure_watermarker(model) -> None:
+    """model.watermarker None ise anlaşılır hata ver (derinlerde NoneType hatası yerine)."""
+    if getattr(model, "watermarker", "missing") is None:
+        raise RuntimeError(
+            "Chatterbox filigran modülü yüklenemedi: resemble-perth içe aktarılamıyor. "
+            f"Çözüm: {WATERMARK_HINT}"
+        )
 
 
 def hf_cache_dir() -> Path:
@@ -105,6 +133,7 @@ def load_model():
         except Exception as e:
             _set("unavailable", f"model yüklenemedi: {e}", REQUIRED_HINT)
             raise
+        ensure_watermarker(MODEL)
         _set("ready", f"model hazır ({DEVICE})")
         STATE["model"] = type(MODEL).__name__
         return MODEL
@@ -242,6 +271,7 @@ def status_report() -> dict:
         "turkishSupported": False,
         "modelCached": False,
         "cacheMb": cache_megabytes(),
+        "watermarker": watermarker_status(),
         "hint": REQUIRED_HINT,
     }
     try:

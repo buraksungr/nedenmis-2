@@ -22,6 +22,7 @@ import json
 import os
 import sys
 import time
+import traceback
 import wave
 from pathlib import Path
 
@@ -113,7 +114,18 @@ def main() -> int:
     try:
         wav_bytes = bridge.generate_wav(args.text)
     except Exception as e:  # model indirilemedi, bellek yetersiz, vb.
-        report.update(ok=False, outcome="synthesis-failed", error=str(e), elapsedSec=round(time.time() - started, 1))
+        message = str(e)
+        hint = None
+        if "watermark" in message.lower() or "setuptools" in message.lower():
+            hint = "pip install setuptools (resemble-perth pkg_resources bağımlılığı)"
+        report.update(
+            ok=False,
+            outcome="synthesis-failed",
+            error=message,
+            hint=hint,
+            traceback=traceback.format_exc()[-4000:],
+            elapsedSec=round(time.time() - started, 1),
+        )
         json_path.write_text(json.dumps(report, ensure_ascii=False, indent=2), "utf-8")
         print(json.dumps(report, ensure_ascii=False, indent=2))
         return 4

@@ -136,6 +136,17 @@ async function seedProject() {
   return { id: data.project.id, seeded: true };
 }
 
+process.on("uncaughtException", (err) => {
+  const payload = { ok: false, error: `beklenmeyen hata: ${String(err).slice(0, 800)}`, generatedAt: new Date().toISOString() };
+  try {
+    fs.writeFileSync(path.join(outDir, "ui-screenshots.json"), JSON.stringify(payload, null, 2));
+  } catch {
+    /* yoksay */
+  }
+  console.log(`::warning title=Ekran görüntüsü::${String(err).slice(0, 800)}`);
+  process.exit(0);
+});
+
 const chrome = findChrome();
 const report = {
   generatedAt: new Date().toISOString(),
@@ -217,11 +228,18 @@ for (const shot of shots) {
     }
     const res = capture(file, attempt.mode, attempt.budget);
     if (!fs.existsSync(file)) {
-      report.shots.push({ name: shot.name, ok: false, error: (res.stderr ?? "").slice(-400) || "PNG üretilmedi" });
+      report.shots.push({ name: shot.name, ok: false, mode: attempt.mode, error: (res.stderr ?? "").slice(-400) || "PNG üretilmedi" });
       continue;
     }
-    const buffer = fs.readFileSync(file);
-    const info = pngInfo(buffer);
+    let buffer;
+    let info;
+    try {
+      buffer = fs.readFileSync(file);
+      info = pngInfo(buffer);
+    } catch (e) {
+      report.shots.push({ name: shot.name, ok: false, mode: attempt.mode, error: `PNG okunamadı: ${String(e).slice(0, 300)}` });
+      continue;
+    }
     const meaningful = info.distinctColorBuckets >= 6 && buffer.length > 12_000;
     report.shots = report.shots.filter((s) => s.name !== shot.name);
     const entry = {

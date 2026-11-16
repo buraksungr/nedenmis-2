@@ -73,6 +73,28 @@ o durumda durum `unavailable` olur ve neden(ler)i `detail` alanında yazar.
 - Varsayılan motor **eSpeak NG**'dir (tamamen çevrimdışı, robotik). Chatterbox hazır olduğunda
   Ayarlar'dan seçilir; seçim proje bazında saklanır.
 
+## Bilinen tuzak: `setuptools` / `pkg_resources`
+
+Windows CI'da gerçek sentez denemesinde şu hata alındı:
+
+```
+'NoneType' object is not callable
+```
+
+Kök neden (paket kaynağından doğrulandı): `resemble-perth` içindeki
+`perth/perth_net/__init__.py` → `from pkg_resources import resource_filename`.
+Python 3.12 venv'lerinde `setuptools` varsayılan olarak kurulu gelmediği için bu import
+**sessizce** başarısız olur; `perth/__init__.py` bu durumda
+`PerthImplicitWatermarker = None` yapar. Chatterbox modeli kurulurken
+`self.watermarker = perth.PerthImplicitWatermarker()` çağrısı bu yüzden `None`'ı çağırmaya çalışır.
+
+Çözüm: sanal ortama `setuptools` kurun (`pip install setuptools`). Bu sürümde:
+
+- CI adımı `pip install chatterbox-tts setuptools` yapar ve `perth` importunu doğrular,
+- `chatterbox_server.py` model yüklenirken filigran modülünü denetler ve anlaşılır hata verir
+  (`ensure_watermarker`), `/health` ve `--status` çıktısında `watermarker.available` alanı bulunur,
+- `scripts/chatterbox-verify.py` hatayı tam iz (traceback) ve çözüm ipucuyla raporlar.
+
 ## Doğrulama durumu (bu sürüm)
 
 Kod, API ve durum makinesi doğrulandı. **Gerçek Türkçe sentez** için:
