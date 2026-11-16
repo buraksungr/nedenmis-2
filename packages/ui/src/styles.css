@@ -889,6 +889,115 @@ textarea {
   align-items: start;
 }
 
+/* Stüdyo: video önizlemesi sayfanın ana odağı. */
+.studio-page {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.studio-main {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 360px);
+  gap: 22px;
+  align-items: start;
+}
+
+.stage-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 22px;
+}
+
+.stage-frame {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 0 4px;
+  min-height: 320px;
+}
+
+.stage-frame .video-frame {
+  width: auto;
+  height: min(58vh, 520px);
+  max-height: none;
+  border-radius: 18px;
+}
+
+.stage-frame .video-frame.stage-empty {
+  width: min(100%, 300px);
+  height: auto;
+}
+
+.stage-frame .video-frame.stage-empty .placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 24px;
+  text-align: center;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.studio-rail {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  position: sticky;
+  top: 24px;
+}
+
+.timeline-panel {
+  padding: 16px 18px;
+}
+
+.advanced-panel > summary {
+  cursor: pointer;
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  list-style: none;
+}
+
+.advanced-panel > summary::-webkit-details-marker {
+  display: none;
+}
+
+.advanced-panel > summary::before {
+  content: "+";
+  display: inline-block;
+  width: 16px;
+  font-weight: 400;
+  color: var(--muted);
+}
+
+.advanced-panel[open] > summary::before {
+  content: "–";
+}
+
+.advanced-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+@media (max-width: 1180px) {
+  .studio-main {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .studio-rail {
+    position: static;
+  }
+  .stage-frame .video-frame {
+    height: min(52vh, 460px);
+  }
+}
+
 @media (max-width: 1180px) {
   .studio {
     grid-template-columns: minmax(0, 1fr);

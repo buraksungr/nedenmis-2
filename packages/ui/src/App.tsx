@@ -100,7 +100,6 @@ export function App() {
               <span className="nav-icon">◫</span>
               <span className="nav-label">Stüdyo</span>
             </button>
-            <div className="nav-group">Sistem</div>
             <button className={`nav-item ${route.name === "settings" ? "active" : ""}`} onClick={() => navigate("/settings")}>
               <span className="nav-icon">⚙</span>
               <span className="nav-label">Ayarlar</span>

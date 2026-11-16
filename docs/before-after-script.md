@@ -1,6 +1,6 @@
 # Senaryo öncesi / sonrası karşılaştırma
 
-_Oluşturma: 2026-11-15T23:03:56.229Z_
+_Oluşturma: 2026-11-16T23:34:28.769Z_
 
 Bu rapor gerçek verilerle üretilir (`node scripts/script-compare.mjs`). "Önce" metni v1.0.1'de kullanılan akademik anlatımdır; "sonra" metni bu sürümde bilgi kartından üretilen sade anlatımdır. Ölçümler `packages/core/src/script/style.ts` içindeki değerlendiriciyle hesaplanır.
 

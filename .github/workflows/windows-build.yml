@@ -289,7 +289,7 @@ jobs:
           & $py packages/core/scripts/chatterbox_server.py --status | Tee-Object -FilePath reports/chatterbox-status.json
           $code = 99
           if ($pipCode -eq 0) {
-            & $py scripts/chatterbox-verify.py --wav reports/chatterbox-turkish-sample.wav --json reports/chatterbox-tr.json
+            & $py scripts/chatterbox-verify.py --wav reports/chatterbox-turkish-sample.wav --json reports/chatterbox-tr.json 2>&1 | Tee-Object -FilePath reports/chatterbox-verify.log
             $code = $LASTEXITCODE
           } else {
             Write-Output "chatterbox-tts kurulumu başarısız (çıkış $pipCode); sentez denenmedi."
@@ -300,7 +300,11 @@ jobs:
           # Rapor her durumda yazılır: bayat bir başarı/başarısızlık iddiası yayına taşınmasın.
           if (-not (Test-Path reports/chatterbox-tr.json)) {
             $why = if ($pipCode -ne 0) { "pip install chatterbox-tts başarısız (çıkış $pipCode)" } else { "sentez doğrulaması rapor üretmedi (çıkış $code)" }
-            $hint = if (Test-Path reports/chatterbox-import-check.log) { (Get-Content reports/chatterbox-import-check.log -Tail 5) -join " | " } else { $null }
+            $hint = if (Test-Path reports/chatterbox-verify.log) {
+              (Get-Content reports/chatterbox-verify.log -Tail 12) -join " | "
+            } elseif (Test-Path reports/chatterbox-import-check.log) {
+              (Get-Content reports/chatterbox-import-check.log -Tail 5) -join " | "
+            } else { $null }
             [ordered]@{ ok = $false; outcome = "not-produced"; error = $why; hint = $hint; pipExitCode = $pipCode; verifyExitCode = $code } |
               ConvertTo-Json | Set-Content -Encoding utf8 reports/chatterbox-tr.json
           }
@@ -421,6 +425,10 @@ jobs:
             Get-ChildItem "samples" -Recurse -Filter script.txt | ForEach-Object { $files += $_.FullName }
           }
           if (Test-Path "reports/chatterbox-turkish-sample.wav") { $files += "reports/chatterbox-turkish-sample.wav" }
+          if (Test-Path "reports/chatterbox-turkish-warm.wav") { $files += "reports/chatterbox-turkish-warm.wav" }
+          foreach ($f in @("chatterbox-tr.json", "chatterbox-status.json", "chatterbox-verify.log", "chatterbox-import-check.log", "chatterbox-pip.log", "chatterbox-ffprobe.json")) {
+            if (Test-Path "reports/$f") { $files += "reports/$f" }
+          }
           if (Test-Path "reports/chatterbox-tr.json") { $files += "reports/chatterbox-tr.json" }
           foreach ($f in $files) { if (-not (Test-Path $f)) { Write-Output "::error title=Yayın::Eksik dosya: $f"; exit 1 } }
           gh release view $tag *> $null

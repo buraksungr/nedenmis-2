@@ -56,9 +56,12 @@ STATE: dict = {
     "error": None,
     "model": None,
     "cacheMb": 0,
+    "loadSec": None,
+    "synthSec": None,
+    "audioSec": None,
 }
 
-REQUIRED_HINT = "pip install chatterbox-tts  (Python 3.10+; torch/torchaudio ile birlikte ~2 GB)"
+REQUIRED_HINT = "pip install chatterbox-tts \"setuptools<81\"  (Python 3.10+; torch/torchaudio ile birlikte ~2 GB)"
 # resemble-perth, pkg_resources üzerinden model dosyası arıyor. Python 3.12 venv'lerinde
 # setuptools varsayılan gelmediği için içe aktarma sessizce başarısız olur ve paket
 # PerthImplicitWatermarker = None yapar; sonuç: "'NoneType' object is not callable".
@@ -127,14 +130,27 @@ def load_model():
         except Exception as e:  # paket yok
             _set("unavailable", f"chatterbox-tts kurulu değil: {e}", REQUIRED_HINT)
             raise
+        if DEVICE == "cpu":
+            # CPU'da çıkarım için iş parçacığı sayısı belirgin fark yaratıyor.
+            try:
+                import torch  # type: ignore
+
+                threads = max(1, min(8, os.cpu_count() or 1))
+                torch.set_num_threads(threads)
+                STATE["threads"] = threads
+            except Exception:
+                pass
         _set("downloading", "model ağırlıkları indiriliyor (ilk çalıştırma)")
+        started = time.time()
         try:
             MODEL = ChatterboxMultilingualTTS.from_pretrained(device=DEVICE)
         except Exception as e:
             _set("unavailable", f"model yüklenemedi: {e}", REQUIRED_HINT)
+            STATE["traceback"] = traceback.format_exc()[-4000:]
             raise
         ensure_watermarker(MODEL)
-        _set("ready", f"model hazır ({DEVICE})")
+        STATE["loadSec"] = round(time.time() - started, 1)
+        _set("ready", f"model hazır ({DEVICE}); yükleme {STATE['loadSec']} sn")
         STATE["model"] = type(MODEL).__name__
         return MODEL
 
@@ -151,6 +167,7 @@ def warmup_async() -> None:
 
 def generate_wav(text: str, voice_ref: str | None = None) -> bytes:
     model = load_model()
+    started = time.time()
     params = inspect.signature(model.generate).parameters
     kwargs: dict = {}
     if "language_id" in params:
@@ -160,6 +177,7 @@ def generate_wav(text: str, voice_ref: str | None = None) -> bytes:
     if voice_ref and "audio_prompt_path" in params:
         kwargs["audio_prompt_path"] = voice_ref
     wav = model.generate(text, **kwargs)
+    STATE["synthSec"] = round(time.time() - started, 2)
     sample_rate = int(getattr(model, "sr", 24000))
     audio = wav if getattr(wav, "dim", lambda: 1)() == 1 else wav.squeeze(0)
     try:
@@ -213,6 +231,9 @@ class Handler(BaseHTTPRequestHandler):
             "device": DEVICE,
             "cacheMb": cache,
             "sampleRate": 24000,
+            "loadSec": STATE.get("loadSec"),
+            "synthSec": STATE.get("synthSec"),
+            "threads": STATE.get("threads"),
             "hint": None if installed else REQUIRED_HINT,
         }
 
