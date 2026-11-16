@@ -295,7 +295,7 @@ jobs:
             reports/install-test-stderr.log
             reports/install-test-studio.log
             reports/script-comparison.json
-            reports/ui-screenshots.json
+            reports/ui-shots/ui-screenshots.json
             reports/ui-shots/*.png
             reports/chatterbox-tr.json
             reports/chatterbox-turkish-sample.wav
@@ -339,8 +339,8 @@ jobs:
               "- Chatterbox Türkçe sentez: **yapılmadı** — $($cb.outcome) ($($cb.error))" >> $env:GITHUB_STEP_SUMMARY
             }
           }
-          if (Test-Path reports\ui-screenshots.json) {
-            $ui = Get-Content reports\ui-screenshots.json -Raw | ConvertFrom-Json
+          if (Test-Path reports\ui-shots\ui-screenshots.json) {
+            $ui = Get-Content reports\ui-shots\ui-screenshots.json -Raw | ConvertFrom-Json
             "- Arayüz ekran görüntüleri: $($ui.shots.Count) adet, 1600x1000, sonuç: **$($ui.ok)**" >> $env:GITHUB_STEP_SUMMARY
           }
           Get-ChildItem release -ErrorAction SilentlyContinue | ForEach-Object { "- $($_.Name) — $([math]::Round($_.Length/1MB,1)) MB" >> $env:GITHUB_STEP_SUMMARY }
@@ -367,7 +367,7 @@ jobs:
             "reports/build-desktop.log",
             "reports/smoke-windows.json",
             "reports/script-comparison.json",
-            "reports/ui-screenshots.json",
+            "reports/ui-shots/ui-screenshots.json",
             "docs/before-after-script.md"
           )
           # Ekran görüntüleri ve (üretildiyse) gerçek Türkçe Chatterbox sesi
