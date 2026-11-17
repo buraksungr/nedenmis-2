@@ -80,3 +80,35 @@ kurulu uygulama `--self-test` ile kendi kendini doğruluyor.
 ## v1.0.0 — ilk yayın
 
 İlk çalışan sürüm. Kurulum dosyası **kullanılmamalıdır** (yukarıdaki paketleme hatası).
+
+### 8. Chatterbox Multilingual Türkçe seslendirme (isteğe bağlı motor)
+
+- Köprü (`packages/core/scripts/chatterbox_server.py`) gerçek `chatterbox-tts 0.1.7` API'siyle çalışır;
+  Türkçe (`tr`) desteklenir. Kurulum: `pip install chatterbox-tts "setuptools<81"`.
+  (`setuptools` 81+ `pkg_resources`'ı kaldırdığı için filigran modülü sessizce `None` oluyordu;
+  hata `'NoneType' object is not callable` olarak görünüyordu — düzeltildi ve belgelendi.)
+- **Gerçek Türkçe sentez üretildi ve ölçüldü** (CI, CPU): 5,60 sn, 24 kHz mono, 16-bit PCM,
+  sessizlik %4,6, kırpılma yok, 1,61 kelime/sn. Dosyalar: `chatterbox-turkish-sample.wav`,
+  `chatterbox-turkish-warm.wav`, `chatterbox-tr.json`.
+- **CPU'da hız:** sıcak sentez RTF ≈ **8,9×** (30 sn anlatım ≈ 4,5 dk). Yani çalışıyor ama yavaş;
+  uzun videolarda eSpeak NG yedeği varsayılandır ve arayüzde “robotik yedek” olarak etiketlenir.
+- Motor seçimi açıktır, projede saklanır (`narration.engineUsed`); **sessiz geçiş yapılmaz**.
+
+### 9. Arayüz: video önizlemesi merkezde
+
+- Stüdyo yeniden düzenlendi: büyük 9:16 önizleme sahnenin ortasında; sağda ilerleme, senaryo
+  kalitesi ve ses özeti; altta zaman çizelgesi ve sahne kartları; doğrulama/araştırma/zamanlama
+  “Teknik ayrıntılar” katlanır panelinde.
+- Tek renk kuralı artık iki katmanlı doğrulanıyor: kaynak paleti taraması (`npm run check:colors`)
+  ve ekran görüntüsünde **arayüz kromu** ölçümü (sahne önizlemeleri *içerik* olduğu için hariç).
+
+### 10. Sürüm doğrulaması
+
+GitHub Actions **43994410308** (commit `37e2525`): **28/28 adım başarılı**. Kurulum dosyası sessiz
+kuruldu, kurulu uygulama `--self-test` ile resvg/FFmpeg/gömülü Python/gerçek MP4/FFprobe denetimlerini
+geçti. Örnek videolar 4 zorunlu konuda 30 sn / 1080×1920 / H.264 + AAC 48 kHz olarak yeniden üretildi
+ve FFprobe ile doğrulandı (6/6).
+
+> Not: NSIS sessiz kurulumu paylaşılan runner'da ara sıra erişim ihlaliyle (0xC0000005) düşebiliyor.
+> İş akışı artık 3 deneme yapar, tanı dosyası (`install-diag.json`) bırakır ve gerekirse paketlenmiş
+> taşınabilir sürümle kurulu-uygulama testini sürdürür; hangi modun kullanıldığı raporda yazar.

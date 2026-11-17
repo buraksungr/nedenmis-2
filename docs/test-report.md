@@ -1,55 +1,64 @@
-# Test raporu
+# Test raporu — Nedenmiş Studio v1.1.0
 
-Üretim tarihi: 2026-11-15T23:05:33.234Z
+Son doğrulanan çalıştırma: **GitHub Actions 43994410308** (commit `37e2525`, etiket `v1.1.0`)
+Sonuç: **28/28 adım başarılı**, yayın oluşturuldu.
 
-## Otomatik testler
+## Otomatik testler (bu çalıştırmada gerçekten koşanlar)
 
-| Takım | Komut | Sonuç |
+| Takım | Komut / adım | Sonuç |
 |---|---|---|
-| Birim testleri (34 test) | `npm test` | ✅ 34/34 geçti |
-| Uçtan uca (TTS + FFmpeg + FFprobe) | `npm run test:e2e` | ✅ geçti (CI'da gerçek eSpeak NG; konteynerde sessiz motor açıkça seçilerek) |
-| Senaryo öncesi/sonrası ölçümü | `node scripts/script-compare.mjs` | ✅ 4 konu |
-| Arayüz duman testi | `npm run test:ui` | ✅ 13 kontrol (menü, dil düzeyleri, ayarlar, monokrom CSS, senaryo paneli) |
-| Arayüz ekran görüntüleri (1600×1000) | `node scripts/ui-shots.mjs` | tarayıcı bulunan ortamda (Windows CI) üretilir |
-| Chatterbox Türkçe sentez | `python scripts/chatterbox-verify.py` | ⚠️ sentez yapılmadı: not-installed (No module named 'chatterbox') |
-| Örnek doğrulama | `npm run verify:samples` | `samples/verification-summary.json` |
-| Windows duman testi | GitHub Actions → `npm run smoke` | CI çalıştırması bekleniyor |
+| Birim testleri (34 test) | `npm test` | ✅ 34/34 (0 atlandı, 0 başarısız) |
+| Uçtan uca üretim (TTS + FFmpeg + FFprobe, 40 kare) | `npm run test:e2e` (CI'da gerçek eSpeak NG) | ✅ geçti |
+| Tip denetimi (core + server + ui) | `npm run typecheck` | ✅ geçti |
+| Arayüz duman testi (jsdom + gerçek API) | `npm run test:ui` | ✅ 13/13 kontrol |
+| Arayüz paleti (kaynak düzeyi tek renk kuralı) | `npm run check:colors` | ✅ 14 dosya, renkli değer yok |
+| Arayüz ekran görüntüleri (gerçek Chrome, 1600×1000) | `node scripts/ui-shots.mjs` | ✅ 4/4 çekim; krom `monochrome: true` |
+| Senaryo öncesi/sonrası ölçümü | `node scripts/script-compare.mjs` | ✅ 4 konu (`docs/before-after-script.md`) |
+| Gerçek üretim duman testi (gömülü Python + eSpeak + FFmpeg) | `npm run smoke` | ✅ geçti (`reports/smoke-windows.json`) |
+| Örnek video üretimi (4 zorunlu konu, sade dil, 1080×1920, 30 sn) | `render-samples` | ✅ 4/4 |
+| Örnek doğrulama (FFprobe, 6 dosya) | `verify-samples` | ✅ 6/6, sapmalar −3.22…+4.56 % (tolerans ±5 %) |
+| Masaüstü paketleme + NSIS kurulum dosyası | electron-builder | ✅ `NedenmisStudio-Setup.exe` (143,1 MB) |
+| Sessiz NSIS kurulumu | `Setup.exe /S /D=C:\nedenmis-test` | ✅ 1. denemede kuruldu (boş alan 30,8 GB) |
+| Kurulu uygulama testi (`--self-test`: resvg + FFmpeg + gömülü Python + gerçek MP4 + FFprobe) | kurulu exe | ✅ geçti (`reports/windows-install-test.json`) |
+| Taşınabilir zip / kaynak zip / SHA-256 | `build:desktop`, `build:source-zip`, `checksums` | ✅ |
+| Chatterbox Türkçe sentez (gerçek model, CPU) | `chatterbox-verify.py` | ✅ `ok: true`, `outcome: synthesized` |
 
-Birim testlerinin kapsadığı alanlar:
+**Hiçbir testte mock yok:** TTS, FFmpeg/FFprobe, kurulum ve ekran görüntüleri gerçek araçlarla çalıştı.
+Tek istisna, bu konteynerde yapılan yerel e2e denemesi: burada eSpeak/Python köprüsü bulunmadığı için
+sessiz motor açıkça seçildi (`NEDENMIS_E2E_ENGINE=silent`); görüntü/FFmpeg/altyazı/doğrulama gerçekti.
+CI'da aynı test **gerçek eSpeak NG** ile koştu.
 
-- Konu çözümleme ve bilgi kartı bütünlüğü (kaynak/adım/kavram zorunlulukları)
-- Görsel doğrulama: yanlış bileşenin reddedilmesi, mekanizma uyuşmazlığı, render kapısının kapanması
-- Elmas planında biyoloji sızıntısı olmaması; mitokondri planında biyolojinin doğru kullanılması
-- Zaman çizelgesi: kare matematiği, ±%5 tolerans, aşırı anlatımda `DurationError`
-- 41 görsel bileşenin tamamının geçerli SVG üretmesi (NaN/undefined yok, etiket dengesi)
-- SQLite proje deposu: yazma, okuma, listeleme, silme, tekrar kayıt
-- **Sade dil kapısı (yeni):** varsayılan düzey, cümle uzunluğu, teknik terim, kanca, sadeleştirici ek bozulması
-- **Senaryo yapısı (yeni):** kanca ilk sahnede, kapanış her hedef sürede korunur, ayrıntılı düzey bilimsel metni korur
-- **Görsel sadeleştirme (yeni):** sade karmaşıklıkta en fazla 2 etiket, altyazı anahtarı dışa aktarmaya geçer
+## Üretilen örnekler (yayındaki dosyalar, FFprobe ile doğrulandı)
 
-## Üretilen örnekler
+| Konu | Dosya | Süre | Kare | Çözünürlük | Ses |
+|---|---|---|---|---|---|
+| Yeni elmas neden kolay kırılmaz? | `elmas-neden-kirilmaz-30s.mp4` | 31,03 sn (+3,45 %) | 931 | 1080×1920 | AAC 48 kHz |
+| Gökyüzü neden mavi? | `gokyuzu-neden-mavi-30s.mp4` | 29,03 sn (−3,22 %) | 871 | 1080×1920 | AAC 48 kHz |
+| Denizler neden tuzlu? | `denizler-neden-tuzlu-30s.mp4` | 29,97 sn (−0,11 %) | 899 | 1080×1920 | AAC 48 kHz |
+| Kara delikler nasıl çalışır? | `kara-delik-nedir-30s.mp4` | 29,63 sn (−1,22 %) | 889 | 1080×1920 | AAC 48 kHz |
+| Metaller neden iletken? | `metaller-neden-iletken-60s.mp4` | 62,73 sn (+4,56 %) | 1882 | 1080×1920 | AAC 48 kHz |
+| Mitokondri neden önemli? | `mitokondri-neden-onemli-60s.mp4` | 62,00 sn (+3,33 %) | 1860 | 1080×1920 | AAC 48 kHz |
 
-- Toplam sahne: **32**, onaylı: **32**, reddedilen: **0**
-- Üretilen video: **6** adet 1080×1920 H.264/AAC dosyası, hepsi FFprobe ile doğrulandı.
-- `samples/elmas-neden-kirilmaz/` — 62.33 sn, 1870 kare, 5.5 MB, render 415.2 sn, SHA-256 `11d57c8caad451bc…`
-- `samples/gokyuzu-neden-mavi/` — 62.03 sn, 1861 kare, 4.3 MB, render 520 sn, SHA-256 `aa2f7e89fa59224f…`
-- `samples/denizler-neden-tuzlu/` — 62.27 sn, 1868 kare, 4.6 MB, render 322.6 sn, SHA-256 `91cfeb016756750d…`
-- `samples/kara-delik-nedir/` — 57.70 sn, 1731 kare, 3.9 MB, render 683.1 sn, SHA-256 `d7228a54359691ec…`
-- `samples/metaller-neden-iletken/` — 62.73 sn, 1882 kare, 5.1 MB, render 496 sn, SHA-256 `75a83fbb725279ce…`
-- `samples/mitokondri-neden-onemli/` — 62.00 sn, 1860 kare, 4.6 MB, render 510.3 sn, SHA-256 `e7f4252341d8110b…`
+Dört zorunlu konu **sade dil** düzeyinde, gerçek eSpeak NG sesiyle, 30 sn hedefiyle CI'da
+yeniden üretildi; ölçülen süreler **ölçülen** anlatım sürelerinden hesaplandı (kırpma yok).
 
-## Senaryo kalitesi (gerçek üretim)
+## Chatterbox (gerçek sentez, CPU)
 
-- **Elmas neden kolay kırılmaz?** — ortalama cümle 14.8 → 6.5 kelime, teknik terim 3 → 0, puan 86 → 100
-- **Gökyüzü neden mavi?** — ortalama cümle 14 → 5.8 kelime, teknik terim 1 → 0, puan 96 → 100
-- **Denizler neden tuzlu?** — ortalama cümle 11.8 → 4.7 kelime, teknik terim 0 → 0, puan 92 → 100
-- **Kara delikler nasıl çalışır?** — ortalama cümle 14 → 6.1 kelime, teknik terim 1 → 0, puan 100 → 100
+| Ölçüm | Değer |
+|---|---|
+| Paket / dil | chatterbox-tts 0.1.7 · 23 dil · `tr` |
+| Metin | “Elmas neden kolay kırılmaz? Serttir, ama yine de kırılabilir.” |
+| Ses | 5,60 sn · 24 kHz mono · 16-bit PCM · tepe 0,925 · sessizlik %4,6 · kırpılma 0 |
+| Konuşma hızı | 1,61 kelime/sn |
+| Soğuk sentez | 108,8 sn (model indirme + yükleme dahil) |
+| Sıcak sentez | 30,6 sn → 3,44 sn ses → **RTF 8,9×** |
 
-## Ölçüm ortamı
+**Sonuç:** CPU'da çalışıyor ama yavaş (30 sn anlatım ≈ 4,5 dk). Uzun videolar için eSpeak NG
+yedeği varsayılan kalır; Chatterbox Ayarlar'dan seçilir ve motor adı projede saklanır.
 
-- Linux x64 konteyner, 2 vCPU, 3.8 GB RAM, GPU yok
-- Node v22.22.3, FFmpeg/FFprobe (npm ikili dağıtımı), Python 3.11 + espeakng-loader
-- Render hızı: 1080×1920'de yaklaşık 4–5 kare/sn (yüksek kalite), 540p taslakta ~12 kare/sn
+## Bilinen sınırlar
 
-Windows kurulum/paketleme adımları `.github/workflows/windows-build.yml` içinde tanımlıdır; bu rapor
-hangi adımların hangi ortamda çalıştığını gizlemez.
+- Telaffuz/doğallık otomatik ölçülemez; yayındaki `chatterbox-turkish-sample.wav` dinlenerek onaylanmalı.
+- Chatterbox modeli (~2 GB) ilk çalıştırmada indirilir; kapalı ağda kullanılamaz.
+- CPU'da RTF ≈ 8,9 → gerçek zamanlı değil.
+- Ekran görüntüleri Chrome ile alınır; tarayıcı yoksa betik bunu raporlar (başarısızlık saymaz).

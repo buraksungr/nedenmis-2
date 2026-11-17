@@ -118,6 +118,35 @@ Yani sorun model ya da CPU değildi: **çıktı biçimi** analiz aracını kırd
 3. Tüm Python çıktısı UTF-8'e sabitlendi (`reconfigure`, CI'da `PYTHONIOENCODING=utf-8`).
 4. Analiz çökse bile rapor yazılır; süreç asla sessizce "çalıştı" demez.
 
+## Gerçek Türkçe sentez — ölçülen sonuç (CI, CPU)
+
+Çalıştırma **43994410308** · commit `37e2525` · Windows runner, **GPU yok** (torch 2.6.0+cpu).
+Kanıt dosyaları yayında: `chatterbox-tr.json`, `chatterbox-turkish-sample.wav`,
+`chatterbox-turkish-warm.wav`, `chatterbox-verify.log`, `chatterbox-ffprobe.json`.
+
+| Ölçüm | Değer |
+| --- | --- |
+| Paket | chatterbox-tts **0.1.7**, 23 dil, `tr` destekli |
+| Filigran modülü | `available: true` (`setuptools<81` sonrası) |
+| Metin | “Elmas neden kolay kırılmaz? Serttir, ama yine de kırılabilir.” |
+| Çıktı | **5.60 sn**, 24 000 Hz, mono, **16-bit PCM** (`wavBytes` 268 844) |
+| Tepe / RMS | 0.925 / 0.135 (kırpılma yok: `clippingRatio 0.0`) |
+| Sessizlik oranı | %4.6 (konuşma var, boş dosya değil) |
+| Konuşma hızı | **1.61 kelime/sn** — Türkçe anlatım için makul |
+| Soğuk sentez (model indirme + yükleme dahil) | **108.8 sn** |
+| Sıcak sentez (“Gökyüzü mavidir.”) | **30.6 sn → 3.44 sn ses** |
+| Gerçek zaman katsayısı (RTF) | **8.9×** |
+
+### CPU'da pratik mi? (ölçüme dayalı cevap)
+
+- 30 saniyelik bir anlatım ≈ **4.5 dakika** sentez (2 vCPU runner ölçümüyle).
+- 60 saniyelik video ≈ **9 dakika**. Model indirmesi (~2 GB) ilk çalıştırmada buna eklenir.
+- Yani **çalışıyor ama yavaş**: kısa videolar ve önizleme için kabul edilebilir, uzun videolarda
+  sabır gerektirir. GPU'da (CUDA) RTF belirgin biçimde düşer; bu ölçüm CPU içindir.
+- Studio bunu gizlemez: Ayarlar'da motor durumu (hazır / model indiriliyor / kullanılamıyor) ve
+  ölçülen süre `project.narration.engineUsed` olarak görünür. eSpeak NG **robotik yedek** olarak
+  ayrı etiketlenir; **sessiz geçiş yoktur** — motor kullanıcı seçimidir ve seçim projede saklanır.
+
 ## Doğrulama durumu (bu sürüm)
 
 Kod, API ve durum makinesi doğrulandı. **Gerçek Türkçe sentez** için:

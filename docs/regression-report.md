@@ -23,7 +23,35 @@ Bu tablo yalnızca gerçekten çalıştırılan kontrolleri listeler; her satır
 | Örnek videolar (4 zorunlu konu, sade dil, gerçek eSpeak, 1080×1920/30 sn) | CI: `render-samples` + `verify-samples` | ✅ geçti |
 | Arayüz ekran görüntüleri (gerçek Chrome, 1600×1000, 4 ekran) | CI: `node scripts/ui-shots.mjs` | ✅ 4/4 çekim, krom tek renk |
 | Palet denetimi (kaynak düzeyi) | `npm run check:colors` | ✅ renkli değer yok |
-| Chatterbox Türkçe sentez (gerçek model, CPU) | CI: `scripts/chatterbox-verify.py` | ⚠️ model + sentez çalıştı; WAV biçimi (float32) düzeltildi, son doğrulama bekliyor |
+| Chatterbox Türkçe sentez (gerçek model, CPU) | CI: `scripts/chatterbox-verify.py` | ✅ `ok: true` — 5,60 sn PCM16 WAV, sessizlik %4,6, RTF 8,9× |
+
+## CI'da koşan tam kontrol listesi (çalıştırma 43994410308 · 28/28 adım)
+
+| # | Adım | Sonuç |
+|---|------|-------|
+| 1–3 | checkout, node 22, bağımlılıklar | ✅ |
+| 4 | derleme (core + server + ui) | ✅ |
+| 5 | tip denetimi | ✅ |
+| 6 | birim testleri (34) | ✅ |
+| 7 | gömülü Python + eSpeak NG | ✅ |
+| 8 | arayüz duman testi (jsdom, 13 kontrol) | ✅ |
+| 9 | senaryo öncesi/sonrası ölçümü | ✅ |
+| 10 | ekran görüntüleri (gerçek Chrome, 4 ekran) | ✅ `ok: true`, 4/4 |
+| 11 | palet denetimi | ✅ renkli değer yok |
+| 12 | simge üretimi | ✅ |
+| 13 | üretim duman testi (gerçek TTS + FFprobe) | ✅ |
+| 14 | 4 zorunlu örnek video (30 sn, sade dil) | ✅ |
+| 15 | masaüstü paketi + NSIS kurulum dosyası | ✅ |
+| 16 | sessiz NSIS kurulumu | ✅ (ilk denemede) |
+| 17 | kurulu uygulama testi (`--self-test`) | ✅ |
+| 18 | kurulum testi raporu (markdown) | ✅ |
+| 19–21 | taşınabilir zip, kaynak zip, SHA-256 | ✅ |
+| 22 | örnek doğrulama (6/6) | ✅ |
+| 23 | Chatterbox Türkçe sentez (gerçek model, CPU) | ✅ `outcome: synthesized` |
+| 24–26 | artefaktlar, tanı günlükleri, özet | ✅ |
+| 27 | yayın oluşturma | ✅ |
+
+**Atlanan adım yok.** Tek uyarı: actions/*@v4 için Node 20 kullanım dışı bildirimi (işlevi etkilemez).
 
 ## Yerel ölçümler (bu ortam)
 
@@ -38,8 +66,9 @@ Bu tablo yalnızca gerçekten çalıştırılan kontrolleri listeler; her satır
 - `node scripts/ui-shots.mjs` → bu ortamda tarayıcı yok; betik "alınamadı" diye raporlar.
   Betiğin mantığı saplama bir tarayıcıyla uçtan uca doğrulandı (4/4 çekim, 1600×1000, krom tek renk);
   gerçek ekran görüntüleri Windows CI'da üretilir ve yayına eklenir.
-- `python scripts/chatterbox-verify.py` → `outcome: "not-installed"` (torch/HuggingFace yok).
-  Gerçek Türkçe sentez CI'da isteğe bağlı adımda denenir; sonuç `reports/chatterbox-tr.json`'a yazılır.
+- `python scripts/chatterbox-verify.py` → bu konteynerde `outcome: "not-installed"` (torch/HuggingFace yok).
+  WAV çözümleyicisi float32/PCM16/PCM32 örnekleriyle ayrıca sınandı (üçünde de doğru süre/tepe/RMS).
+  Gerçek Türkçe sentez CI'da üretildi: `chatterbox-tr.json` → `ok: true`.
 
 ## Değişmeyen sözleşmeler
 
