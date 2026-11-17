@@ -1,6 +1,7 @@
 # Test raporu — Nedenmiş Studio v1.1.0
 
-Son doğrulanan çalıştırma: **GitHub Actions 44000926527** (commit `e81f71b`, etiket `v1.1.0`)
+Son doğrulanan çalıştırma: **GitHub Actions 44006936005** (commit `ff306e5`, etiket `v1.1.0`)
+Aynı sürüm daha önce 43994410308 ve 44000926527 çalıştırmalarında da 28/28 geçti.
 Sonuç: **28/28 adım başarılı**, yayın oluşturuldu.
 
 ## Otomatik testler (bu çalıştırmada gerçekten koşanlar)
@@ -18,7 +19,7 @@ Sonuç: **28/28 adım başarılı**, yayın oluşturuldu.
 | Örnek video üretimi (4 zorunlu konu, sade dil, 1080×1920, 30 sn) | `render-samples` | ✅ 4/4 |
 | Örnek doğrulama (FFprobe, 6 dosya) | `verify-samples` | ✅ 6/6, sapmalar −3.22…+4.56 % (tolerans ±5 %) |
 | Masaüstü paketleme + NSIS kurulum dosyası | electron-builder | ✅ `NedenmisStudio-Setup.exe` (143,1 MB) |
-| Sessiz NSIS kurulumu | `Setup.exe /S /D=C:\nedenmis-test` | ✅ 2. denemede kuruldu (1. deneme `0xC0000005`; otomatik yeniden deneme devreye girdi) |
+| Sessiz NSIS kurulumu | `Setup.exe /S /D=C:\nedenmis-test` | ✅ kuruldu (bu çalıştırmada 1. denemede; 44000926527'de 1. deneme `0xC0000005` idi ve yeniden deneme devreye girdi) |
 | Kurulu uygulama testi (`--self-test`: resvg + FFmpeg + gömülü Python + gerçek MP4 + FFprobe) | kurulu exe | ✅ geçti (`reports/windows-install-test.json`) |
 | Taşınabilir zip / kaynak zip / SHA-256 | `build:desktop`, `build:source-zip`, `checksums` | ✅ |
 | Chatterbox Türkçe sentez (gerçek model, CPU) | `chatterbox-verify.py` | ✅ `ok: true`, `outcome: synthesized` |
@@ -48,10 +49,10 @@ yeniden üretildi; ölçülen süreler **ölçülen** anlatım sürelerinden hes
 |---|---|
 | Paket / dil | chatterbox-tts 0.1.7 · 23 dil · `tr` |
 | Metin | “Elmas neden kolay kırılmaz? Serttir, ama yine de kırılabilir.” |
-| Ses | 4,92 sn · 24 kHz mono · 16-bit PCM · tepe 0,947 · sessizlik %6,1 · kırpılma 0 |
-| Konuşma hızı | 1,83 kelime/sn |
-| Soğuk sentez | 103,8 sn (model indirme + yükleme dahil) |
-| Sıcak sentez | 16,3 sn → 2,36 sn ses → **RTF 6,9×** (önceki çalıştırma 8,9×) |
+| Ses | 4,28 sn · 24 kHz mono · 16-bit PCM · tepe 0,950 · sessizlik %8,4 · kırpılma 0 |
+| Konuşma hızı | 2,10 kelime/sn |
+| Soğuk sentez | 82,6 sn (model indirme + yükleme dahil) |
+| Sıcak sentez | 23,1 sn → 3,40 sn ses → **RTF 6,8×** (üç çalıştırmada 6,8–8,9×) |
 
 **Sonuç:** CPU'da çalışıyor ama yavaş (30 sn anlatım ≈ 3,5–4,5 dk). Uzun videolar için eSpeak NG
 yedeği varsayılan kalır; Chatterbox Ayarlar'dan seçilir ve motor adı projede saklanır.

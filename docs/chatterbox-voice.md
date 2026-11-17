@@ -120,8 +120,8 @@ Yani sorun model ya da CPU değildi: **çıktı biçimi** analiz aracını kırd
 
 ## Gerçek Türkçe sentez — ölçülen sonuç (CI, CPU)
 
-Son çalıştırma **44000926527** · commit `e81f71b` · Windows runner, **GPU yok** (torch 2.6.0+cpu).
-Önceki doğrulama: 43994410308 (commit `37e2525`) — aynı sonuç, farklı süreler (aşağıdaki tabloda iki ölçüm).
+Üç bağımsız Windows çalıştırmasında da **aynı sonuç**: Türkçe ses üretildi.
+Son çalıştırma **44006936005** · commit `ff306e5` · Windows runner, **GPU yok** (torch 2.6.0+cpu).
 Kanıt dosyaları yayında: `chatterbox-tr.json`, `chatterbox-turkish-sample.wav`,
 `chatterbox-turkish-warm.wav`, `chatterbox-verify.log`, `chatterbox-ffprobe.json`.
 
@@ -130,13 +130,13 @@ Kanıt dosyaları yayında: `chatterbox-tr.json`, `chatterbox-turkish-sample.wav
 | Paket | chatterbox-tts **0.1.7**, 23 dil, `tr` destekli |
 | Filigran modülü | `available: true` (`setuptools<81` sonrası) |
 | Metin | “Elmas neden kolay kırılmaz? Serttir, ama yine de kırılabilir.” |
-| Çıktı | **4.92 sn**, 24 000 Hz, mono, **16-bit PCM**, 236 204 bayt |
-| Tepe / RMS | 0.947 / 0.121 (kırpılma yok: `clippingRatio 0.0`) |
-| Sessizlik oranı | %6.1 (konuşma var, boş dosya değil) |
-| Konuşma hızı | **1.83 kelime/sn** — Türkçe anlatım için makul |
-| Soğuk sentez (model indirme + yükleme dahil) | **103.8 sn** |
-| Sıcak sentez (“Gökyüzü mavidir.”) | **16.3 sn → 2.36 sn ses** |
-| Gerçek zaman katsayısı (RTF) | **6.9×** (önceki çalıştırma: 8.9×) |
+| Çıktı | **4.28 sn**, 24 000 Hz, mono, **16-bit PCM**, 205 484 bayt |
+| Tepe / RMS | 0.950 / 0.118 (kırpılma yok: `clippingRatio 0.0`) |
+| Sessizlik oranı | %8.4 (konuşma var, boş dosya değil) |
+| Konuşma hızı | **2.10 kelime/sn** — Türkçe anlatım için makul |
+| Soğuk sentez (model indirme + yükleme dahil) | **82.6 sn** |
+| Sıcak sentez (“Gökyüzü mavidir.”) | **23.1 sn → 3.40 sn ses** |
+| Gerçek zaman katsayısı (RTF) | **6.8×** |
 
 İki bağımsız çalıştırmanın ölçümleri:
 
@@ -144,6 +144,7 @@ Kanıt dosyaları yayında: `chatterbox-tr.json`, `chatterbox-turkish-sample.wav
 | --- | --- | --- | --- | --- | --- |
 | 43994410308 | 5.60 sn | 108.8 sn | 30.6 sn (3.44 sn ses) | 8.9× | 1.61 |
 | 44000926527 | 4.92 sn | 103.8 sn | 16.3 sn (2.36 sn ses) | 6.9× | 1.83 |
+| 44006936005 | 4.28 sn | 82.6 sn | 23.1 sn (3.40 sn ses) | 6.8× | 2.10 |
 
 ### CPU'da pratik mi? (ölçüme dayalı cevap)
 

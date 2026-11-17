@@ -87,8 +87,8 @@ kurulu uygulama `--self-test` ile kendi kendini doğruluyor.
   Türkçe (`tr`) desteklenir. Kurulum: `pip install chatterbox-tts "setuptools<81"`.
   (`setuptools` 81+ `pkg_resources`'ı kaldırdığı için filigran modülü sessizce `None` oluyordu;
   hata `'NoneType' object is not callable` olarak görünüyordu — düzeltildi ve belgelendi.)
-- **Gerçek Türkçe sentez üretildi ve ölçüldü** (CI, CPU): 4,92 sn, 24 kHz mono, 16-bit PCM,
-  sessizlik %6,1, kırpılma yok, 1,83 kelime/sn. Dosyalar: `chatterbox-turkish-sample.wav`,
+- **Gerçek Türkçe sentez üretildi ve ölçüldü** (CI, CPU): 4,28 sn, 24 kHz mono, 16-bit PCM,
+  sessizlik %8,4, kırpılma yok, 2,10 kelime/sn. Üç ayrı çalıştırmada da doğrulandı. Dosyalar: `chatterbox-turkish-sample.wav`,
   `chatterbox-turkish-warm.wav`, `chatterbox-tr.json`.
 - **CPU'da hız:** sıcak sentez RTF ≈ **6,9–8,9×** (30 sn anlatım ≈ 3,5–4,5 dk). Yani çalışıyor ama yavaş;
   uzun videolarda eSpeak NG yedeği varsayılandır ve arayüzde “robotik yedek” olarak etiketlenir.
@@ -104,12 +104,13 @@ kurulu uygulama `--self-test` ile kendi kendini doğruluyor.
 
 ### 10. Sürüm doğrulaması
 
-GitHub Actions **44000926527** (commit `e81f71b`): **28/28 adım başarılı**. Kurulum dosyası sessiz
+GitHub Actions **44006936005** (commit `ff306e5`): **28/28 adım başarılı** (aynı sürüm 43994410308 ve
+44000926527'de de 28/28 geçti). Kurulum dosyası sessiz
 kuruldu, kurulu uygulama `--self-test` ile resvg/FFmpeg/gömülü Python/gerçek MP4/FFprobe denetimlerini
 geçti. Örnek videolar 4 zorunlu konuda 30 sn / 1080×1920 / H.264 + AAC 48 kHz olarak yeniden üretildi
 ve FFprobe ile doğrulandı (6/6).
 
 > Not: NSIS sessiz kurulumu paylaşılan runner'da ara sıra erişim ihlaliyle (0xC0000005) düşebiliyor.
-> Bu sürümün doğrulamasında kurulum **2. denemede** başarılı oldu (1. deneme `0xC0000005`).
+> Bu sürümün doğrulamalarında kurulum bir kez 2. denemede başarılı oldu (1. deneme `0xC0000005`).
 > İş akışı 3 deneme yapar, tanı dosyası (`install-diag.json`) bırakır ve gerekirse paketlenmiş
 > taşınabilir sürümle kurulu-uygulama testini sürdürür; hangi modun kullanıldığı raporda yazar.
