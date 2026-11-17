@@ -297,14 +297,14 @@ const main = () => {
     place(master, { ch: tmp, rate: SR }, e.start / FPS - 0.05, 0.5, 0.02);
   });
 
-  // 4) yumuşak sınırlama + normalizasyon
+  // 4) yumuşak sınırlama + normalizasyon (hedef: yayın standardı ~ -14 dB RMS)
   let peak = 1e-9;
   for (const ch of master) for (const v of ch) peak = Math.max(peak, Math.abs(v));
-  const g = 0.92 / peak;
+  const g = 0.99 / peak;
   for (const ch of master) {
     for (let i = 0; i < ch.length; i++) {
       const v = ch[i] * g;
-      ch[i] = Math.tanh(v * 1.15) * 0.95;
+      ch[i] = Math.tanh(v * 1.8) * 0.96;
     }
   }
 

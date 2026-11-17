@@ -43,8 +43,8 @@ export const S1Hook: React.FC<SceneProps> = ({ t, duration }) => {
         <div
           style={{
             position: "absolute",
-            left: 150 + 168 * 2.5 * 0.55,
-            top: 1330 - 10,
+            left: 150 + 40 * 2.5 + 46,
+            top: 1330 - 6,
             width: 74,
             height: 60,
             borderRadius: "46% 54% 52% 48%",

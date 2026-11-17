@@ -91,7 +91,7 @@ export const Ant: React.FC<AntProps> = ({
         {shadow && (
           <ellipse
             cx={2}
-            cy={26}
+            cy={58}
             rx={queen ? 62 : 54}
             ry={10}
             fill="#1d1106"

@@ -1,7 +1,7 @@
 {
   "ok": true,
   "file": "/home/user/nedenmis-2/output/karincalar-kisin-nereye-gidiyor.mp4",
-  "bytes": 29020057,
+  "bytes": 29098961,
   "durationSec": 60,
   "video": {
     "codec": "h264",
@@ -27,7 +27,7 @@
     {
       "id": "file_size",
       "ok": true,
-      "detail": "27.68 MB",
+      "detail": "27.75 MB",
       "severity": "error"
     },
     {
@@ -87,25 +87,25 @@
     {
       "id": "scene_s1-hook",
       "ok": true,
-      "detail": "luma=149.11 std=76.63",
+      "detail": "luma=149.16 std=76.61",
       "severity": "error"
     },
     {
       "id": "scene_s2-merak",
       "ok": true,
-      "detail": "luma=198.27 std=40.94",
+      "detail": "luma=198.23 std=40.9",
       "severity": "error"
     },
     {
       "id": "scene_s3-sogukkanli",
       "ok": true,
-      "detail": "luma=197.91 std=45.65",
+      "detail": "luma=197.87 std=45.64",
       "severity": "error"
     },
     {
       "id": "scene_s4-metabolizma",
       "ok": true,
-      "detail": "luma=134.66 std=76.21",
+      "detail": "luma=134.4 std=77.26",
       "severity": "error"
     },
     {
@@ -117,37 +117,37 @@
     {
       "id": "scene_s6-derinlik",
       "ok": true,
-      "detail": "luma=81.67 std=32",
+      "detail": "luma=81.66 std=31.98",
       "severity": "error"
     },
     {
       "id": "scene_s7-kralice",
       "ok": true,
-      "detail": "luma=74.28 std=37.92",
+      "detail": "luma=74.36 std=39",
       "severity": "error"
     },
     {
       "id": "scene_s8-kume",
       "ok": true,
-      "detail": "luma=76.4 std=33.35",
+      "detail": "luma=76.32 std=33.29",
       "severity": "error"
     },
     {
       "id": "scene_s9-turler",
       "ok": true,
-      "detail": "luma=88.96 std=76.53",
+      "detail": "luma=88.91 std=76.56",
       "severity": "error"
     },
     {
       "id": "scene_s10-ilkbahar",
       "ok": true,
-      "detail": "luma=164.22 std=72.05",
+      "detail": "luma=164.16 std=72.08",
       "severity": "error"
     },
     {
       "id": "scene_s11-kapanis",
       "ok": true,
-      "detail": "luma=169.65 std=66.67",
+      "detail": "luma=169.59 std=66.72",
       "severity": "error"
     }
   ],
@@ -155,29 +155,29 @@
     {
       "scene": "s1-hook",
       "time": 1.7166666666666666,
-      "mean": 149.11,
-      "std": 76.63,
+      "mean": 149.16,
+      "std": 76.61,
       "ok": true
     },
     {
       "scene": "s2-merak",
       "time": 5.633333333333334,
-      "mean": 198.27,
-      "std": 40.94,
+      "mean": 198.23,
+      "std": 40.9,
       "ok": true
     },
     {
       "scene": "s3-sogukkanli",
       "time": 11.15,
-      "mean": 197.91,
-      "std": 45.65,
+      "mean": 197.87,
+      "std": 45.64,
       "ok": true
     },
     {
       "scene": "s4-metabolizma",
       "time": 17.633333333333333,
-      "mean": 134.66,
-      "std": 76.21,
+      "mean": 134.4,
+      "std": 77.26,
       "ok": true
     },
     {
@@ -190,43 +190,43 @@
     {
       "scene": "s6-derinlik",
       "time": 29.316666666666666,
-      "mean": 81.67,
-      "std": 32,
+      "mean": 81.66,
+      "std": 31.98,
       "ok": true
     },
     {
       "scene": "s7-kralice",
       "time": 35.8,
-      "mean": 74.28,
-      "std": 37.92,
+      "mean": 74.36,
+      "std": 39,
       "ok": true
     },
     {
       "scene": "s8-kume",
       "time": 40.833333333333336,
-      "mean": 76.4,
-      "std": 33.35,
+      "mean": 76.32,
+      "std": 33.29,
       "ok": true
     },
     {
       "scene": "s9-turler",
       "time": 46.35,
-      "mean": 88.96,
-      "std": 76.53,
+      "mean": 88.91,
+      "std": 76.56,
       "ok": true
     },
     {
       "scene": "s10-ilkbahar",
       "time": 53,
-      "mean": 164.22,
-      "std": 72.05,
+      "mean": 164.16,
+      "std": 72.08,
       "ok": true
     },
     {
       "scene": "s11-kapanis",
       "time": 58.083333333333336,
-      "mean": 169.65,
-      "std": 66.67,
+      "mean": 169.59,
+      "std": 66.72,
       "ok": true
     }
   ]
