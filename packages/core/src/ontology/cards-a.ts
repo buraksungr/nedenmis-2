@@ -54,13 +54,16 @@ export const CARDS_A: KnowledgeCard[] = [
       {
         id: "d-1", mechanism: "crystal_lattice", overlay: "ELMASIN SIRRI",
         narration: "Elmas dünyanın en sert doğal maddesi. Peki neden sert olduğu kadar kolay da kırılabiliyor?",
+        narrationSimple: "Elmas, dünyada bilinen en sert doğal madde. Peki neden bu kadar sert? Ve neden yine de kırılabiliyor?",
         concepts: ["carbon_atom", "tetrahedral_lattice", "hardness"],
         params: { atomLabel: "karbon", bondLabel: "kovalent bağ", latticeLabel: "dörtyüzlü örgü", focus: "lattice" },
         minDuration: 5,
       },
       {
         id: "d-2", mechanism: "bond_network", overlay: "KOVALENT BAĞLAR",
+        overlaySimple: "ÇOK GÜÇLÜ BAĞLAR",
         narration: "Her karbon atomu dört komşusuna kovalent bağla bağlanır. Bu bağlar elektron paylaşımıyla kurulan çok güçlü bağlardır.",
+        narrationSimple: "Elmasın içindeki karbon atomları birbirine çok sıkı tutunur. Her atom, dört komşusuna birden bağlıdır. Bu yüzden ağ gibi bir yapı oluşur.",
         concepts: ["carbon_atom", "covalent_bond", "tetrahedral_lattice"],
         params: { atomLabel: "C", bondLabel: "kovalent bağ", bonds: 4, mode: "tetrahedral" },
         minDuration: 5,
@@ -68,20 +71,25 @@ export const CARDS_A: KnowledgeCard[] = [
       {
         id: "d-3", mechanism: "hardness_measure", overlay: "SERTLİK",
         narration: "Bu sıkı ağ, yüzeyin çizilmeye karşı direncini yani sertliği olağanüstü artırır. Elmas Mohs ölçeğinde on değerindedir.",
+        narrationSimple: "Bu sıkı düzen sayesinde elması çizmek çok zordur. Sertlik sıralamasında en üstte yer alır.",
         concepts: ["hardness", "carbon_atom", "covalent_bond"],
         params: { scale: "mohs", value: 10, probeLabel: "çizme ucu" },
         minDuration: 4,
       },
       {
         id: "d-4", mechanism: "brittleness_compare", overlay: "GEVREKLİK",
+        overlaySimple: "SERT AMA KIRILGAN",
         narration: "Ama sertlik, kırılmaya dayanıklılık demek değildir. Elmas gevrektir; yani kırılmadan önce çok az esneyebilir.",
+        narrationSimple: "Ama sert olmak, kırılmaz olmak demek değil. Elmas serttir; yine de darbeyle çatlayabilir.",
         concepts: ["brittleness", "toughness", "hardness"],
         params: { leftLabel: "sertlik: yüksek", rightLabel: "tokluk: düşük" },
         minDuration: 5,
       },
       {
         id: "d-5", mechanism: "cleavage_fracture", overlay: "DİLİMLENME DÜZLEMİ",
+        overlaySimple: "ZAYIF HATLAR",
         narration: "Kristal, belirli düzlemlerde daha zayıftır. Bir darbe çatlak başlatırsa, çatlak bu düzlemi izleyerek çok hızlı ilerler.",
+        narrationSimple: "Elmasın içinde bazı düzlemler daha zayıftır. Bir darbe çatlak başlatırsa, çatlak o zayıf hattı izleyip hızla ilerler.",
         concepts: ["cleavage_plane", "crack_propagation", "mechanical_stress"],
         params: { planeLabel: "dilimlenme düzlemi", crackLabel: "çatlak", stressLabel: "darbe" },
         minDuration: 5,
@@ -89,6 +97,7 @@ export const CARDS_A: KnowledgeCard[] = [
       {
         id: "d-6", mechanism: "hardness_compare_summary", overlay: "İKİ FARKLI ÖZELLİK", optional: true,
         narration: "Yani elması sert yapan şey elması kırılmaz yapmaz. Sertlik ve gevreklik, aynı kristalin iki ayrı özelliğidir.",
+        narrationSimple: "Yani elması sert yapan yapı, onu kırılmaz yapmıyor. Sertlik ve kırılganlık aynı taşın iki ayrı özelliği.",
         concepts: ["hardness", "brittleness", "tetrahedral_lattice"],
         params: { leftLabel: "sert", rightLabel: "gevrek" },
         minDuration: 5,
@@ -128,20 +137,25 @@ export const CARDS_A: KnowledgeCard[] = [
       {
         id: "s-1", mechanism: "spectrum_split", overlay: "BEYAZ IŞIK",
         narration: "Güneş ışığı beyaz görünür ama aslında tüm renkleri içinde taşır. Prizmadan geçirdiğinizde bunu görebilirsiniz.",
+        narrationSimple: "Gökyüzü neden mavi? Aslında gökyüzünün kendi rengi yok. Rengi ışık yapıyor.",
         concepts: ["sunlight", "spectrum", "light"],
         params: { spectrumLabel: "görünür tayf", startLabel: "güneş ışığı" },
         minDuration: 5,
       },
       {
         id: "s-2", mechanism: "rayleigh_scattering", overlay: "MOLEKÜLLERDEN SAÇILMA",
+        overlaySimple: "IŞIK DAĞILIYOR",
         narration: "Atmosferdeki azot ve oksijen molekülleri bu ışığı her yöne saçmaya başlar. Bu olayın adı Rayleigh saçılmasıdır.",
+        narrationSimple: "Güneş ışığı havadaki moleküllere çarpar. Moleküller ışığı her yöne dağıtır.",
         concepts: ["atmosphere", "gas_molecule", "rayleigh_scattering", "photon"],
         params: { moleculeLabel: "N₂ / O₂", incidentLabel: "güneş ışığı", scatteredLabel: "saçılan ışık" },
         minDuration: 5,
       },
       {
         id: "s-3", mechanism: "wavelength_scale", overlay: "DALGA BOYU ETKİSİ",
+        overlaySimple: "MAVİ DAHA ÇOK",
         narration: "Saçılma şiddeti dalga boyunun dördüncü kuvvetiyle ters orantılıdır. Bu yüzden kısa dalgalı mavi ışık, kırmızıdan kat kat fazla saçılır.",
+        narrationSimple: "Mavi ışık bu dağılmaya daha çok yakalanır. Kırmızı ışık ise neredeyse hiç sapmadan geçer.",
         concepts: ["wavelength", "rayleigh_scattering", "spectrum"],
         params: { blueLabel: "mavi ≈ 450 nm", redLabel: "kırmızı ≈ 700 nm" },
         minDuration: 5,
@@ -149,6 +163,7 @@ export const CARDS_A: KnowledgeCard[] = [
       {
         id: "s-4", mechanism: "sky_dome_view", overlay: "HER YÖNDEN MAVİ",
         narration: "Gökyüzüne baktığınız her yönde, o saçılan mavi fotonlar gözünüze ulaşır. Bu yüzden gökyüzü mavidir.",
+        narrationSimple: "Bu yüzden gökyüzüne baktığınız her yerde mavi ışık gözünüze ulaşır. Gökyüzü mavi görünür.",
         concepts: ["observer", "rayleigh_scattering", "spectrum"],
         params: { sunLabel: "güneş", observerLabel: "gözlemci", scatteredLabel: "mavi saçılma" },
         minDuration: 5,
@@ -156,6 +171,7 @@ export const CARDS_A: KnowledgeCard[] = [
       {
         id: "s-5", mechanism: "atmosphere_path", overlay: "GÜN BATIMI",
         narration: "Güneş ufka yaklaştığında ışık atmosferde çok daha uzun yol alır. Mavi ışık yolda dağılır, geriye kırmızı ve turuncu kalır.",
+        narrationSimple: "Güneş batarken ışık havada daha uzun yol alır. Mavi ışık yolda dağılır; geriye kırmızı ve turuncu kalır.",
         concepts: ["horizon_path", "wavelength", "atmosphere", "sunlight"],
         params: { lowSunLabel: "ufuktaki güneş", longPathLabel: "uzun yol", redLabel: "kırmızı" },
         minDuration: 5,
@@ -163,6 +179,7 @@ export const CARDS_A: KnowledgeCard[] = [
       {
         id: "s-6", mechanism: "atmosphere_path", overlay: "ÖZET", optional: true,
         narration: "Kısaca: mavi ışık daha çok saçıldığı için gökyüzü mavi, yolu uzadığında ise gün batımı kızıldır.",
+        narrationSimple: "Kısacası: mavi ışık daha çok dağıldığı için gökyüzü mavi. Yol uzadığında ise gün batımı kızıl olur.",
         concepts: ["rayleigh_scattering", "wavelength", "horizon_path"],
         params: { lowSunLabel: "gün batımı", longPathLabel: "uzun yol", redLabel: "kırmızı" },
         minDuration: 5,
@@ -202,6 +219,7 @@ export const CARDS_A: KnowledgeCard[] = [
       {
         id: "o-1", mechanism: "rock_weathering", overlay: "TUZUN KAYNAĞI",
         narration: "Denizlerdeki tuzun kaynağı deniz değil, karadır. Yağmur, atmosferden karbondioksit alarak hafif asitli hâle gelir.",
+        narrationSimple: "Denizdeki tuz denizden gelmiyor. Peki nereden geliyor? Karadan; yağmurla.",
         concepts: ["rock_weathering", "water_cycle", "water"],
         params: { rainLabel: "asitli yağmur", rockLabel: "kayaç", ionLabel: "çözünen iyonlar" },
         minDuration: 5,
@@ -209,13 +227,16 @@ export const CARDS_A: KnowledgeCard[] = [
       {
         id: "o-2", mechanism: "river_to_sea", overlay: "AKARSULAR TAŞIR",
         narration: "Bu su, kayalardaki mineralleri çözerek iyonlara ayırır. Akarsular iyonları milyonlarca yıl boyunca okyanuslara taşır.",
+        narrationSimple: "Bu su, kayalardaki tuzları çözer. Dereler bu tuzu milyonlarca yıl boyunca denize taşır.",
         concepts: ["river_transport", "sodium_ion", "chloride_ion"],
         params: { riverLabel: "akarsu", seaLabel: "okyanus", ionLabel: "Na⁺ / Cl⁻" },
         minDuration: 5,
       },
       {
         id: "o-3", mechanism: "ion_solution", overlay: "ÇÖZÜNMÜŞ İYONLAR",
+        overlaySimple: "TUZ SUDA",
         narration: "Deniz suyunda bu iyonlar serbest dolaşır. Su molekülleri onları sarar ve çözeltide tutar; buna hidratasyon denir.",
+        narrationSimple: "Denizde tuz parçacıkları suyun içinde serbestçe dolaşır. Su molekülleri onları sarar ve suda tutar.",
         concepts: ["sodium_ion", "chloride_ion", "ion_hydration", "water"],
         params: { cationLabel: "Na⁺", anionLabel: "Cl⁻", waterLabel: "su molekülü" },
         minDuration: 5,
@@ -223,6 +244,7 @@ export const CARDS_A: KnowledgeCard[] = [
       {
         id: "o-4", mechanism: "evaporation_cycle", overlay: "TUZ GERİDE KALIR",
         narration: "Güneş deniz suyunu buharlaştırır. Su gökyüzüne çıkar ama tuz geride kalır. Böylece tuz milyonlarca yıl birikir.",
+        narrationSimple: "Güneş deniz suyunu buharlaştırır. Su buharlaşıp yukarı çıkar; tuz ise denizde kalır.",
         concepts: ["evaporation", "water_cycle", "ocean", "sodium_ion"],
         params: { sunLabel: "güneş", vaporLabel: "su buharı", saltLabel: "tuz" },
         minDuration: 5,
@@ -230,6 +252,7 @@ export const CARDS_A: KnowledgeCard[] = [
       {
         id: "o-5", mechanism: "river_to_sea", overlay: "YAKLAŞIK %3,5", optional: true,
         narration: "Bugün deniz suyunun yaklaşık yüzde üç buçuğu çözünmüş tuzdur. Bu denge milyonlarca yılda oluştu.",
+        narrationSimple: "Böylece tuz milyonlarca yıl birikir. Bugün deniz suyunun yaklaşık yüzde üç buçuğu tuzdur.",
         concepts: ["ocean", "sodium_ion", "chloride_ion"],
         params: { riverLabel: "akarsu", seaLabel: "okyanus", ionLabel: "%3,5 tuz" },
         minDuration: 4,
@@ -269,27 +292,34 @@ export const CARDS_A: KnowledgeCard[] = [
       {
         id: "b-1", mechanism: "spacetime_grid", overlay: "UZAY-ZAMAN",
         narration: "Kara delikleri anlamanın yolu uzay-zamandan geçer. Kütle, uzay-zamanı bir çarşaf gibi büker.",
+        narrationSimple: "Kara delik, ışığın bile kaçamadığı bir yer. Peki bu nasıl oluyor? Uzayı bir çarşaf gibi düşünün.",
         concepts: ["spacetime_curvature", "mass", "gravitational_force"],
         params: { gridLabel: "uzay-zaman", massLabel: "kütle", wellLabel: "çukur" },
         minDuration: 5,
       },
       {
-        id: "b-2", mechanism: "event_horizon", overlay: "OLAY UFU",
+        id: "b-2", mechanism: "event_horizon", overlay: "OLAY UFKU",
+        overlaySimple: "GERİ DÖNÜŞ YOK",
         narration: "Bu eğrilik yeterince güçlü olduğunda bir sınır oluşur: olay ufku. İçeride kaçış hızı ışık hızını aşar.",
+        narrationSimple: "Çukur yeterince derin olursa bir sınır oluşur. Bu sınırdan içeri giren hiçbir şey geri dönemez; ışık bile.",
         concepts: ["event_horizon", "escape_velocity", "black_hole"],
         params: { horizonLabel: "olay ufku", photonLabel: "foton", escapeLabel: "kaçabilir", trappedLabel: "kaçamaz" },
         minDuration: 5,
       },
       {
         id: "b-3", mechanism: "accretion_disk", overlay: "YIĞILMA DİSKİ",
+        overlaySimple: "DÖNEN SICAK MADDE",
         narration: "Kara deliğin çevresine madde düşerken bir disk oluşur. Sürtünmeyle ısınan bu madde parlak X-ışınları yayar.",
+        narrationSimple: "Kara deliğin çevresine madde düşerken dönmeye başlar. Bu madde ısınır ve parlak ışık yayar.",
         concepts: ["accretion_disk", "black_hole", "mass"],
         params: { diskLabel: "yığılma diski", holeLabel: "kara delik", heatLabel: "sıcak madde" },
         minDuration: 5,
       },
       {
         id: "b-4", mechanism: "gravitational_lensing", overlay: "MERCEKLEME",
+        overlaySimple: "IŞIK BÜKÜLÜR",
         narration: "Kara deliğin arkasındaki yıldızların ışığı bükülür. Bu yüzden aynı yıldızı birden fazla yerde görebiliriz.",
+        narrationSimple: "Kara deliğin arkasındaki yıldızların ışığı bükülür. Bu yüzden aynı yıldızı iki ayrı yerde görebiliriz.",
         concepts: ["gravitational_lensing", "light", "spacetime_curvature"],
         params: { starLabel: "arka plan yıldızı", ringLabel: "ışık halkası", holeLabel: "kara delik" },
         minDuration: 5,
@@ -297,6 +327,7 @@ export const CARDS_A: KnowledgeCard[] = [
       {
         id: "b-5", mechanism: "event_horizon", overlay: "UFKUN ÖTESİ", optional: true,
         narration: "Olay ufkunun ötesini gözlemleyemeyiz. Bu yüzden kara deliklerin iç yapısı hâlâ kuramsal bir tartışmadır.",
+        narrationSimple: "Sınırın ötesini hiçbir teleskopla göremeyiz. Bu yüzden içeride ne olduğu hâlâ tartışılıyor.",
         concepts: ["event_horizon", "singularity", "black_hole"],
         params: { horizonLabel: "olay ufku", photonLabel: "ışık", escapeLabel: "dışarı", trappedLabel: "bilinmiyor" },
         minDuration: 5,
@@ -336,7 +367,9 @@ export const CARDS_A: KnowledgeCard[] = [
     steps: [
       {
         id: "m-1", mechanism: "electron_sea", overlay: "ELEKTRON DENİZİ",
+        overlaySimple: "SERBEST ELEKTRONLAR",
         narration: "Metallerde atomlar sıkı bir örgü oluşturur. Dış elektronlar ise atomlara zayıf bağlıdır ve serbestçe dolaşır.",
+        narrationSimple: "Metale bir pil bağlayınca elektrik akar. Peki neden? Çünkü metalin içinde serbest elektronlar var.",
         concepts: ["metal_lattice", "free_electron", "atom"],
         params: { ionLabel: "metal iyonu", electronLabel: "serbest elektron" },
         minDuration: 5,
@@ -344,13 +377,16 @@ export const CARDS_A: KnowledgeCard[] = [
       {
         id: "m-2", mechanism: "electron_drift", overlay: "GERİLİM VE AKIM",
         narration: "Bir pile bağlandığında elektrik alanı oluşur. Serbest elektronlar bu alanın tersine doğru sürüklenmeye başlar.",
+        narrationSimple: "Pile bağlayınca elektrik itici bir güç oluşur. Serbest elektronlar bu güçle harekete geçer.",
         concepts: ["electric_field", "drift_velocity", "current", "free_electron"],
         params: { fieldLabel: "elektrik alanı", electronLabel: "elektron", batteryLabel: "pil" },
         minDuration: 5,
       },
       {
         id: "m-3", mechanism: "resistance_heat", overlay: "DİRENÇ",
+        overlaySimple: "TEL ISINIR",
         narration: "Elektronlar ilerlerken titreşen iyonlarla çarpışır. Bu çarpışmalar direnci oluşturur ve tel ısınır.",
+        narrationSimple: "Elektronlar ilerlerken titreyen atomlara çarpar. Bu çarpışmalar teli ısıtır ve akımı zorlaştırır.",
         concepts: ["collision_scattering", "metal_lattice", "drift_velocity"],
         params: { collisionLabel: "çarpışma", heatLabel: "ısı", ionLabel: "iyon" },
         minDuration: 5,
@@ -358,6 +394,7 @@ export const CARDS_A: KnowledgeCard[] = [
       {
         id: "m-4", mechanism: "insulator_compare", overlay: "YALITKANLAR",
         narration: "Yalıtkanlarda elektronlar atomlara sıkı bağlıdır. Serbest taşıyıcı olmadığı için akım akmaz.",
+        narrationSimple: "Yalıtkanlarda elektronlar atomlara sıkı bağlıdır. Serbest elektron olmadığı için elektrik geçmez.",
         concepts: ["insulator", "electron", "current"],
         params: { conductorLabel: "iletken", insulatorLabel: "yalıtkan", electronLabel: "elektron" },
         minDuration: 5,
@@ -365,6 +402,7 @@ export const CARDS_A: KnowledgeCard[] = [
       {
         id: "m-5", mechanism: "electron_drift", overlay: "NEDEN METAL?", optional: true,
         narration: "Metalleri iyi iletken yapan şey, bu serbest elektronların bolluğu ve hareketliliğidir.",
+        narrationSimple: "Metalleri iyi ileten şey, bu serbest elektronların çokluğu ve rahat hareket etmesidir.",
         concepts: ["free_electron", "drift_velocity", "current"],
         params: { fieldLabel: "elektrik alanı", electronLabel: "elektron", batteryLabel: "pil" },
         minDuration: 4,

@@ -10,9 +10,18 @@ import { createProject, narrateProject, renderProject } from "../../packages/cor
  * Kare sayısı bilinçli olarak sınırlanır (frameLimit) — bu test hızlıdır,
  * yayın örnekleri scripts/render-samples.ts ile tam süreli üretilir.
  */
+// Gerçek TTS varsayılandır. TTS bulunmayan ortamlarda (ör. Linux sandbox) sessiz motor
+// açıkça seçilebilir; bu durum raporda "ses: sessiz" olarak görünür, gizlenmez.
+const E2E_ENGINE = (process.env.NEDENMIS_E2E_ENGINE ?? "espeak") as "espeak" | "silent" | "sapi" | "chatterbox" | "piper";
+
 test("kısa video gerçek ses ve görüntüyle üretilir", { timeout: 240_000 }, async () => {
   const dataDir = fs.mkdtempSync(path.join(os.tmpdir(), "nedenmis-e2e-"));
-  const { project } = createProject({ topic: "Gökyüzü neden mavi?", targetDurationSec: 30, quality: "draft" });
+  const { project } = createProject({
+    topic: "Gökyüzü neden mavi?",
+    targetDurationSec: 30,
+    quality: "draft",
+    narration: { engine: E2E_ENGINE },
+  });
   assert.equal(project.validation?.status, "approved");
 
   const narrated = await narrateProject(project, dataDir, undefined);

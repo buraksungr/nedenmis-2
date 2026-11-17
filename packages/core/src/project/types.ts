@@ -2,6 +2,7 @@ import type { ResearchSummary } from "../ontology/types.js";
 import type { Scene } from "../visual/spec.js";
 import type { VerificationReport } from "../render/verify.js";
 import type { TtsEngineId } from "../audio/tts.js";
+import type { LanguageLevel, ScriptQuality } from "../script/style.js";
 
 export type NarrationSettings = {
   engine: TtsEngineId;
@@ -20,6 +21,8 @@ export type ExportSettings = {
   audioCodec: "aac";
   audioSampleRate: 48000;
   quality: "draft" | "standard" | "high";
+  /** Altyazı çizilsin mi (varsayılan: evet). */
+  subtitles?: boolean;
 };
 
 export type ProjectStatus = "planned" | "validated" | "narrated" | "rendering" | "ready" | "failed";
@@ -46,6 +49,12 @@ export type Project = {
   error?: { code: string; message: string; hint?: string; detail?: string };
   targetDurationSec: number;
   fps: number;
+  /** Senaryo dil düzeyi (varsayılan: sade). */
+  languageLevel: LanguageLevel;
+  /** Görsel karmaşıklığı: sade = az etiket, zengin = daha çok etiket. */
+  visualComplexity?: "sade" | "dengeli" | "zengin";
+  /** Senaryo kalite ölçümü (cümle uzunluğu, terim yoğunluğu, kanca…). */
+  scriptQuality?: ScriptQuality;
   research?: ResearchSummary;
   script: {
     text: string;

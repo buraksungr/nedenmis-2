@@ -36,6 +36,8 @@ export type Scene = {
   /** Bilgi kartındaki mekanizma adımı. */
   stepId: string;
   narration: string;
+  /** Aynı sahnenin bilimsel/ayrıntılı anlatımı (doğrulama ve "ayrıntılı" düzey için saklanır). */
+  narrationScientific?: string;
   conceptIds: string[];
   conceptLabels: string[];
   domain: Domain;
@@ -52,7 +54,9 @@ export type Scene = {
   durationSec?: number;
 };
 
-export const DEFAULT_NARRATION_WPS = 2.35;
+// Türkçe eSpeak NG 165 kelime/dk ≈ 2.75 kelime/sn; cümle sonu duraklamaları ayrıca eklenir.
+// (Eski 2.35 değeri süreyi ~%30 abartıyor, sahne seçiminde gereksiz sahne atılmasına yol açıyordu.)
+export const DEFAULT_NARRATION_WPS = 2.6;
 
 export function estimateSpeechSeconds(text: string, wps = DEFAULT_NARRATION_WPS): number {
   const words = text.trim().split(/\s+/).filter(Boolean).length;

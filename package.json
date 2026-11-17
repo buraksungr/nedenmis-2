@@ -1,6 +1,6 @@
 {
   "name": "nedenmis-studio",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "private": true,
   "description": "Nedenmiş Studio — bilimsel doğruluk odaklı Türkçe kısa bilim videosu üretim stüdyosu",
   "license": "MIT",
@@ -27,6 +27,7 @@
     "make-icon": "node --import tsx scripts/make-icon.ts",
     "smoke": "node --import tsx scripts/smoke-windows.ts",
     "test:ui": "node scripts/ui-smoke.mjs",
+    "check:colors": "node scripts/check-colors.mjs",
     "report": "node --import tsx scripts/gen-validation-report.ts"
   },
   "devDependencies": {

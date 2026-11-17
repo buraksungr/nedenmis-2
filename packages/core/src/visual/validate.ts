@@ -139,9 +139,11 @@ export function validateScene(card: KnowledgeCard, scene: Scene): SceneValidatio
 
   // 7. Anlatım ↔ görsel bağı: anlatımda geçen bir kavramı bileşen gerçekten gösteriyor mu?
   const narrationNorm = ` ${normalizeTr(scene.narration)} `;
+  // Sade dilde anlatımda jargon bulunmaz; kavram bağı bilimsel metinle birlikte değerlendirilir.
+  const scientificNorm = scene.narrationScientific ? ` ${normalizeTr(scene.narrationScientific)} ` : " ";
   const narratedConcepts = scene.conceptIds.filter((id) => {
     const c = CONCEPTS[id];
-    return c ? c.aliases.some((a) => narrationNorm.includes(normalizeTr(a))) : false;
+    return c ? c.aliases.some((a) => narrationNorm.includes(normalizeTr(a)) || scientificNorm.includes(normalizeTr(a))) : false;
   });
   const shown = narratedConcepts.filter((id) => isSchematic || component.concepts.includes(id));
   const linkOk = isSchematic || shown.length > 0;
@@ -159,7 +161,7 @@ export function validateScene(card: KnowledgeCard, scene: Scene): SceneValidatio
   // 8. Yanlış bilgi (kartın yanlış iddia listesi anlatımda geçiyor mu?)
   const claimHits = card.misconceptions.filter((m) => {
     const claim = normalizeTr(m.claim);
-    return claim.length > 8 && narrationNorm.includes(claim);
+    return claim.length > 8 && (narrationNorm.includes(claim) || scientificNorm.includes(claim));
   });
   checks.push(
     check(

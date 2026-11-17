@@ -36,6 +36,11 @@ export type TtsStatus = {
   detail: string;
   /** Bu motorda sesin gerçekten üretildiği mi, yoksa sessiz mi olduğu. */
   silent: boolean;
+  /**
+   * Kurulum durumu — arayüzde birbirinden ayırt edilebilir olması gerekir:
+   * hazır / model indiriliyor / kullanılamıyor / yedek motor etkin.
+   */
+  state: "ready" | "downloading" | "unavailable" | "fallback";
 };
 
 export class TtsError extends Error {
@@ -166,15 +171,53 @@ async function espeakAvailable(cfg: TtsConfig): Promise<{ ok: boolean; detail: s
   return { ok: false, detail: lastDetail };
 }
 
-async function chatterboxAvailable(cfg: TtsConfig): Promise<{ ok: boolean; detail: string }> {
-  const url = cfg.chatterboxUrl ?? process.env.CHATTERBOX_URL ?? "http://127.0.0.1:8123";
+type ChatterboxHealth = {
+  ok?: boolean;
+  state?: "starting" | "downloading" | "ready" | "unavailable";
+  detail?: string;
+  error?: string | null;
+  installed?: boolean;
+  version?: string | null;
+  model?: string | null;
+  language?: string;
+  device?: string;
+  cacheMb?: number;
+};
+
+async function chatterboxAvailable(cfg: TtsConfig): Promise<{ ok: boolean; detail: string; state: TtsStatus["state"] }> {
+  const url = (cfg.chatterboxUrl ?? process.env.CHATTERBOX_URL ?? "http://127.0.0.1:8123").replace(/\/$/, "");
   try {
-    const res = await fetch(`${url.replace(/\/$/, "")}/health`, { signal: AbortSignal.timeout(4000) });
-    if (!res.ok) return { ok: false, detail: `Chatterbox yanıtı: HTTP ${res.status}` };
-    const body = (await res.json()) as { ok?: boolean; model?: string; language?: string };
-    return { ok: Boolean(body.ok), detail: `Chatterbox hazır (${body.model ?? "model"}, ${body.language ?? "tr"})` };
+    const res = await fetch(`${url}/health`, { signal: AbortSignal.timeout(4000) });
+    const body = (await res.json().catch(() => ({}))) as ChatterboxHealth;
+    if (body.state === "ready" && body.ok) {
+      return {
+        ok: true,
+        state: "ready",
+        detail: `Chatterbox hazır (${body.model ?? "model"}, ${body.language ?? "tr"}, ${body.device ?? "cpu"})`,
+      };
+    }
+    if (body.state === "starting" || body.state === "downloading") {
+      const mb = body.cacheMb ? `, ${body.cacheMb} MB indirildi` : "";
+      return {
+        ok: false,
+        state: "downloading",
+        detail: `Chatterbox modeli indiriliyor/yükleniyor${mb}. Hazır olunca seslendirme açılır.`,
+      };
+    }
+    if (!res.ok) {
+      return { ok: false, state: "unavailable", detail: `Chatterbox yanıtı: HTTP ${res.status}` };
+    }
+    return {
+      ok: false,
+      state: "unavailable",
+      detail: body.detail ?? body.error ?? "Chatterbox sunucusu çalışıyor ama model hazır değil.",
+    };
   } catch (e) {
-    return { ok: false, detail: `Chatterbox sunucusuna ulaşılamadı: ${(e as Error).message}` };
+    return {
+      ok: false,
+      state: "unavailable",
+      detail: `Chatterbox sunucusuna ulaşılamadı (${(e as Error).message}). Sunucuyu başlatın veya yedek motor seçin.`,
+    };
   }
 }
 
@@ -189,6 +232,7 @@ export async function ttsStatus(cfg: TtsConfig): Promise<TtsStatus[]> {
       available: cb.ok,
       detail: cb.detail,
       silent: false,
+      state: cb.state,
     },
     {
       engine: "piper",
@@ -196,6 +240,7 @@ export async function ttsStatus(cfg: TtsConfig): Promise<TtsStatus[]> {
       available: piperOk,
       detail: piperOk ? `Ses modeli: ${path.basename(cfg.piperModel!)}` : "Ses modeli (.onnx) tanımlı değil",
       silent: false,
+      state: piperOk ? "ready" : "unavailable",
     },
     {
       engine: "sapi",
@@ -206,6 +251,7 @@ export async function ttsStatus(cfg: TtsConfig): Promise<TtsStatus[]> {
           ? "System.Speech; Türkçe ses (Microsoft Tolga) kuruluysa onu kullanır."
           : "Yalnızca Windows'ta kullanılabilir.",
       silent: false,
+      state: process.platform === "win32" && sapiAvailable() ? "ready" : "unavailable",
     },
     {
       engine: "espeak",
@@ -213,8 +259,16 @@ export async function ttsStatus(cfg: TtsConfig): Promise<TtsStatus[]> {
       available: esp.ok,
       detail: esp.detail,
       silent: false,
+      state: esp.ok ? "ready" : "unavailable",
     },
-    { engine: "silent", label: "Sessiz (seslendirme yok)", available: true, detail: "Yalnızca açıkça istendiğinde kullanılır.", silent: true },
+    {
+      engine: "silent",
+      label: "Sessiz (seslendirme yok)",
+      available: true,
+      detail: "Yalnızca açıkça istendiğinde kullanılır.",
+      silent: true,
+      state: "ready",
+    },
   ];
 }
 
@@ -296,7 +350,7 @@ async function synthPiper(text: string, outPath: string, cfg: TtsConfig): Promis
 async function synthSilent(text: string, outPath: string, cfg: TtsConfig): Promise<TtsResult> {
   // Sessiz mod yalnızca açıkça istendiğinde; süre tahminiyle sessiz WAV üretir.
   const words = text.trim().split(/\s+/).length;
-  const durationSec = Math.max(2, words / 2.35 + 0.4);
+  const durationSec = Math.max(2, words / 2.6 + 0.4);
   ensureDir(path.dirname(outPath));
   const ff = (await import("../render/tools.js")).findFfmpeg();
   const r = await run(ff, ["-y", "-f", "lavfi", "-i", "anullsrc=r=48000:cl=mono", "-t", durationSec.toFixed(2), "-c:a", "pcm_s16le", outPath], { timeoutMs: 60_000 });

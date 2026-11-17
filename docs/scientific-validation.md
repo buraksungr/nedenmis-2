@@ -2,7 +2,7 @@
 
 Bu rapor **elle yazılmamıştır**: `scripts/gen-validation-report.ts` tarafından
 `samples/` altındaki gerçek üretim çıktılarından (visual-validation.json, verification.json,
-manifest.json) üretilmiştir. Üretim tarihi: 2026-11-15T00:42:38.285Z.
+manifest.json) üretilmiştir. Üretim tarihi: 2026-11-15T23:05:33.233Z.
 
 ## 1. Yöntem
 
