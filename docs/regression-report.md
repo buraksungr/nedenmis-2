@@ -17,9 +17,13 @@ Bu tablo yalnızca gerçekten çalıştırılan kontrolleri listeler; her satır
 | Arayüz çalışma zamanı (ekranlar, menü, ayarlar) | `npm run test:ui` (jsdom, 13 kontrol) | ✅ geçti |
 | Tek renk tema (renkli ton yok) | `npm run test:ui` → `monochrome` (derlenmiş CSS doygunluk ölçümü) | ✅ geçti |
 | Sade dil varsayılanı + kalite kapısı | `tests/unit/script-quality.test.ts` (14 test) | ✅ geçti |
-| Windows kurulum dosyası + kurulu uygulama `--self-test` | CI: sessiz NSIS kurulumu + kurulu uygulama testi | ⏳ CI çalıştırması |
-| v1.0.1 paketleme düzeltmesi (`resources/node_modules`, `@resvg/resvg-js`) | CI: yapı kapısı + kurulu uygulama resvg testi | ⏳ CI çalıştırması |
-| Gömülü Python + eSpeak NG + FFmpeg | CI: `npm run smoke` (gerçek TTS) | ⏳ CI çalıştırması |
+| Windows kurulum dosyası + kurulu uygulama `--self-test` | CI: sessiz NSIS kurulumu + kurulu uygulama testi | ✅ geçti (run 43980556980, 28/28 adım) |
+| v1.0.1 paketleme düzeltmesi (`resources/node_modules`, `@resvg/resvg-js`) | CI: yapı kapısı + kurulu uygulama resvg testi | ✅ geçti |
+| Gömülü Python + eSpeak NG + FFmpeg | CI: `npm run smoke` (gerçek TTS) | ✅ geçti |
+| Örnek videolar (4 zorunlu konu, sade dil, gerçek eSpeak, 1080×1920/30 sn) | CI: `render-samples` + `verify-samples` | ✅ geçti |
+| Arayüz ekran görüntüleri (gerçek Chrome, 1600×1000, 4 ekran) | CI: `node scripts/ui-shots.mjs` | ✅ 4/4 çekim, krom tek renk |
+| Palet denetimi (kaynak düzeyi) | `npm run check:colors` | ✅ renkli değer yok |
+| Chatterbox Türkçe sentez (gerçek model, CPU) | CI: `scripts/chatterbox-verify.py` | ⚠️ model + sentez çalıştı; WAV biçimi (float32) düzeltildi, son doğrulama bekliyor |
 
 ## Yerel ölçümler (bu ortam)
 
@@ -31,8 +35,9 @@ Bu tablo yalnızca gerçekten çalıştırılan kontrolleri listeler; her satır
 - `npm run test:ui` → 13/13 kontrol geçti (monokrom CSS dahil).
 - `node scripts/script-compare.mjs` → 4 konuda sade anlatım eskisinden belirgin biçimde kısa
   (bkz. `docs/before-after-script.md`).
-- `node scripts/ui-shots.mjs` → bu ortamda tarayıcı yok; betik "alınamadı" diye raporlar
-  (`reports/ui-screenshots.json`). Ekran görüntüleri Windows CI'da üretilir.
+- `node scripts/ui-shots.mjs` → bu ortamda tarayıcı yok; betik "alınamadı" diye raporlar.
+  Betiğin mantığı saplama bir tarayıcıyla uçtan uca doğrulandı (4/4 çekim, 1600×1000, krom tek renk);
+  gerçek ekran görüntüleri Windows CI'da üretilir ve yayına eklenir.
 - `python scripts/chatterbox-verify.py` → `outcome: "not-installed"` (torch/HuggingFace yok).
   Gerçek Türkçe sentez CI'da isteğe bağlı adımda denenir; sonuç `reports/chatterbox-tr.json`'a yazılır.
 

@@ -42,6 +42,12 @@ import traceback
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
+for _stream in (sys.stdout, sys.stderr):
+    try:
+        _stream.reconfigure(encoding="utf-8", errors="replace")  # type: ignore[attr-defined]
+    except Exception:
+        pass
+
 MODEL = None
 MODEL_LOCK = threading.Lock()
 DEVICE = os.environ.get("CHATTERBOX_DEVICE", "cpu")
@@ -184,14 +190,23 @@ def generate_wav(text: str, voice_ref: str | None = None) -> bytes:
         import torchaudio  # type: ignore
 
         buf = io.BytesIO()
-        torchaudio.save(buf, audio.unsqueeze(0).cpu(), sample_rate, format="wav")
+        # 16-bit PCM: Python `wave`, tarayıcılar ve ffprobe ile en uyumlu biçim.
+        # (torchaudio varsayılanı float32 yazar; wFormatTag=3 okuyan araçlar patlar.)
+        torchaudio.save(
+            buf,
+            audio.unsqueeze(0).cpu(),
+            sample_rate,
+            format="wav",
+            encoding="PCM_S",
+            bits_per_sample=16,
+        )
         return buf.getvalue()
     except Exception:
         try:
             import soundfile as sf  # type: ignore
 
             buf = io.BytesIO()
-            sf.write(buf, audio.detach().cpu().numpy().squeeze(), sample_rate, format="WAV")
+            sf.write(buf, audio.detach().cpu().numpy().squeeze(), sample_rate, format="WAV", subtype="PCM_16")
             return buf.getvalue()
         except Exception as e:  # pragma: no cover
             raise RuntimeError("WAV kodlanamadı (torchaudio/soundfile gerekli)") from e

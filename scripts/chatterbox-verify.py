@@ -21,11 +21,19 @@ from __future__ import annotations
 import argparse
 import importlib.util
 import json
+import struct
 import sys
 import time
 import traceback
-import wave
 from pathlib import Path
+
+# Windows konsolu varsayılan olarak cp1252 kullanır; Türkçe karakter basınca
+# UnicodeEncodeError ile çöker. Çıktıyı her zaman UTF-8'e sabitle.
+for _stream in (sys.stdout, sys.stderr):
+    try:
+        _stream.reconfigure(encoding="utf-8", errors="replace")  # type: ignore[attr-defined]
+    except Exception:
+        pass
 
 ROOT = Path(__file__).resolve().parent.parent
 SERVER_PY = ROOT / "packages" / "core" / "scripts" / "chatterbox_server.py"
@@ -43,39 +51,80 @@ def load_bridge():
 
 
 def analyze_wav(path: Path) -> dict:
-    with wave.open(str(path), "rb") as f:
-        channels = f.getnchannels()
-        width = f.getsampwidth()
-        rate = f.getframerate()
-        frames = f.getnframes()
-        raw = f.readframes(frames)
-    if width != 2:
-        return {"ok": False, "error": f"beklenmeyen örnek genişliği: {width}"}
-    samples = memoryview(raw).cast("h")
-    peak = max((abs(s) for s in samples), default=0)
-    rms = (sum(float(s) * s for s in samples) / max(1, len(samples))) ** 0.5
-    # Sessizlik oranı: kısa pencerelerde tepe değeri çok düşük olanlar.
-    window = max(1, rate // 50)
+    """WAV'ı biçimden bağımsız çözümler.
+
+    Chatterbox/torchaudio çıktısı IEEE float32 (wFormatTag=3) olabilir; Python'un
+    `wave` modülü bunu okuyamaz. Burada RIFF başlığı doğrudan ayrıştırılır.
+    """
+    data = path.read_bytes()
+    if data[:4] != b"RIFF" or data[8:12] != b"WAVE":
+        raise ValueError("geçerli bir RIFF/WAVE dosyası değil")
+    pos = 12
+    fmt = None
+    payload = None
+    while pos + 8 <= len(data):
+        chunk_id = data[pos : pos + 4]
+        size = struct.unpack("<I", data[pos + 4 : pos + 8])[0]
+        body = data[pos + 8 : pos + 8 + size]
+        if chunk_id == b"fmt ":
+            fmt = body
+        elif chunk_id == b"data":
+            payload = body
+            break
+        pos += 8 + size + (size & 1)
+    if fmt is None or payload is None:
+        raise ValueError("fmt/data bölümü bulunamadı")
+    tag, channels, rate, _byte_rate, _block_align, bits = struct.unpack("<HHIIHH", fmt[:16])
+
+    if tag == 3 and bits == 32:
+        raw = struct.unpack(f"<{len(payload) // 4}f", payload)
+        fmt_name = "float32"
+    elif tag == 1 and bits == 16:
+        raw = [v / 32768.0 for v in struct.unpack(f"<{len(payload) // 2}h", payload)]
+        fmt_name = "pcm16"
+    elif tag == 1 and bits == 32:
+        raw = [v / 2147483648.0 for v in struct.unpack(f"<{len(payload) // 4}i", payload)]
+        fmt_name = "pcm32"
+    elif tag == 1 and bits == 24:
+        count = len(payload) // 3
+        raw = []
+        for i in range(count):
+            b = payload[i * 3 : i * 3 + 3]
+            v = int.from_bytes(b + (b"\xff" if b[2] & 0x80 else b"\x00"), "little", signed=True)
+            raw.append(v / 8388608.0)
+        fmt_name = "pcm24"
+    else:
+        raise ValueError(f"desteklenmeyen WAV biçimi: tag={tag} bits={bits}")
+
+    total = len(raw)
+    frames = total // max(1, channels)
+    duration = frames / rate if rate else 0
+    peak = max((abs(v) for v in raw), default=0.0)
+    rms = (sum(v * v for v in raw) / max(1, total)) ** 0.5
+    # Sessizlik: 20 ms pencerelerde tepe < -60 dBFS
+    window = max(1, int(rate * 0.02) * channels)
     silent = 0
-    total = 0
-    for start in range(0, len(samples), window):
-        chunk = samples[start : start + window]
+    windows = 0
+    for start in range(0, total, window):
+        chunk = raw[start : start + window]
         if not chunk:
             continue
-        total += 1
-        if max((abs(s) for s in chunk), default=0) < 200:
+        windows += 1
+        if max((abs(v) for v in chunk), default=0.0) < 0.001:
             silent += 1
-    duration = frames / rate if rate else 0
     return {
         "ok": True,
+        "format": fmt_name,
+        "formatTag": tag,
+        "bitsPerSample": bits,
         "sampleRate": rate,
         "channels": channels,
         "frames": frames,
         "durationSec": round(duration, 3),
-        "peak": int(peak),
-        "rms": round(rms, 1),
-        "silenceRatio": round(silent / max(1, total), 3),
-        "fullScalePeak": round(peak / 32768, 4),
+        "peak": round(peak, 4),
+        "rms": round(rms, 4),
+        "silenceRatio": round(silent / max(1, windows), 3),
+        "clippingRatio": round(sum(1 for v in raw if abs(v) >= 0.999) / max(1, total), 5),
     }
 
 
@@ -147,7 +196,15 @@ def main() -> int:
 
     cold_elapsed = round(time.time() - started, 1)
     wav_path.write_bytes(wav_bytes)
-    analysis = analyze_wav(wav_path)
+    try:
+        analysis = analyze_wav(wav_path)
+    except Exception as e:
+        analysis = {
+            "ok": False,
+            "error": f"WAV çözümlenemedi: {e}",
+            "traceback": traceback.format_exc()[-1500:],
+            "wavBytes": len(wav_bytes),
+        }
 
     # --- sıcak sentez (model bellekteyken gerçek çıkarım süresi) ---
     warm_elapsed = None
@@ -171,7 +228,7 @@ def main() -> int:
     except Exception as e:  # sıcak sentez başarısızsa soğuk sonucu geçersiz saymayız, ama yazarız
         report["warm"] = {"error": str(e), "traceback": traceback.format_exc()[-2000:]}
 
-    audio_ok = bool(analysis.get("ok")) and analysis.get("peak", 0) > 800 and analysis.get("silenceRatio", 1) < 0.95
+    audio_ok = bool(analysis.get("ok")) and analysis.get("peak", 0) > 0.02 and analysis.get("silenceRatio", 1) < 0.95
     # Konuşma hızı: Türkçe anlatım için makul aralık ~1.6-3.4 kelime/sn.
     duration = analysis.get("durationSec") or 0
     wps = round(words(args.text) / duration, 2) if duration else None

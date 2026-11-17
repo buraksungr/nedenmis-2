@@ -271,6 +271,9 @@ jobs:
         continue-on-error: true
         timeout-minutes: 45
         shell: pwsh
+        env:
+          PYTHONIOENCODING: utf-8
+          PYTHONUTF8: "1"
         run: |
           $ErrorActionPreference = "Continue"
           $venv = Join-Path $env:RUNNER_TEMP "cbvenv"

@@ -100,6 +100,24 @@ Yani "setuptools kur" tek başına yetmez; sürüm **`setuptools<81`** olarak sa
   (`ensure_watermarker`), `/health` ve `--status` çıktısında `watermarker.available` alanı bulunur,
 - `scripts/chatterbox-verify.py` hatayı tam iz (traceback) ve çözüm ipucuyla raporlar.
 
+## CI'da ne oldu (kanıtlı)
+
+| Çalıştırma | Sonuç | Kanıt |
+| --- | --- | --- |
+| v1.1.0 ilk denemeler | kurulum tamam, model yüklemede `'NoneType' object is not callable` | `chatterbox-tr.json` (eski) |
+| `setuptools<81` eklendikten sonra | `perth` yüklendi: `watermarker: <class 'perth...PerthImplicitWatermarker'>` | `chatterbox-import-check.log` |
+| 43980556980 | **model indirildi ve Türkçe sentez çalıştı** (`Fetching 6 files`, WAV üretildi) | `chatterbox-turkish-sample.wav` (441 680 bayt) |
+| aynı çalıştırma, analiz adımı | `wave.Error: unknown format: 3` — çıktı IEEE float32 | `chatterbox-verify.log` |
+
+Yani sorun model ya da CPU değildi: **çıktı biçimi** analiz aracını kırdı ve bu hata
+`UnicodeEncodeError` ile (Windows cp1252 konsolu) ikinci kez maskelendi. Düzeltmeler:
+
+1. Köprü artık WAV'ı **16-bit PCM** yazıyor (`encoding="PCM_S", bits_per_sample=16`;
+   soundfile yedeğinde `subtype="PCM_16"`).
+2. `chatterbox-verify.py` RIFF başlığını kendisi ayrıştırır: PCM16/24/32 ve **float32** okunur.
+3. Tüm Python çıktısı UTF-8'e sabitlendi (`reconfigure`, CI'da `PYTHONIOENCODING=utf-8`).
+4. Analiz çökse bile rapor yazılır; süreç asla sessizce "çalıştı" demez.
+
 ## Doğrulama durumu (bu sürüm)
 
 Kod, API ve durum makinesi doğrulandı. **Gerçek Türkçe sentez** için:
