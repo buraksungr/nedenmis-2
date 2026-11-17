@@ -40,7 +40,9 @@ doku, kompozisyon) için ölçümlenir. Tüm sahneler sıfırdan Remotion + SVG/
 
 ## Sanat yönetimi kuralları (tüm sahnelere uygulandı)
 
-1. **Kalın mürekkep kontur:** gövde/nesne çizgileri 5–8 px (1080 genişliğinde),baş/kol/kulak çizgileri 4–6 px.
+1. **İnce mürekkep kontur (revizyon):** karınca gövde hatları 2,8–3 px; bacaklar 2,4–3 px;
+   anten 2,2–2,6 px; mandibula 1,8 px. Diğer öğeler (termometre, çim, odacık duvarı) için 5–8 px
+   kalınlığa izin verilir. Karınca üst sınırı `MAX_ANT_SCALE = 2,3` ile sabit tutulur.
 2. **Sıcak ağırlıklı palet:** her karede sıcak piksel baskın; soğuk yalnızca kış sahnelerinde ve gökyüzüde.
 3. **Dokulu yüzey:** `public/grain.png` (512² deterministik gren) tüm karelere `%10` opaklıkla `overlay` uygulanır.
 4. **Vinyet:** `public/vignette.png` ile köşeler koyulaştırılır; böylece sinematik derinlik hissi verilir.

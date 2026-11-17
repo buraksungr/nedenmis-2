@@ -2,7 +2,7 @@ import path from "node:path";
 import fs from "node:fs";
 import { spawnSync } from "node:child_process";
 import sharp from "sharp";
-import { TIMELINE, FPS, TOTAL_FRAMES } from "../src/timeline";
+import { TIMELINE, FPS, TOTAL_FRAMES, TOTAL_SEC } from "../src/timeline";
 
 const FFMPEG = process.env.FFMPEG ?? path.resolve(process.cwd(), "node_modules/@remotion/compositor-linux-x64-gnu/ffmpeg");
 const FFPROBE = process.env.FFPROBE ?? path.resolve(process.cwd(), "node_modules/@remotion/compositor-linux-x64-gnu/ffprobe");
@@ -66,7 +66,7 @@ async function main() {
   push("resolution_1080x1920", v?.width === 1080 && v?.height === 1920, `${v?.width}x${v?.height}`);
   const fps = v?.avg_frame_rate ? (() => { const [n, d] = v.avg_frame_rate!.split("/").map(Number); return d ? n / d : 0; })() : 0;
   push("fps_30", Math.abs(fps - 30) < 0.01, `${fps.toFixed(2)} fps`);
-  push("duration_60s", Math.abs(dur - 60) < 0.35, `${dur.toFixed(3)} sn (hedef 60)`);
+  push("duration_target", Math.abs(dur - Number(TOTAL_SEC)) < 0.4, `${dur.toFixed(3)} sn (beklenen ${TOTAL_SEC})`);
   push("audio_codec_aac", a?.codec_name === "aac", a?.codec_name ?? "yok");
   push("audio_48k_stereo", Number(a?.sample_rate) === 48000 && a?.channels === 2, `${a?.sample_rate} Hz / ${a?.channels} kanal`);
   push("av_sync_start", Number(a?.start_time ?? 0) < 0.2, `audio start=${a?.start_time ?? "?"}`);

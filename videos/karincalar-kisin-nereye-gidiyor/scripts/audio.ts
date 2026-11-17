@@ -5,19 +5,20 @@
 import path from "node:path";
 import fs from "node:fs";
 import { spawnSync } from "node:child_process";
-import { TIMELINE, FPS } from "../src/timeline";
+import { TIMELINE, FPS, TOTAL_FRAMES } from "../src/timeline";
 import { seeded } from "../src/theme";
 
 const FFMPEG = process.env.FFMPEG ?? path.resolve(process.cwd(), "node_modules/@remotion/compositor-linux-x64-gnu/ffmpeg");
 const SR = 48000;
-const DUR = 60;
+/** Kompozisyon süresi (sn) — timeline'dan türetilir. */
+const DUR = TOTAL_FRAMES / FPS;
 
 type Wav = { ch: Float32Array[]; rate: number };
 
 function readWav(buf: Buffer): Wav {
   let off = 12;
   let fmt = { ch: 1, rate: 44100, bits: 16, type: 1 };
-  let data = Buffer.alloc(0);
+  let data: Buffer<ArrayBufferLike> = Buffer.alloc(0);
   while (off + 8 <= buf.length) {
     const id = buf.toString("ascii", off, off + 4);
     const size = buf.readUInt32LE(off + 4);
@@ -256,18 +257,20 @@ const main = () => {
   const room = makeRoom();
   const pad = makePad();
 
+  // ambiyans segmentleri: 60 sn'lik tasarımdan orantılı (yüzde tabanlı)
+  const pc = (a: number, b: number) => ({ from: (a / 60) * DUR, to: (b / 60) * DUR });
   const windSeg = [
-    { from: 0, to: 9.6, gain: 0.35 },
-    { from: 9.6, to: 23.8, gain: 0.85 },
-    { from: 23.8, to: 43.6, gain: 0.12 },
-    { from: 43.6, to: 60, gain: 0.5 },
+    { ...pc(0, 9.6), gain: 0.35 },
+    { ...pc(9.6, 23.8), gain: 0.85 },
+    { ...pc(23.8, 43.6), gain: 0.12 },
+    { ...pc(43.6, 60), gain: 0.5 },
   ];
-  const roomSeg = [{ from: 23.6, to: 43.8, gain: 0.5 }];
+  const roomSeg = [{ ...pc(23.6, 43.8), gain: 0.5 }];
   const padSeg = [
-    { from: 0, to: 9.6, gain: 0.5 },
-    { from: 9.6, to: 23.8, gain: 0.14 },
-    { from: 23.8, to: 43.6, gain: 0.1 },
-    { from: 43.6, to: 60, gain: 0.45 },
+    { ...pc(0, 9.6), gain: 0.5 },
+    { ...pc(9.6, 23.8), gain: 0.14 },
+    { ...pc(23.8, 43.6), gain: 0.1 },
+    { ...pc(43.6, 60), gain: 0.45 },
   ];
 
   const [windL, windR] = stereo(wind, () => 0.5);

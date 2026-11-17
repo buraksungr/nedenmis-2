@@ -86,9 +86,9 @@ export const BigWord: React.FC<{
         <div
           style={{
             position: "relative",
-          fontFamily: FONT_DISPLAY,
-          fontWeight: 400,
-          fontSize,
+            fontFamily: FONT_DISPLAY,
+            fontWeight: 400,
+            fontSize,
             lineHeight: 1.02,
             letterSpacing: "-0.015em",
             color,
@@ -113,7 +113,53 @@ export const BigWord: React.FC<{
   );
 };
 
-/** Küçük üst etiket (bölüm adı). */
+/**
+ * En tepedeki KÜÇÜK etiket — 1-2 kelime.
+ * Kullanıcı isteği: büyük yazı olmamalı, sade küçük bir bölüm etiketi.
+ */
+export const Tag: React.FC<{ text: string; t: number; delay?: number; y?: number; align?: "center" | "left" }> = ({
+  text,
+  t,
+  delay = 0.12,
+  y = 92,
+  align = "center",
+}) => {
+  const p = clamp01((t - delay) / 0.45);
+  return (
+    <div
+      style={{
+        position: "absolute",
+        left: 84,
+        right: 84,
+        top: y,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: align === "center" ? "center" : "flex-start",
+        gap: 10,
+        opacity: p,
+        transform: `translateY(${lerp(-10, 0, easeOutCubic(p))}px)`,
+      }}
+    >
+      <span style={{ width: 18, height: 3, background: C.gold, borderRadius: 2 }} />
+      <span
+        style={{
+          fontFamily: FONT_TEXT,
+          fontWeight: 700,
+          fontSize: 25,
+          letterSpacing: "0.24em",
+          textTransform: "uppercase",
+          color: C.sand,
+          textShadow: "0 2px 6px rgba(29,17,6,0.75)",
+        }}
+      >
+        {text}
+      </span>
+      <span style={{ width: 18, height: 3, background: C.gold, borderRadius: 2 }} />
+    </div>
+  );
+};
+
+/** Küçük üst etiket (bölüm adı) — eski kullanımlar için. */
 export const Kicker: React.FC<{ text: string; t: number; delay?: number; y?: number }> = ({
   text,
   t,
@@ -151,13 +197,103 @@ export const Kicker: React.FC<{ text: string; t: number; delay?: number; y?: num
   );
 };
 
+/**
+ * Altyazı — konuşmayla senkronize.
+ * Anlatım metni, konuşma süresine karakter oranıyla bölünerek
+ * her parça, sesin o andaki konumuna oturur.
+ */
+export const Subtitle: React.FC<{
+  text: string;
+  t: number;
+  /** Bu sahnedeki sesin toplam süresi (sn) — klip süresi. */
+  audioSec: number;
+  y?: number;
+}> = ({ text, t, audioSec, y = 1656 }) => {
+  const chunks = React.useMemo(() => splitCaption(text, audioSec), [text, audioSec]);
+  const active = chunks.find((c) => t >= c.start && t < c.start + c.dur) ?? null;
+
+  return (
+    <div
+      style={{
+        position: "absolute",
+        left: 72,
+        right: 72,
+        top: y,
+        display: "flex",
+        justifyContent: "center",
+        pointerEvents: "none",
+      }}
+    >
+      {active && (
+        <SubtitleLine key={`${active.start}`} text={active.text} local={t - active.start} dur={active.dur} />
+      )}
+    </div>
+  );
+};
+
+const SubtitleLine: React.FC<{ text: string; local: number; dur: number }> = ({ text, local, dur }) => {
+  const fade = 0.1;
+  const pIn = clamp01(local / fade);
+  const pOut = clamp01((dur - local) / fade);
+  const opacity = Math.min(pIn, pOut);
+  return (
+    <div
+      style={{
+        maxWidth: "100%",
+        padding: "14px 26px",
+        borderRadius: 14,
+        background: "rgba(24,14,5,0.78)",
+        boxShadow: "0 10px 26px rgba(0,0,0,0.45)",
+        fontFamily: FONT_TEXT,
+        fontWeight: 600,
+        fontSize: 38,
+        lineHeight: 1.3,
+        letterSpacing: "0.005em",
+        textAlign: "center",
+        color: C.cream,
+        opacity,
+        transform: `translateY(${lerp(14, 0, easeOutCubic(pIn))}px)`,
+      }}
+    >
+      {text}
+    </div>
+  );
+};
+
+/** Metni konuşma süresine orantılı, okunabilir parçalara böler. */
+export function splitCaption(text: string, audioSec: number): { text: string; start: number; dur: number }[] {
+  const words = text.split(/\s+/).filter(Boolean);
+  const TARGET = 44;
+  const chunks: string[] = [];
+  let cur = "";
+  for (const w of words) {
+    const next = cur ? `${cur} ${w}` : w;
+    if (next.length > TARGET && cur) {
+      chunks.push(cur);
+      cur = w;
+    } else {
+      cur = next;
+    }
+  }
+  if (cur) chunks.push(cur);
+
+  const totalChars = chunks.reduce((a, c) => a + c.length, 0) || 1;
+  const MIN_DUR = 0.85;
+  let weights = chunks.map((c) => Math.max(MIN_DUR, (audioSec * c.length) / totalChars));
+  const sum = weights.reduce((a, b) => a + b, 0) || 1;
+  weights = weights.map((w) => (w / sum) * audioSec);
+
+  const out: { text: string; start: number; dur: number }[] = [];
+  let cursor = 0;
+  for (let i = 0; i < chunks.length; i++) {
+    out.push({ text: chunks[i], start: cursor, dur: weights[i] });
+    cursor += weights[i];
+  }
+  return out;
+}
+
 /** Altta duran kısa açıklama. */
-export const Caption: React.FC<{ text: string; t: number; y?: number; delay?: number }> = ({
-  text,
-  t,
-  y,
-  delay = 0.2,
-}) => {
+export const Caption: React.FC<{ text: string; t: number; y?: number; delay?: number }> = ({ text, t, y, delay = 0.2 }) => {
   const p = clamp01((t - delay) / 0.5);
   return (
     <div
@@ -181,12 +317,7 @@ export const Caption: React.FC<{ text: string; t: number; y?: number; delay?: nu
 };
 
 /** Kapanış tipografi kartı. */
-export const ClosingCard: React.FC<{ t: number; total: number; title: string; sub: string }> = ({
-  t,
-  total,
-  title,
-  sub,
-}) => {
+export const ClosingCard: React.FC<{ t: number; total: number; title: string; sub: string }> = ({ t, total, title, sub }) => {
   const p = clamp01(t / 0.6);
   const p2 = clamp01((t - 0.35) / 0.6);
   const pOut = t > total - 0.35 ? clamp01((t - (total - 0.35)) / 0.35) : 0;

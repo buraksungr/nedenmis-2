@@ -1,6 +1,9 @@
 import path from "node:path";
 import fs from "node:fs";
 import { spawnSync } from "node:child_process";
+import { FPS, TOTAL_FRAMES } from "../src/timeline";
+
+const DURATION_SEC = TOTAL_FRAMES / FPS;
 
 const FFMPEG = process.env.FFMPEG ?? path.resolve(process.cwd(), "node_modules/@remotion/compositor-linux-x64-gnu/ffmpeg");
 const video = path.resolve(process.cwd(), "out/video-silent.mp4");
@@ -37,7 +40,7 @@ const args = [
   "-movflags",
   "+faststart",
   "-t",
-  "60",
+  DURATION_SEC.toFixed(3),
   out,
 ];
 console.log("[mux] ffmpeg çalıştırılıyor ->", out);

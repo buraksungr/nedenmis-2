@@ -40,9 +40,9 @@ Chatterbox değil, bu oturumun gerçek TTS ses motoru (`voice-00`, Türkçe erke
 üretilmiştir. Küprü kodunda hiçbir değişiklik yapılmadı; depo durumu aynı.
 
 - Kullanılan ses: `voice-00` (Türkçe, erkek, belgesel anlatımı)
-- Her sahne ayrı sentezlendi: `audio/s1.wav … audio/s10.wav` (44,1 kHz, mono, 16-bit PCM)
-- Kapanış sahnesi (11) seslendirilmedi: üretim başına 10 klip sınırı nedeniyle cümle
-  tipografi kartı olarak ekrana gelir (`docs/script.md`).
+- Her sahne ayrı sentezlendi: `audio/s1.wav … audio/s9.wav` (44,1 kHz, mono, 16-bit PCM)
+- Revizyon transkripti 9 segment olduğu için 9 klip üretildi (üretim başına 10 klip sınırı içinde).
+- Eski 11 segmentlik sürümün `s10.wav` / `s11.wav` dosyaları silinmiştir.
 
 ## Chatterbox'a internetli bir makinede nasıl geçilir
 

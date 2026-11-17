@@ -39,9 +39,14 @@ function polar(len: number, deg: number): [number, number] {
   return [len * Math.cos(r), len * Math.sin(r)];
 }
 
+/** Ekran dışına taşmayı önleyen üst sınır. */
+export const MAX_ANT_SCALE = 2.3;
+
 /**
  * Anatomik olarak tanınabilir, yana bakan 2B karınca.
  * Üç gövde parçası (baş, göğüs, karın), dirsekli anten, altı bacak.
+ * Ana hatlar ince (2.6-3.2 px) çizilir; kamerayı kapatıp geçmeyecek kadar
+ * uygun bir ölçekte kullanılır (MAX_ANT_SCALE sınırı uygulanır).
  */
 export const Ant: React.FC<AntProps> = ({
   t,
@@ -57,6 +62,7 @@ export const Ant: React.FC<AntProps> = ({
   opacity = 1,
 }) => {
   const queen = variant === "queen";
+  const s = Math.min(scale, MAX_ANT_SCALE);
   const fill = body ?? (queen ? C.soilDark : C.antBody);
   const hi = C.antHi;
   const freq = 2.1 * speed;
@@ -70,6 +76,8 @@ export const Ant: React.FC<AntProps> = ({
   const thoraxRx = queen ? 27 : 22;
   const thoraxRy = queen ? 21 : 18;
 
+  const OUT = 2.8; // ana hat kalınlığı
+
   return (
     <div
       style={{
@@ -79,30 +87,30 @@ export const Ant: React.FC<AntProps> = ({
         width: 0,
         height: 0,
         opacity,
-        transform: `scale(${flip ? -scale : scale}, ${scale})`,
+        transform: `scale(${flip ? -s : s}, ${s})`,
       }}
     >
       <svg
-        width={320 * scale}
-        height={220 * scale}
+        width={320 * s}
+        height={220 * s}
         viewBox="-160 -110 320 220"
-        style={{ position: "absolute", left: -160 * scale, top: -110 * scale, overflow: "visible" }}
+        style={{ position: "absolute", left: -160 * s, top: -110 * s, overflow: "visible" }}
       >
         {shadow && (
           <ellipse
             cx={2}
             cy={58}
             rx={queen ? 62 : 54}
-            ry={10}
+            ry={9}
             fill="#1d1106"
-            opacity={0.22}
+            opacity={0.2}
             transform={`translate(0 ${bob * 0.4})`}
           />
         )}
         <g transform={`translate(0 ${bob}) rotate(${sway * 0.4})`}>
           {/* uzak bacaklar */}
           {WORKER_LEGS.filter((l) => l.far).map((l, i) => (
-            <LegShape key={`f${i}`} leg={l} t={t} freq={freq} amp={legAmp} color="#241505" w={5} />
+            <LegShape key={`f${i}`} leg={l} t={t} freq={freq} amp={legAmp} color="#241505" w={2.4} />
           ))}
 
           {/* karın (gaster) */}
@@ -113,7 +121,7 @@ export const Ant: React.FC<AntProps> = ({
             ry={gasterRy}
             fill={`url(#antG)`}
             stroke={C.ink}
-            strokeWidth={6}
+            strokeWidth={OUT}
             transform="rotate(-9 -52 0)"
           />
           <ellipse
@@ -129,14 +137,14 @@ export const Ant: React.FC<AntProps> = ({
           <path
             d={`M ${-52 + gasterRx * 0.55} ${-gasterRy * 0.75} Q ${-52 + gasterRx * 0.2} 0 ${-52 + gasterRx * 0.55} ${gasterRy * 0.75}`}
             stroke={C.ink}
-            strokeWidth={2.4}
+            strokeWidth={1.4}
             fill="none"
-            opacity={0.5}
+            opacity={0.55}
           />
 
           {/* petiole (bel boğumu) */}
-          <ellipse cx={-14} cy={-2} rx={8} ry={11} fill={fill} stroke={C.ink} strokeWidth={5} />
-          <circle cx={-14} cy={-9} r={4.5} fill={fill} stroke={C.ink} strokeWidth={4} />
+          <ellipse cx={-14} cy={-2} rx={8} ry={11} fill={fill} stroke={C.ink} strokeWidth={2.4} />
+          <circle cx={-14} cy={-9} r={4.5} fill={fill} stroke={C.ink} strokeWidth={2.2} />
 
           {/* göğüs (thorax) */}
           <ellipse
@@ -146,42 +154,30 @@ export const Ant: React.FC<AntProps> = ({
             ry={thoraxRy}
             fill={`url(#antT)`}
             stroke={C.ink}
-            strokeWidth={6}
+            strokeWidth={OUT}
             transform="rotate(-14 8 -4)"
           />
           {queen && (
             <>
               {/* kanat izleri */}
-              <path
-                d="M -2 -16 Q 12 -26 26 -14"
-                stroke={C.ink}
-                strokeWidth={3}
-                fill="none"
-                opacity={0.65}
-              />
-              <path
-                d="M -4 -8 Q 10 -18 24 -7"
-                stroke={C.ink}
-                strokeWidth={3}
-                fill="none"
-                opacity={0.5}
-              />
+              <path d="M -2 -16 Q 12 -26 26 -14" stroke={C.ink} strokeWidth={2} fill="none" opacity={0.6} />
+              <path d="M -4 -8 Q 10 -18 24 -7" stroke={C.ink} strokeWidth={1.8} fill="none" opacity={0.45} />
             </>
           )}
 
           {/* yakın bacaklar */}
           {WORKER_LEGS.filter((l) => !l.far).map((l, i) => (
-            <LegShape key={`n${i}`} leg={l} t={t} freq={freq} amp={legAmp} color={C.ink} w={6} />
+            <LegShape key={`n${i}`} leg={l} t={t} freq={freq} amp={legAmp} color={C.ink} w={3} />
           ))}
 
           {/* baş */}
-          <ellipse cx={40} cy={-8} rx={20} ry={17} fill={`url(#antH)`} stroke={C.ink} strokeWidth={6} />
+          <ellipse cx={40} cy={-8} rx={20} ry={17} fill={`url(#antH)`} stroke={C.ink} strokeWidth={OUT} />
           {/* çeneling (mandible) */}
           <path
             d="M 55 -10 Q 70 -8 72 4 Q 63 2 55 3"
             fill={C.inkDeep}
             stroke={C.ink}
-            strokeWidth={3.5}
+            strokeWidth={1.8}
             strokeLinejoin="round"
           />
           {/* göz */}
@@ -193,14 +189,14 @@ export const Ant: React.FC<AntProps> = ({
             <path
               d="M 34 -22 C 28 -34 20 -40 12 -44"
               stroke={C.ink}
-              strokeWidth={5}
+              strokeWidth={2.6}
               fill="none"
               strokeLinecap="round"
             />
             <path
               d="M 12 -44 C 18 -52 26 -58 34 -62"
               stroke={C.ink}
-              strokeWidth={4.2}
+              strokeWidth={2.2}
               fill="none"
               strokeLinecap="round"
             />
