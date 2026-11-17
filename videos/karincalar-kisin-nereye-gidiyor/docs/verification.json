@@ -1,0 +1,233 @@
+{
+  "ok": true,
+  "file": "/home/user/nedenmis-2/output/karincalar-kisin-nereye-gidiyor.mp4",
+  "bytes": 29020057,
+  "durationSec": 60,
+  "video": {
+    "codec": "h264",
+    "width": 1080,
+    "height": 1920,
+    "fps": 30,
+    "framesRead": 1800,
+    "framesExpected": 1800
+  },
+  "audio": {
+    "codec": "aac",
+    "sampleRate": 48000,
+    "channels": 2,
+    "durationSec": "60.000000"
+  },
+  "checks": [
+    {
+      "id": "file_exists",
+      "ok": true,
+      "detail": "/home/user/nedenmis-2/output/karincalar-kisin-nereye-gidiyor.mp4",
+      "severity": "error"
+    },
+    {
+      "id": "file_size",
+      "ok": true,
+      "detail": "27.68 MB",
+      "severity": "error"
+    },
+    {
+      "id": "container_mp4",
+      "ok": true,
+      "detail": "mov,mp4,m4a,3gp,3g2,mj2",
+      "severity": "error"
+    },
+    {
+      "id": "video_codec_h264",
+      "ok": true,
+      "detail": "h264",
+      "severity": "error"
+    },
+    {
+      "id": "resolution_1080x1920",
+      "ok": true,
+      "detail": "1080x1920",
+      "severity": "error"
+    },
+    {
+      "id": "fps_30",
+      "ok": true,
+      "detail": "30.00 fps",
+      "severity": "error"
+    },
+    {
+      "id": "duration_60s",
+      "ok": true,
+      "detail": "60.000 sn (hedef 60)",
+      "severity": "error"
+    },
+    {
+      "id": "audio_codec_aac",
+      "ok": true,
+      "detail": "aac",
+      "severity": "error"
+    },
+    {
+      "id": "audio_48k_stereo",
+      "ok": true,
+      "detail": "48000 Hz / 2 kanal",
+      "severity": "error"
+    },
+    {
+      "id": "av_sync_start",
+      "ok": true,
+      "detail": "audio start=0.000000",
+      "severity": "error"
+    },
+    {
+      "id": "frame_count",
+      "ok": true,
+      "detail": "1800 kare (beklenen 1800)",
+      "severity": "error"
+    },
+    {
+      "id": "scene_s1-hook",
+      "ok": true,
+      "detail": "luma=149.11 std=76.63",
+      "severity": "error"
+    },
+    {
+      "id": "scene_s2-merak",
+      "ok": true,
+      "detail": "luma=198.27 std=40.94",
+      "severity": "error"
+    },
+    {
+      "id": "scene_s3-sogukkanli",
+      "ok": true,
+      "detail": "luma=197.91 std=45.65",
+      "severity": "error"
+    },
+    {
+      "id": "scene_s4-metabolizma",
+      "ok": true,
+      "detail": "luma=134.66 std=76.21",
+      "severity": "error"
+    },
+    {
+      "id": "scene_s5-sekilme",
+      "ok": true,
+      "detail": "luma=85.13 std=34.73",
+      "severity": "error"
+    },
+    {
+      "id": "scene_s6-derinlik",
+      "ok": true,
+      "detail": "luma=81.67 std=32",
+      "severity": "error"
+    },
+    {
+      "id": "scene_s7-kralice",
+      "ok": true,
+      "detail": "luma=74.28 std=37.92",
+      "severity": "error"
+    },
+    {
+      "id": "scene_s8-kume",
+      "ok": true,
+      "detail": "luma=76.4 std=33.35",
+      "severity": "error"
+    },
+    {
+      "id": "scene_s9-turler",
+      "ok": true,
+      "detail": "luma=88.96 std=76.53",
+      "severity": "error"
+    },
+    {
+      "id": "scene_s10-ilkbahar",
+      "ok": true,
+      "detail": "luma=164.22 std=72.05",
+      "severity": "error"
+    },
+    {
+      "id": "scene_s11-kapanis",
+      "ok": true,
+      "detail": "luma=169.65 std=66.67",
+      "severity": "error"
+    }
+  ],
+  "sceneSamples": [
+    {
+      "scene": "s1-hook",
+      "time": 1.7166666666666666,
+      "mean": 149.11,
+      "std": 76.63,
+      "ok": true
+    },
+    {
+      "scene": "s2-merak",
+      "time": 5.633333333333334,
+      "mean": 198.27,
+      "std": 40.94,
+      "ok": true
+    },
+    {
+      "scene": "s3-sogukkanli",
+      "time": 11.15,
+      "mean": 197.91,
+      "std": 45.65,
+      "ok": true
+    },
+    {
+      "scene": "s4-metabolizma",
+      "time": 17.633333333333333,
+      "mean": 134.66,
+      "std": 76.21,
+      "ok": true
+    },
+    {
+      "scene": "s5-sekilme",
+      "time": 23.316666666666666,
+      "mean": 85.13,
+      "std": 34.73,
+      "ok": true
+    },
+    {
+      "scene": "s6-derinlik",
+      "time": 29.316666666666666,
+      "mean": 81.67,
+      "std": 32,
+      "ok": true
+    },
+    {
+      "scene": "s7-kralice",
+      "time": 35.8,
+      "mean": 74.28,
+      "std": 37.92,
+      "ok": true
+    },
+    {
+      "scene": "s8-kume",
+      "time": 40.833333333333336,
+      "mean": 76.4,
+      "std": 33.35,
+      "ok": true
+    },
+    {
+      "scene": "s9-turler",
+      "time": 46.35,
+      "mean": 88.96,
+      "std": 76.53,
+      "ok": true
+    },
+    {
+      "scene": "s10-ilkbahar",
+      "time": 53,
+      "mean": 164.22,
+      "std": 72.05,
+      "ok": true
+    },
+    {
+      "scene": "s11-kapanis",
+      "time": 58.083333333333336,
+      "mean": 169.65,
+      "std": 66.67,
+      "ok": true
+    }
+  ]
+}

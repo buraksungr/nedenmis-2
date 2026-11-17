@@ -1,0 +1,30 @@
+{
+  "name": "karincalar-kisin-video",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Karıncalar Kışın Neden Ortadan Kaybolur? — 60sn 1080x1920 Remotion belgesel shorts",
+  "scripts": {
+    "render": "node --import tsx scripts/render.ts",
+    "verify": "node --import tsx scripts/verify.ts",
+    "tts": "node --import tsx scripts/tts.ts"
+  },
+  "dependencies": {
+    "@fontsource/archivo": "^5.3.0",
+    "@fontsource/archivo-black": "^5.3.0",
+    "@remotion/bundler": "^4.0.544",
+    "@remotion/cli": "^4.0.544",
+    "@remotion/renderer": "^4.0.544",
+    "@sparticuz/chromium": "^153.0.0",
+    "@types/node": "^26.6.6",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "puppeteer-core": "^25.18.1",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "remotion": "^4.0.544",
+    "sharp": "^0.35.5",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  }
+}

@@ -157,6 +157,26 @@ Bu dosyalar **gerçek** üretimlerdir; hiçbiri yer tutucu değildir. Ayrıntı:
   Electron ikilisi indirilemediği için yerel olarak yalnızca `dist-app/` hazırlanabilir.
 * Ölçülen süreler hedefe ±%5 içinde tutulur; tutmazsa hata verilir — “yaklaşık” bir video sessizce yayınlanmaz.
 
+## Remotion belgesel shorts üretimi
+
+`videos/karincalar-kisin-nereye-gidiyor/` altında, bu depoya entegre olmayan **bağımsız bir Remotion
+video üretim projesi** bulunur: 60 sn, 1080×1920 (9:16), 30 fps, Türkçe anlatımlı
+"Karıncalar Kışın Neden Ortadan Kaybolur?" belgesel shorts'u.
+
+- Tüm sahneler Remotion + React/SVG ile kare kare animasyonlu olarak üretilir (statik slayt değil).
+- Anlatım sahne sahne gerçek TTS ile sentezlenir; sahne süreleri FFprobe ile **ölçülen** ses sürelerinden
+  türetilir (`scripts/make-timeline.ts` → `src/timeline.ts`).
+- Görsel stil, `image-1.png` referansının programlı analizinden çıkarılan paletle sabitlenir
+  (`videos/karincalar-kisin-nereye-gidiyor/docs/style-reference.md`).
+- Çıktı: `output/karincalar-kisin-nereye-gidiyor.mp4` (H.264 + AAC 48 kHz).
+- Chatterbox bu ortamda model ağırlığı indiremediği için **kullanılamamıştır**; durum
+  `docs/chatterbox-status.md` içinde kanıtlı olarak yazılır, sahte başarı gösterilmez.
+
+Betikler: `scripts/make-timeline.ts` · `scripts/audio.ts` · `scripts/render.ts` · `scripts/mux.ts` ·
+`scripts/verify.ts` · `scripts/stills.ts`.
+
+---
+
 ## Lisans
 
 MIT — üçüncü taraf bileşenler için [`LICENSE`](LICENSE) dosyasına bakın.
