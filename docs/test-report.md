@@ -1,6 +1,6 @@
 # Test raporu — Nedenmiş Studio v1.1.0
 
-Son doğrulanan çalıştırma: **GitHub Actions 43994410308** (commit `37e2525`, etiket `v1.1.0`)
+Son doğrulanan çalıştırma: **GitHub Actions 44000926527** (commit `e81f71b`, etiket `v1.1.0`)
 Sonuç: **28/28 adım başarılı**, yayın oluşturuldu.
 
 ## Otomatik testler (bu çalıştırmada gerçekten koşanlar)
@@ -18,7 +18,7 @@ Sonuç: **28/28 adım başarılı**, yayın oluşturuldu.
 | Örnek video üretimi (4 zorunlu konu, sade dil, 1080×1920, 30 sn) | `render-samples` | ✅ 4/4 |
 | Örnek doğrulama (FFprobe, 6 dosya) | `verify-samples` | ✅ 6/6, sapmalar −3.22…+4.56 % (tolerans ±5 %) |
 | Masaüstü paketleme + NSIS kurulum dosyası | electron-builder | ✅ `NedenmisStudio-Setup.exe` (143,1 MB) |
-| Sessiz NSIS kurulumu | `Setup.exe /S /D=C:\nedenmis-test` | ✅ 1. denemede kuruldu (boş alan 30,8 GB) |
+| Sessiz NSIS kurulumu | `Setup.exe /S /D=C:\nedenmis-test` | ✅ 2. denemede kuruldu (1. deneme `0xC0000005`; otomatik yeniden deneme devreye girdi) |
 | Kurulu uygulama testi (`--self-test`: resvg + FFmpeg + gömülü Python + gerçek MP4 + FFprobe) | kurulu exe | ✅ geçti (`reports/windows-install-test.json`) |
 | Taşınabilir zip / kaynak zip / SHA-256 | `build:desktop`, `build:source-zip`, `checksums` | ✅ |
 | Chatterbox Türkçe sentez (gerçek model, CPU) | `chatterbox-verify.py` | ✅ `ok: true`, `outcome: synthesized` |
@@ -48,12 +48,12 @@ yeniden üretildi; ölçülen süreler **ölçülen** anlatım sürelerinden hes
 |---|---|
 | Paket / dil | chatterbox-tts 0.1.7 · 23 dil · `tr` |
 | Metin | “Elmas neden kolay kırılmaz? Serttir, ama yine de kırılabilir.” |
-| Ses | 5,60 sn · 24 kHz mono · 16-bit PCM · tepe 0,925 · sessizlik %4,6 · kırpılma 0 |
-| Konuşma hızı | 1,61 kelime/sn |
-| Soğuk sentez | 108,8 sn (model indirme + yükleme dahil) |
-| Sıcak sentez | 30,6 sn → 3,44 sn ses → **RTF 8,9×** |
+| Ses | 4,92 sn · 24 kHz mono · 16-bit PCM · tepe 0,947 · sessizlik %6,1 · kırpılma 0 |
+| Konuşma hızı | 1,83 kelime/sn |
+| Soğuk sentez | 103,8 sn (model indirme + yükleme dahil) |
+| Sıcak sentez | 16,3 sn → 2,36 sn ses → **RTF 6,9×** (önceki çalıştırma 8,9×) |
 
-**Sonuç:** CPU'da çalışıyor ama yavaş (30 sn anlatım ≈ 4,5 dk). Uzun videolar için eSpeak NG
+**Sonuç:** CPU'da çalışıyor ama yavaş (30 sn anlatım ≈ 3,5–4,5 dk). Uzun videolar için eSpeak NG
 yedeği varsayılan kalır; Chatterbox Ayarlar'dan seçilir ve motor adı projede saklanır.
 
 ## Bilinen sınırlar

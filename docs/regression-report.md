@@ -17,15 +17,15 @@ Bu tablo yalnızca gerçekten çalıştırılan kontrolleri listeler; her satır
 | Arayüz çalışma zamanı (ekranlar, menü, ayarlar) | `npm run test:ui` (jsdom, 13 kontrol) | ✅ geçti |
 | Tek renk tema (renkli ton yok) | `npm run test:ui` → `monochrome` (derlenmiş CSS doygunluk ölçümü) | ✅ geçti |
 | Sade dil varsayılanı + kalite kapısı | `tests/unit/script-quality.test.ts` (14 test) | ✅ geçti |
-| Windows kurulum dosyası + kurulu uygulama `--self-test` | CI: sessiz NSIS kurulumu + kurulu uygulama testi | ✅ geçti (run 43980556980, 28/28 adım) |
+| Windows kurulum dosyası + kurulu uygulama `--self-test` | CI: sessiz NSIS kurulumu + kurulu uygulama testi | ✅ geçti (run 44000926527, 28/28 adım) |
 | v1.0.1 paketleme düzeltmesi (`resources/node_modules`, `@resvg/resvg-js`) | CI: yapı kapısı + kurulu uygulama resvg testi | ✅ geçti |
 | Gömülü Python + eSpeak NG + FFmpeg | CI: `npm run smoke` (gerçek TTS) | ✅ geçti |
 | Örnek videolar (4 zorunlu konu, sade dil, gerçek eSpeak, 1080×1920/30 sn) | CI: `render-samples` + `verify-samples` | ✅ geçti |
 | Arayüz ekran görüntüleri (gerçek Chrome, 1600×1000, 4 ekran) | CI: `node scripts/ui-shots.mjs` | ✅ 4/4 çekim, krom tek renk |
 | Palet denetimi (kaynak düzeyi) | `npm run check:colors` | ✅ renkli değer yok |
-| Chatterbox Türkçe sentez (gerçek model, CPU) | CI: `scripts/chatterbox-verify.py` | ✅ `ok: true` — 5,60 sn PCM16 WAV, sessizlik %4,6, RTF 8,9× |
+| Chatterbox Türkçe sentez (gerçek model, CPU) | CI: `scripts/chatterbox-verify.py` | ✅ `ok: true` — 4,92 sn PCM16 WAV, sessizlik %6,1, RTF 6,9× |
 
-## CI'da koşan tam kontrol listesi (çalıştırma 43994410308 · 28/28 adım)
+## CI'da koşan tam kontrol listesi (çalıştırma 44000926527 · 28/28 adım)
 
 | # | Adım | Sonuç |
 |---|------|-------|
@@ -42,7 +42,7 @@ Bu tablo yalnızca gerçekten çalıştırılan kontrolleri listeler; her satır
 | 13 | üretim duman testi (gerçek TTS + FFprobe) | ✅ |
 | 14 | 4 zorunlu örnek video (30 sn, sade dil) | ✅ |
 | 15 | masaüstü paketi + NSIS kurulum dosyası | ✅ |
-| 16 | sessiz NSIS kurulumu | ✅ (ilk denemede) |
+| 16 | sessiz NSIS kurulumu | ✅ (2. denemede; 1. deneme `0xC0000005`, yeniden deneme devrede) |
 | 17 | kurulu uygulama testi (`--self-test`) | ✅ |
 | 18 | kurulum testi raporu (markdown) | ✅ |
 | 19–21 | taşınabilir zip, kaynak zip, SHA-256 | ✅ |

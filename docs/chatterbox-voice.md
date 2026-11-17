@@ -120,7 +120,8 @@ Yani sorun model ya da CPU değildi: **çıktı biçimi** analiz aracını kırd
 
 ## Gerçek Türkçe sentez — ölçülen sonuç (CI, CPU)
 
-Çalıştırma **43994410308** · commit `37e2525` · Windows runner, **GPU yok** (torch 2.6.0+cpu).
+Son çalıştırma **44000926527** · commit `e81f71b` · Windows runner, **GPU yok** (torch 2.6.0+cpu).
+Önceki doğrulama: 43994410308 (commit `37e2525`) — aynı sonuç, farklı süreler (aşağıdaki tabloda iki ölçüm).
 Kanıt dosyaları yayında: `chatterbox-tr.json`, `chatterbox-turkish-sample.wav`,
 `chatterbox-turkish-warm.wav`, `chatterbox-verify.log`, `chatterbox-ffprobe.json`.
 
@@ -129,18 +130,25 @@ Kanıt dosyaları yayında: `chatterbox-tr.json`, `chatterbox-turkish-sample.wav
 | Paket | chatterbox-tts **0.1.7**, 23 dil, `tr` destekli |
 | Filigran modülü | `available: true` (`setuptools<81` sonrası) |
 | Metin | “Elmas neden kolay kırılmaz? Serttir, ama yine de kırılabilir.” |
-| Çıktı | **5.60 sn**, 24 000 Hz, mono, **16-bit PCM** (`wavBytes` 268 844) |
-| Tepe / RMS | 0.925 / 0.135 (kırpılma yok: `clippingRatio 0.0`) |
-| Sessizlik oranı | %4.6 (konuşma var, boş dosya değil) |
-| Konuşma hızı | **1.61 kelime/sn** — Türkçe anlatım için makul |
-| Soğuk sentez (model indirme + yükleme dahil) | **108.8 sn** |
-| Sıcak sentez (“Gökyüzü mavidir.”) | **30.6 sn → 3.44 sn ses** |
-| Gerçek zaman katsayısı (RTF) | **8.9×** |
+| Çıktı | **4.92 sn**, 24 000 Hz, mono, **16-bit PCM**, 236 204 bayt |
+| Tepe / RMS | 0.947 / 0.121 (kırpılma yok: `clippingRatio 0.0`) |
+| Sessizlik oranı | %6.1 (konuşma var, boş dosya değil) |
+| Konuşma hızı | **1.83 kelime/sn** — Türkçe anlatım için makul |
+| Soğuk sentez (model indirme + yükleme dahil) | **103.8 sn** |
+| Sıcak sentez (“Gökyüzü mavidir.”) | **16.3 sn → 2.36 sn ses** |
+| Gerçek zaman katsayısı (RTF) | **6.9×** (önceki çalıştırma: 8.9×) |
+
+İki bağımsız çalıştırmanın ölçümleri:
+
+| Çalıştırma | Ses süresi | Soğuk sentez | Sıcak sentez | RTF | Kelime/sn |
+| --- | --- | --- | --- | --- | --- |
+| 43994410308 | 5.60 sn | 108.8 sn | 30.6 sn (3.44 sn ses) | 8.9× | 1.61 |
+| 44000926527 | 4.92 sn | 103.8 sn | 16.3 sn (2.36 sn ses) | 6.9× | 1.83 |
 
 ### CPU'da pratik mi? (ölçüme dayalı cevap)
 
-- 30 saniyelik bir anlatım ≈ **4.5 dakika** sentez (2 vCPU runner ölçümüyle).
-- 60 saniyelik video ≈ **9 dakika**. Model indirmesi (~2 GB) ilk çalıştırmada buna eklenir.
+- 30 saniyelik bir anlatım ≈ **3,5–4,5 dakika** sentez (2 vCPU runner ölçümüyle).
+- 60 saniyelik video ≈ **7–9 dakika**. Model indirmesi (~2 GB) ilk çalıştırmada buna eklenir.
 - Yani **çalışıyor ama yavaş**: kısa videolar ve önizleme için kabul edilebilir, uzun videolarda
   sabır gerektirir. GPU'da (CUDA) RTF belirgin biçimde düşer; bu ölçüm CPU içindir.
 - Studio bunu gizlemez: Ayarlar'da motor durumu (hazır / model indiriliyor / kullanılamıyor) ve
