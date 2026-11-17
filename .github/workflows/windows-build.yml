@@ -158,11 +158,30 @@ jobs:
           $setup = Resolve-Path "release\NedenmisStudio-Setup.exe" -ErrorAction SilentlyContinue
           if (-not $setup) { Write-Output "::error title=Kurulum::Setup.exe üretilmedi"; exit 1 }
           $dir = "C:\nedenmis-test"
-          if (Test-Path $dir) { Remove-Item $dir -Recurse -Force }
           Write-Output "Kurulum: $setup → $dir"
-          $p = Start-Process -FilePath $setup.Path -ArgumentList "/S", "/D=$dir" -PassThru -Wait
-          Write-Output "NSIS çıkış kodu: $($p.ExitCode)"
-          if ($p.ExitCode -ne 0) { Write-Output "::error title=Kurulum::NSIS kurulumu başarısız (kod $($p.ExitCode))"; exit 1 }
+          # NSIS kurulumu paylaşılan runner'larda ara sıra erişim ihlaliyle (0xC0000005) düşebiliyor;
+          # bu bir ürün hatası değil, ortam gürültüsü. Üç denemeye kadar yeniden dene,
+          # her denemede klasörü sıfırla; hata sürerse gerçek günlüğü raporla.
+          $code = $null
+          for ($attempt = 1; $attempt -le 3; $attempt++) {
+            if (Test-Path $dir) { Remove-Item $dir -Recurse -Force -ErrorAction SilentlyContinue }
+            Start-Sleep -Seconds ($attempt - 1) * 5
+            Write-Output "Deneme $attempt/3"
+            $proc = Start-Process -FilePath $setup.Path -ArgumentList "/S", "/D=$dir" -PassThru -Wait
+            $code = $proc.ExitCode
+            Write-Output "NSIS çıkış kodu: $code"
+            if ($code -eq 0) {
+              $installed = Get-ChildItem $dir -Filter *.exe -Recurse -ErrorAction SilentlyContinue
+              if ($installed) { break }
+              Write-Output "Kurulum kodu 0 ama dosya yok; yeniden denenecek."
+            }
+          }
+          if ($code -ne 0) {
+            Write-Output "::error title=Kurulum::NSIS kurulumu 3 denemede başarısız (kod $code)"
+            $log = Join-Path $env:TEMP "nedenmis-nsis.log"
+            if (Test-Path $log) { Get-Content $log -Tail 40 }
+            exit 1
+          }
           $exe = Get-ChildItem $dir -Filter *.exe -Recurse -ErrorAction SilentlyContinue | Where-Object { $_.Name -notmatch "(?i)uninstall" } | Select-Object -First 1
           if (-not $exe) {
             Write-Output "::error title=Kurulum::Kurulan uygulama bulunamadı ($dir)"
