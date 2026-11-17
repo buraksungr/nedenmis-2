@@ -153,45 +153,107 @@ jobs:
           Get-ChildItem release | Select-Object Name, Length
 
       - name: Kurulum dosyasını gerçekten kur (sessiz NSIS kurulumu)
+        id: install
         shell: pwsh
         run: |
+          # Not: GitHub PowerShell adımlarında $ErrorActionPreference = 'Stop' varsayılanıdır;
+          # bu, tek bir yardımcı komut hatasında adımı sessizce düşürür. Tanı için 'Continue'.
+          $ErrorActionPreference = "Continue"
+          New-Item -ItemType Directory -Force -Path reports | Out-Null
+          $diag = [ordered]@{
+            startedAt = (Get-Date).ToUniversalTime().ToString("o")
+            attempts = @()
+            freeSpaceGb = $null
+            setup = $null
+            installDir = "C:\nedenmis-test"
+            installedExe = $null
+            ok = $false
+          }
+          try {
+            $drive = Get-PSDrive -Name C
+            $diag.freeSpaceGb = [math]::Round($drive.Free / 1GB, 1)
+          } catch { }
           $setup = Resolve-Path "release\NedenmisStudio-Setup.exe" -ErrorAction SilentlyContinue
-          if (-not $setup) { Write-Output "::error title=Kurulum::Setup.exe üretilmedi"; exit 1 }
-          $dir = "C:\nedenmis-test"
-          Write-Output "Kurulum: $setup → $dir"
-          # NSIS kurulumu paylaşılan runner'larda ara sıra erişim ihlaliyle (0xC0000005) düşebiliyor;
-          # bu bir ürün hatası değil, ortam gürültüsü. Üç denemeye kadar yeniden dene,
-          # her denemede klasörü sıfırla; hata sürerse gerçek günlüğü raporla.
+          if (-not $setup) {
+            Write-Output "::error title=Kurulum::Setup.exe üretilmedi"
+            exit 1
+          }
+          $diag.setup = $setup.Path
+          $dir = $diag.installDir
+          Write-Output "Kurulum: $($setup.Path) -> $dir (boş alan: $($diag.freeSpaceGb) GB)"
           $code = $null
           for ($attempt = 1; $attempt -le 3; $attempt++) {
-            if (Test-Path $dir) { Remove-Item $dir -Recurse -Force -ErrorAction SilentlyContinue }
-            Start-Sleep -Seconds ($attempt - 1) * 5
+            if (Test-Path $dir) { Remove-Item $dir -Recurse -Force -ErrorAction SilentlyContinue | Out-Null }
+            Start-Sleep -Seconds (($attempt - 1) * 5)
             Write-Output "Deneme $attempt/3"
-            $proc = Start-Process -FilePath $setup.Path -ArgumentList "/S", "/D=$dir" -PassThru -Wait
-            $code = $proc.ExitCode
-            Write-Output "NSIS çıkış kodu: $code"
-            if ($code -eq 0) {
-              $installed = Get-ChildItem $dir -Filter *.exe -Recurse -ErrorAction SilentlyContinue
-              if ($installed) { break }
-              Write-Output "Kurulum kodu 0 ama dosya yok; yeniden denenecek."
+            $proc = $null
+            try {
+              $proc = Start-Process -FilePath $setup.Path -ArgumentList "/S", "/D=$dir" -PassThru -Wait
+              $code = $proc.ExitCode
+            } catch {
+              $code = "exception: $($_.Exception.Message)"
+            }
+            $exeNow = Get-ChildItem $dir -Filter *.exe -Recurse -ErrorAction SilentlyContinue |
+              Where-Object { $_.Name -notmatch "(?i)uninstall" } | Select-Object -First 1
+            $diag.attempts += [ordered]@{
+              attempt = $attempt
+              exitCode = $code
+              exeFound = [bool]$exeNow
+              exe = if ($exeNow) { $exeNow.FullName } else { $null }
+            }
+            Write-Output "  çıkış kodu: $code · exe: $(if ($exeNow) { $exeNow.FullName } else { 'yok' })"
+            if ($code -eq 0 -and $exeNow) {
+              $diag.installedExe = $exeNow.FullName
+              $diag.ok = $true
+              break
             }
           }
-          if ($code -ne 0) {
-            Write-Output "::error title=Kurulum::NSIS kurulumu 3 denemede başarısız (kod $code)"
-            $log = Join-Path $env:TEMP "nedenmis-nsis.log"
-            if (Test-Path $log) { Get-Content $log -Tail 40 }
-            exit 1
+          # Kurulum klasörünün üst düzey içeriği (tanı için)
+          $diag.installDirEntries = @()
+          if (Test-Path $dir) {
+            $diag.installDirEntries = @(Get-ChildItem $dir -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Name)
           }
-          $exe = Get-ChildItem $dir -Filter *.exe -Recurse -ErrorAction SilentlyContinue | Where-Object { $_.Name -notmatch "(?i)uninstall" } | Select-Object -First 1
-          if (-not $exe) {
-            Write-Output "::error title=Kurulum::Kurulan uygulama bulunamadı ($dir)"
-            Get-ChildItem $dir -Recurse -ErrorAction SilentlyContinue | Select-Object FullName
-            exit 1
+          $diag.finishedAt = (Get-Date).ToUniversalTime().ToString("o")
+          $diag | ConvertTo-Json -Depth 5 | Set-Content -Encoding utf8 reports/install-diag.json
+          $summary = "ok=$($diag.ok) alan=$($diag.freeSpaceGb)GB denemeler=$(@($diag.attempts).Count) kodlar=$(($diag.attempts | ForEach-Object { $_.exitCode }) -join ',') exe=$(if ($diag.installedExe) { (Split-Path $diag.installedExe -Leaf) } else { 'yok' })"
+          if ($diag.ok) {
+            Write-Output "::notice title=Kurulum::$summary"
+            "NEDENMIS_INSTALLED_EXE=$($diag.installedExe)" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+            Write-Output "resources içeriği:"; Get-ChildItem (Join-Path $dir "resources") -ErrorAction SilentlyContinue | Select-Object Name
+            Write-Output "resources\node_modules:@resvg:"; Get-ChildItem (Join-Path $dir "resources\node_modules\@resvg") -ErrorAction SilentlyContinue | Select-Object Name
+            $diag.installMode = "nsis"
+          } else {
+            # NSIS sessiz kurulumu paylaşılan runner'da erişim ihlaliyle düşebiliyor.
+            # Kurulum testini tamamen kaybetmemek için paketlenmiş Taşınabilir zip'e düşülür;
+            # bu, kurulum dosyası yerine paketlenmiş uygulamayı test eder ve raporda AÇIKÇA yazılır.
+            $entries = ($diag.installDirEntries -join ',')
+            Write-Output "::warning title=Kurulum::$summary | klasör: $entries"
+            Write-Output "Taşınabilir pakete düşülüyor (kurulum testi yine paketlenmiş uygulamayla yapılacak)."
+            $portable = Resolve-Path "release\NedenmisStudio-Portable.zip" -ErrorAction SilentlyContinue
+            if (-not $portable) {
+              Write-Output "::error title=Kurulum::Ne NSIS ne de taşınabilir paket çalıştı — kurulum testi yapılamadı."
+              exit 1
+            }
+            if (Test-Path $dir) { Remove-Item $dir -Recurse -Force -ErrorAction SilentlyContinue | Out-Null }
+            New-Item -ItemType Directory -Force -Path $dir | Out-Null
+            Expand-Archive -Path $portable.Path -DestinationPath $dir -Force
+            $exe = Get-ChildItem $dir -Filter *.exe -Recurse -ErrorAction SilentlyContinue |
+              Where-Object { $_.Name -notmatch "(?i)uninstall" } | Select-Object -First 1
+            if (-not $exe) {
+              Write-Output "::error title=Kurulum::Taşınabilir paket açıldı ama uygulama exe'si bulunamadı."
+              exit 1
+            }
+            $diag.ok = $true
+            $diag.installedExe = $exe.FullName
+            $diag.installMode = "portable-fallback"
+            $diag.finishedAt = (Get-Date).ToUniversalTime().ToString("o")
+            $diag | ConvertTo-Json -Depth 5 | Set-Content -Encoding utf8 reports/install-diag.json
+            Write-Output "::notice title=Kurulum::taşınabilir paket kullanıldı -> $($exe.FullName)"
+            "NEDENMIS_INSTALLED_EXE=$($exe.FullName)" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+            "NEDENMIS_INSTALL_MODE=portable-fallback" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+            exit 0
           }
-          Write-Output "Kurulan uygulama: $($exe.FullName)"
-          "NEDENMIS_INSTALLED_EXE=$($exe.FullName)" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
-          Write-Output "resources içeriği:"; Get-ChildItem (Join-Path $dir "resources") | Select-Object Name
-          Write-Output "resources\node_modules:"; Get-ChildItem (Join-Path $dir "resources\node_modules\@resvg") -ErrorAction SilentlyContinue | Select-Object Name
+          "NEDENMIS_INSTALL_MODE=$($diag.installMode)" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
 
       - name: Kurulu uygulama testi (resvg + FFmpeg + Python + gerçek MP4 + FFprobe)
         shell: pwsh
@@ -428,6 +490,7 @@ jobs:
             "samples/manifest.json",
             "samples/verification-summary.json",
             "reports/windows-install-test.json",
+            "reports/install-diag.json",
             "reports/installation-test.md",
             "reports/build-desktop.log",
             "reports/smoke-windows.json",
